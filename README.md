@@ -1,4 +1,7 @@
-# worldmet - R package for accessing NOAA Integrated Surface Database (ISD) meteorological observations
+# worldmet - R package for accessing NOAA Integrated Surface Database
+(ISD) meteorological observations
+
+[![Travis-CI Build Status](https://travis-ci.org/davidcarslaw/worldmet.svg?branch=master)](https://travis-ci.org/davidcarslaw/worldmet)
 
 `worldmet` provides and easy way to access data from the [NOAA Integrated
 Surface Database](https://www.ncdc.noaa.gov/isd) (ISD). The ISD contains detailed surface
