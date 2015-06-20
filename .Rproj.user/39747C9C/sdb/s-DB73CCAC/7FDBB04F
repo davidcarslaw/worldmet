@@ -1,0 +1,17 @@
+{
+    "contents" : "Package: worldmet\nType: Package\nTitle: What the package does (short line)\nVersion: 1.0\nDate: 2015-06-20\nAuthor: Who wrote it\nMaintainer: Who to complain to <yourfault@somewhere.net>\nDescription: More about what it does (maybe more than one line)\nLicense: What license is it under?\n",
+    "created" : 1434793528867.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "4192118127",
+    "id" : "7FDBB04F",
+    "lastKnownWriteTime" : 1434793492,
+    "path" : "~/openair/worldmet/DESCRIPTION",
+    "project_path" : "DESCRIPTION",
+    "properties" : {
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "type" : "dcf"
+}
