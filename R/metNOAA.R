@@ -1,4 +1,27 @@
-
+##' Main function for importing meteorological data
+##'
+##' This is the main function to import data from the NOAA Integrated
+##' Surface Database (ISD). The ISD contains detailed surface
+##' meteorological data from around the world for over 30,000
+##' locations. For general information of the ISD see
+##' \url{https://www.ncdc.noaa.gov/isd} and the map here
+##' \url{https://gis.ncdc.noaa.gov/map/viewer/#app=cdo&cfg=cdo&theme=hourly&layers=1}.
+##'
+##' @title Import meteorological data
+##' @param code The identifing code as a character string. The code is
+##' a combination of the USAF and the WBAN unique identifiers. The
+##' codes are sperated by a \dQuote{-} e.g. \code{code =
+##' "037720-99999"}.
+##' @param year The year to import. This can be a vector of years
+##' e.g. \code{year = 2000:2005}.
+##' @export
+##' @import openair
+##' @import plyr
+##' @return Returns a data frame of surface observations. The data
+##' frame is consistent for use with the \code{openair} package.
+##' @seealso \code{\link{getMeta}} to obtain the codes based on
+##' various site search approaches.
+##' @author David Carslaw
 importNOAA <- function(code = "037720-99999", year = 2014) {
 
     ## main web site https://www.ncdc.noaa.gov/isd
@@ -7,11 +30,8 @@ importNOAA <- function(code = "037720-99999", year = 2014) {
 
     ## gis map https://gis.ncdc.noaa.gov/map/viewer/#app=cdo&cfg=cdo&theme=hourly&layers=1
     
-    require(openair)
-    require(plyr)
-    
     ## go through each of the years selected
-    dat <- ldply(year, getDat, code = code)
+    dat <- plyr::ldply(year, getDat, code = code)
     
     return(dat)
     
@@ -91,65 +111,16 @@ getDat <- function(code, year) {
     dat <- procAddit(dat)
     
     ## select the variables we want
-    dat <- subset(dat, select = c(date, ws, wd, air_temp, sea_lev_press, visibility,
-                                  dew_point, RH, sky_ceiling, lat, long, elev,
-                                  cl_1, cl_2, cl_3, cl_1_height, cl_2_height, cl_3_height))
+    dat <- dat[c("date", "ws", "wd", "air_temp", "sea_lev_press", "visibility",
+                                  "dew_point", "RH", "sky_ceiling", "lat", "long", "elev",
+                 "cl_1", "cl_2", "cl_3", "cl_1_height", "cl_2_height",
+                 "cl_3_height")]
     
     ## average to hourly
     dat <- timeAverage(dat, avg.time = "hour")
 
     return(dat)
 
-}
-
-getMeta <- function(site = "heathrow", lat = NA, lon = NA, n = 10) {
-    ## read the meta data
- 
-    meta <- read.csv("ftp://ftp.ncdc.noaa.gov/pub/data/noaa/isd-history.csv", header = FALSE,
-                     skip = 21)
-
-    closeAllConnections()
-
-    ## names in the meta file
-    names(meta) <- c("USAF", "WBAN","STATION", "CTRY", "ST", "CALL", "LAT",
-                     "LON", "ELEV(M)", "BEGIN", "END")
-
-    ## full character string of site id
-    meta$USAF <- formatC(meta$USAF, width = 6, format = "d", flag = "0")
-
-    ## start/end date of measurements
-    meta$BEGIN <- as.Date(as.character(meta$BEGIN), format = "%Y%m%d")
-    meta$END <- as.Date(as.character(meta$END), format = "%Y%m%d")
-
-    ## code used to query data 
-    meta$code <- paste(meta$USAF, meta$WBAN, sep = "-")
-    
-    ## search based on name of site
-    if (!missing(site)) {
-        ## search for station
-        sub <- meta[grep(site, meta$STATION, ignore.case = TRUE), ]
-        
-    }
-    
-    ## approximate distance to site
-    if (!missing(lat) && !missing(lon)) {
-        r <- 6371 # radius of the Earth
-        
-        ## Coordinates need to be in radians
-        meta$longR <- meta$LON * pi / 180
-        meta$latR <- meta$LAT * pi / 180
-        lon <- lon * pi / 180
-        lat <- lat * pi / 180
-        meta$dist <- acos(sin(lat) * sin(meta$latR) + cos(lat) * 
-                              cos(meta$latR) * cos(meta$longR - lon)) * r
-
-        ## sort and retrun top n nearest
-        sub <- head(openair:::sortDataFrame(meta, key = "dist"), n)
-        
-    }
-    
-    return(sub)
-    
 }
 
 procAddit <- function(dat) {

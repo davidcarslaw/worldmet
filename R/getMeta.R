@@ -1,0 +1,72 @@
+##' Get information on meteorological sites
+##'
+##' This function is primarily used to find a site code that can be
+##' used to access data using \code{\link{importNOAA}}. Sites searches
+##' of approximately 30,000 sites can be carried out based on the site
+##' name and based on the nearest locations based on user-supplied
+##' latitude and logitude.
+##' @title Find a ISD site code and other meta data
+##' @param site A site name search string e.g. \code{site =
+##' "heathrow"}. The search strings and be partial and can be upper or
+##' lower case e.g. \code{site = "HEATHR"}.
+##' @param lat A latitude in decimal degrees to search. Takes the
+##' values -90 to 90.
+##' @param lon A longitude in decimal degrees to search. Takes values
+##' -180 to 180. Negative numbers are west of the Greenwich meridian.
+##' @param n The number of nearest sites to search based on
+##' \code{latitude} and \code{longitude}.
+##' @return A data frame is returned with all available meta data,
+##' mostly importantly including a \code{code} that can be supplied to
+##' \code{\link{importNOAA}}. If latitude and longitude searches are
+##' made an approximate distance, \code{dist} in km is also returned.
+##' @export
+##' @author David Carslaw
+getMeta <- function(site = "heathrow", lat = NA, lon = NA, n = 10) {
+    ## read the meta data
+ 
+    meta <- read.csv("ftp://ftp.ncdc.noaa.gov/pub/data/noaa/isd-history.csv", header = FALSE,
+                     skip = 21)
+
+    closeAllConnections()
+
+    ## names in the meta file
+    names(meta) <- c("USAF", "WBAN","STATION", "CTRY", "ST", "CALL", "LAT",
+                     "LON", "ELEV(M)", "BEGIN", "END")
+
+    ## full character string of site id
+    meta$USAF <- formatC(meta$USAF, width = 6, format = "d", flag = "0")
+
+    ## start/end date of measurements
+    meta$BEGIN <- as.Date(as.character(meta$BEGIN), format = "%Y%m%d")
+    meta$END <- as.Date(as.character(meta$END), format = "%Y%m%d")
+
+    ## code used to query data 
+    meta$code <- paste(meta$USAF, meta$WBAN, sep = "-")
+    
+    ## search based on name of site
+    if (!missing(site)) {
+        ## search for station
+        sub <- meta[grep(site, meta$STATION, ignore.case = TRUE), ]
+        
+    }
+    
+    ## approximate distance to site
+    if (!missing(lat) && !missing(lon)) {
+        r <- 6371 # radius of the Earth
+        
+        ## Coordinates need to be in radians
+        meta$longR <- meta$LON * pi / 180
+        meta$latR <- meta$LAT * pi / 180
+        lon <- lon * pi / 180
+        lat <- lat * pi / 180
+        meta$dist <- acos(sin(lat) * sin(meta$latR) + cos(lat) * 
+                              cos(meta$latR) * cos(meta$longR - lon)) * r
+
+        ## sort and retrun top n nearest
+        sub <- head(openair:::sortDataFrame(meta, key = "dist"), n)
+        
+    }
+    
+    return(sub)
+    
+}
