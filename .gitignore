@@ -7,3 +7,4 @@ src/*.dll
 openair.Rproj
 *~
 .Rproj.user
+.travis.yml

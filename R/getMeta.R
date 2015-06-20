@@ -21,6 +21,18 @@
 ##' made an approximate distance, \code{dist} in km is also returned.
 ##' @export
 ##' @author David Carslaw
+##' @examples 
+##' 
+##' \dontrun{
+##' ## search for sites with name beijing
+##' getMeta(site = "beijing")
+##' }
+##' 
+##' \dontrun{
+##' ## search for near a specified lat/lon - near Beijing airport
+##' ## returns 'n' nearest by default
+##' getMeta(lat = 40, lon = 116.9)
+##' }
 getMeta <- function(site = "heathrow", lat = NA, lon = NA, n = 10) {
     ## read the meta data
  

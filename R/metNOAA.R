@@ -22,6 +22,12 @@
 ##' @seealso \code{\link{getMeta}} to obtain the codes based on
 ##' various site search approaches.
 ##' @author David Carslaw
+##' @examples 
+##' 
+##' \dontrun{
+##' ## use Beijing airport code (see getMeta example)
+##' dat <- importNOAA(code = "545110-99999", year = 2010:2011)
+##' }
 importNOAA <- function(code = "037720-99999", year = 2014) {
 
     ## main web site https://www.ncdc.noaa.gov/isd

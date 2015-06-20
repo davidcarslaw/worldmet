@@ -30,6 +30,12 @@ locations. For general information of the ISD see
 \url{https://www.ncdc.noaa.gov/isd} and the map here
 \url{https://gis.ncdc.noaa.gov/map/viewer/#app=cdo&cfg=cdo&theme=hourly&layers=1}.
 }
+\examples{
+\dontrun{
+## use Beijing airport code (see getMeta example)
+dat <- importNOAA(code = "545110-99999", year = 2010:2011)
+}
+}
 \author{
 David Carslaw
 }

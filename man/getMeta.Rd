@@ -36,6 +36,18 @@ of approximately 30,000 sites can be carried out based on the site
 name and based on the nearest locations based on user-supplied
 latitude and logitude.
 }
+\examples{
+\dontrun{
+## search for sites with name beijing
+getMeta(site = "beijing")
+}
+
+\dontrun{
+## search for near a specified lat/lon - near Beijing airport
+## returns 'n' nearest by default
+getMeta(lat = 40, lon = 116.9)
+}
+}
 \author{
 David Carslaw
 }
