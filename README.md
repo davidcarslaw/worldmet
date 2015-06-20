@@ -1,4 +1,4 @@
-# worldmet - R package for air quality data analysis
+# worldmet - R package for accessing NOAA Integrated Surface Database (ISD) meteorological observations
 
 `worldmet` provides and easy way to access data from the [NOAA Integrated
 Surface Database](https://www.ncdc.noaa.gov/isd) (ISD). The ISD contains detailed surface
