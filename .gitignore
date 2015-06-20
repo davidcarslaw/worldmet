@@ -1,4 +1,4 @@
-.Rproj.user
+.Rproj*
 .Rhistory
 .RData
 src/*.o
@@ -6,3 +6,4 @@ src/*.so
 src/*.dll
 openair.Rproj
 *~
+.Rproj.user
