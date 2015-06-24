@@ -15,6 +15,8 @@
 ##' -180 to 180. Negative numbers are west of the Greenwich meridian.
 ##' @param n The number of nearest sites to search based on
 ##' \code{latitude} and \code{longitude}.
+##' @param current If \code{current = TRUE} (the default) only sites
+##' that have data up to the current year are included.
 ##' @param fresh Should the meta data be read from the NOAA server or
 ##' the \code{worldmet} package?. If \code{FALSE} (the default) it is
 ##' read from the package version, which is fast. If \code{TRUE} the
@@ -39,11 +41,18 @@
 ##' ## returns 'n' nearest by default
 ##' getMeta(lat = 40, lon = 116.9)
 ##' }
-getMeta <- function(site = "heathrow", lat = NA, lon = NA, n = 10, fresh = FALSE) {
+getMeta <- function(site = "heathrow", lat = NA, lon = NA, n = 10, current = TRUE,
+                    fresh = FALSE) {
     ## read the meta data
  
     ## download the file, else use the package version
     if (fresh) meta <- getMetaLive()
+
+    ## if current year
+    if (current) {
+        id <- which(format(meta$END, "%Y") == format(Sys.Date(), "%Y"))
+        meta <- meta[id, ]
+    }
     
     ## search based on name of site
     if (!missing(site)) {
