@@ -68,8 +68,8 @@ getDat <- function(code, year) {
     dat$date <- paste(dat$V4, formatC(dat$V5, width = 4, format = "d", flag = "0"))
     dat$date <- as.POSIXct(strptime(dat$date, format = "%Y%m%d %H%M", tz = "GMT"),
                            tz = "GMT")
-
-    ## names of variables
+    
+    ## of Names variables
     names(dat)[1:31] <- c('var_length', 'usaf_id', 'wban', 'dateX', 'gmt', 'data_source',
                           'lat', 'long', 'report_type', 'elev', 'call_letters', 'qc_level',
                           'wd', 'wind_dir_flag', 'wind_type', 'ws', 'wind_speed_flag',
@@ -123,13 +123,30 @@ getDat <- function(code, year) {
     dat$cl <- pmax(dat$cl_1, dat$cl_2, dat$cl_3, na.rm = TRUE)
     
     ## select the variables we want
-    dat <- dat[c("date", "ws", "wd", "air_temp", "sea_lev_press", "visibility",
-                                  "dew_point", "RH", "sky_ceiling", "lat", "long", "elev",
-                 "cl_1", "cl_2", "cl_3", "cl", "cl_1_height", "cl_2_height",
-                 "cl_3_height")]
+    dat <- dat[names(dat) %in% c("date", "ws", "wd", "air_temp", "sea_lev_press",
+                                 "visibility", "dew_point", "RH", "sky_ceiling", "lat",
+                                 "long", "elev", "cl_1", "cl_2", "cl_3", "cl",
+                                 "cl_1_height", "cl_2_height", "cl_3_height", "pwc")]
+    
+    ## present weather is character and cannot be averaged, take first
+    PWC <- FALSE
+    if ("pwc" %in% names(dat)) {
+        
+        pwc <- dat[c("date", "pwc")]
+        pwc$date2 <- format(pwc$date, "%Y-%m-%d %H") ## nearest hour
+        tmp <- pwc[which(!duplicated(pwc$date2)), ]
+        dates <- as.POSIXct(paste0(unique(pwc$date2), ":00:00"), tz = "GMT")
+        
+        pwc <- data.frame(date = dates, pwc = tmp$pwc)
+        PWC <- TRUE
+    }
     
     ## average to hourly
-    dat <- timeAverage(dat, avg.time = "hour")
+    dat <- openair::timeAverage(dat, avg.time = "hour")
+
+    ## add pwc back in
+    if (PWC)
+        dat <- merge(dat, pwc, by = "date", all = TRUE)
 
     return(dat)
 
@@ -143,6 +160,8 @@ procAddit <- function(dat) {
     dat <- extractCloud(dat, "GA1", "cl_1")
     dat <- extractCloud(dat, "GA2", "cl_2")
     dat <- extractCloud(dat, "GA3", "cl_3")
+
+    dat <- extractCurrentWeather(dat, "AW1")
     
 }
 
@@ -180,6 +199,43 @@ extractCloud <- function(dat, field = "GA1", out = "cl_1") {
         dat[[out]][id] <- cl
         dat[[height]][id] <- h
 
+    }
+    
+    return(dat)
+    
+}
+
+extractCurrentWeather <- function(dat, field = "AW1") {
+
+    ## extracts the present weather description based on code
+    
+    ## fields that contain search string
+    id <- grep(field, dat[ , "V32"])
+
+    if (length(id) > 1) {
+
+        ## name of output variable
+        dat[["pwc"]] <- NA
+
+        ## location of begining of AW1
+        loc <- sapply(id, function (x) regexpr(field, dat[x, "V32"]))
+        
+        ## extract the variable
+        pwc <- sapply(seq_along(id), function (x)
+            substr(dat$V32[id[x]], start = loc[x] + 3, stop = loc[x] + 4))
+        pwc <- as.character(pwc)
+
+        ## look up code in weatherCodes.RData
+  
+        desc <- sapply(pwc, function(x)
+            weatherCodes$description[which(weatherCodes$pwc == x)])
+        
+        dat[["pwc"]][id] <- desc
+
+    } else {
+
+        return(dat)
+        
     }
     
     return(dat)
