@@ -13,6 +13,9 @@
 ##' values -90 to 90.
 ##' @param lon A longitude in decimal degrees to search. Takes values
 ##' -180 to 180. Negative numbers are west of the Greenwich meridian.
+##' @param country The country code. This is a two letter code. For a
+##' full listing see
+##' \url{ftp://ftp.ncdc.noaa.gov/pub/data/noaa/country-list.txt}.
 ##' @param n The number of nearest sites to search based on
 ##' \code{latitude} and \code{longitude}.
 ##' @param current If \code{current = TRUE} (the default) only sites
@@ -41,8 +44,8 @@
 ##' ## returns 'n' nearest by default
 ##' getMeta(lat = 40, lon = 116.9)
 ##' }
-getMeta <- function(site = "heathrow", lat = NA, lon = NA, n = 10, current = TRUE,
-                    fresh = FALSE) {
+getMeta <- function(site = "heathrow", lat = NA, lon = NA, country = NA, n = 10,
+                    current = TRUE, fresh = FALSE) {
     ## read the meta data
  
     ## download the file, else use the package version
@@ -57,8 +60,16 @@ getMeta <- function(site = "heathrow", lat = NA, lon = NA, n = 10, current = TRU
     ## search based on name of site
     if (!missing(site)) {
         ## search for station
-        sub <- meta[grep(site, meta$STATION, ignore.case = TRUE), ]
+        meta <- meta[grep(site, meta$STATION, ignore.case = TRUE), ]
         
+    }
+
+     ## search based on country codes
+    if (!missing(country)) {
+        ## search for country
+        id <- which(meta$CTRY %in% country)
+        meta <- meta[id, ]
+               
     }
     
     ## approximate distance to site
@@ -74,11 +85,11 @@ getMeta <- function(site = "heathrow", lat = NA, lon = NA, n = 10, current = TRU
                               cos(meta$latR) * cos(meta$longR - lon)) * r
 
         ## sort and retrun top n nearest
-        sub <- head(openair:::sortDataFrame(meta, key = "dist"), n)
+        meta <- head(openair:::sortDataFrame(meta, key = "dist"), n)
         
     }
     
-    return(sub)
+    return(meta)
     
 }
 
