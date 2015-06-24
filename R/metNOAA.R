@@ -213,7 +213,7 @@ extractCurrentWeather <- function(dat, field = "AW1") {
     id <- grep(field, dat[ , "V32"])
 
     if (length(id) > 1) {
-
+  
         ## name of output variable
         dat[["pwc"]] <- NA
 

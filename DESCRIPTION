@@ -6,6 +6,8 @@ Date: 2015-06-05
 Authors@R: c(person("David", "Carslaw", role = c("aut", "cre"), email =
     "david.carslaw@york.ac.uk"))
 ByteCompile: true
+Depends:
+    R (>= 2.15.1)
 Imports:
     openair,
     plyr
@@ -14,5 +16,5 @@ Description: Functions to import data from more than 30,000 surface meteorologic
 License: GPL (>= 2)
 URL: http://github.com/davidcarslaw/worldmet
 BugReports: http://github.com/davidcarslaw/worldmet/issues
-LazyLoad: yes
-LazyData: yes
+LazyLoad: true
+LazyData: true
