@@ -15,6 +15,12 @@
 ##' -180 to 180. Negative numbers are west of the Greenwich meridian.
 ##' @param n The number of nearest sites to search based on
 ##' \code{latitude} and \code{longitude}.
+##' @param fresh Should the meta data be read from the NOAA server or
+##' the \code{worldmet} package?. If \code{FALSE} (the default) it is
+##' read from the package version, which is fast. If \code{TRUE} the
+##' data are read from the NOAA server. Most of the time the default
+##' should be acceptable as it is updated with each release of the
+##' package.
 ##' @return A data frame is returned with all available meta data,
 ##' mostly importantly including a \code{code} that can be supplied to
 ##' \code{\link{importNOAA}}. If latitude and longitude searches are
@@ -33,27 +39,11 @@
 ##' ## returns 'n' nearest by default
 ##' getMeta(lat = 40, lon = 116.9)
 ##' }
-getMeta <- function(site = "heathrow", lat = NA, lon = NA, n = 10) {
+getMeta <- function(site = "heathrow", lat = NA, lon = NA, n = 10, fresh = FALSE) {
     ## read the meta data
  
-    meta <- read.csv("ftp://ftp.ncdc.noaa.gov/pub/data/noaa/isd-history.csv", header = FALSE,
-                     skip = 21)
-
-    closeAllConnections()
-
-    ## names in the meta file
-    names(meta) <- c("USAF", "WBAN","STATION", "CTRY", "ST", "CALL", "LAT",
-                     "LON", "ELEV(M)", "BEGIN", "END")
-
-    ## full character string of site id
-    meta$USAF <- formatC(meta$USAF, width = 6, format = "d", flag = "0")
-
-    ## start/end date of measurements
-    meta$BEGIN <- as.Date(as.character(meta$BEGIN), format = "%Y%m%d")
-    meta$END <- as.Date(as.character(meta$END), format = "%Y%m%d")
-
-    ## code used to query data 
-    meta$code <- paste(meta$USAF, meta$WBAN, sep = "-")
+    ## download the file, else use the package version
+    if (fresh) meta <- getMetaLive()
     
     ## search based on name of site
     if (!missing(site)) {
@@ -81,4 +71,29 @@ getMeta <- function(site = "heathrow", lat = NA, lon = NA, n = 10) {
     
     return(sub)
     
+}
+
+getMetaLive <- function(...) {
+
+    ## downloads the whole thing fresh
+    meta <- read.csv("ftp://ftp.ncdc.noaa.gov/pub/data/noaa/isd-history.csv",
+                     header = FALSE, skip = 21)
+
+    closeAllConnections()
+
+    ## names in the meta file
+    names(meta) <- c("USAF", "WBAN","STATION", "CTRY", "ST", "CALL", "LAT",
+                     "LON", "ELEV(M)", "BEGIN", "END")
+
+    ## full character string of site id
+    meta$USAF <- formatC(meta$USAF, width = 6, format = "d", flag = "0")
+
+    ## start/end date of measurements
+    meta$BEGIN <- as.Date(as.character(meta$BEGIN), format = "%Y%m%d")
+    meta$END <- as.Date(as.character(meta$END), format = "%Y%m%d")
+
+    ## code used to query data 
+    meta$code <- paste(meta$USAF, meta$WBAN, sep = "-")
+    
+    return(meta)
 }

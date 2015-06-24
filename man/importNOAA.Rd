@@ -17,7 +17,10 @@ e.g. \code{year = 2000:2005}.}
 }
 \value{
 Returns a data frame of surface observations. The data
-frame is consistent for use with the \code{openair} package.
+frame is consistent for use with the \code{openair} package. NOTE!
+the data are returned in GMT (UTC) time zone format. Users may
+wish to express the data in other time zones e.g. to merge with
+air pollution data.
 }
 \description{
 Main function for importing meteorological data

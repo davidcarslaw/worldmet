@@ -4,7 +4,7 @@
 \alias{getMeta}
 \title{Find a ISD site code and other meta data}
 \usage{
-getMeta(site = "heathrow", lat = NA, lon = NA, n = 10)
+getMeta(site = "heathrow", lat = NA, lon = NA, n = 10, fresh = FALSE)
 }
 \arguments{
 \item{site}{A site name search string e.g. \code{site =
@@ -19,6 +19,13 @@ values -90 to 90.}
 
 \item{n}{The number of nearest sites to search based on
 \code{latitude} and \code{longitude}.}
+
+\item{fresh}{Should the meta data be read from the NOAA server or
+the \code{worldmet} package?. If \code{FALSE} (the default) it is
+read from the package version, which is fast. If \code{TRUE} the
+data are read from the NOAA server. Most of the time the default
+should be acceptable as it is updated with each release of the
+package.}
 }
 \value{
 A data frame is returned with all available meta data,

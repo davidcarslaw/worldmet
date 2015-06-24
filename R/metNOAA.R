@@ -18,7 +18,10 @@
 ##' @import openair
 ##' @import plyr
 ##' @return Returns a data frame of surface observations. The data
-##' frame is consistent for use with the \code{openair} package.
+##' frame is consistent for use with the \code{openair} package. NOTE!
+##' the data are returned in GMT (UTC) time zone format. Users may
+##' wish to express the data in other time zones e.g. to merge with
+##' air pollution data. 
 ##' @seealso \code{\link{getMeta}} to obtain the codes based on
 ##' various site search approaches.
 ##' @author David Carslaw
@@ -115,11 +118,14 @@ getDat <- function(code, year) {
 
     ## process the additional data separately
     dat <- procAddit(dat)
+
+    ## for cloud cover, make new 'cl' max of 3 cloud layers
+    dat$cl <- pmax(dat$cl_1, dat$cl_2, dat$cl_3, na.rm = TRUE)
     
     ## select the variables we want
     dat <- dat[c("date", "ws", "wd", "air_temp", "sea_lev_press", "visibility",
                                   "dew_point", "RH", "sky_ceiling", "lat", "long", "elev",
-                 "cl_1", "cl_2", "cl_3", "cl_1_height", "cl_2_height",
+                 "cl_1", "cl_2", "cl_3", "cl", "cl_1_height", "cl_2_height",
                  "cl_3_height")]
     
     ## average to hourly
