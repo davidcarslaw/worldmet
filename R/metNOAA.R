@@ -189,12 +189,15 @@ extractCloud <- function(dat, field = "GA1", out = "cl_1") {
         cl <- as.numeric(cl)
         
         miss <- which(cl > 8) ## missing or obscured in some way
-        if (length(id) > 0) cl[miss] <- NA
+        if (length(miss) > 0) cl[miss] <- NA
 
         ## and height of cloud
         h <- sapply(seq_along(id), function (x)
             substr(dat$V32[id[x]], start = loc[x] + 6, stop = loc[x] + 11))
         h <- as.numeric(h)
+
+        miss <- which(h == 99999)
+        if (length(miss) > 0) h[miss] <- NA
 
         dat[[out]][id] <- cl
         dat[[height]][id] <- h
