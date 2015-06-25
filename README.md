@@ -38,34 +38,34 @@ getMeta(site = "heathrow")
 1687 037720-99999
 ```
 
-Often we have a latitude / longitude of interest. A search can be made based on supplied decimal coordnates and the top `n` nearest sites are returned.
+Often we have a latitude / longitude of interest. A search can be made based on supplied decimal coordnates and the top `n` nearest sites are returned. Note that the default query will return sites where there are some measurements for the current year. All sites can be shown with the option `current = FALSE`.
 
 ```R
 ## search for near a specified lat/lon - near Beijing airport
 ## returns 'n' nearest by default
 getMeta(lat = 40, lon = 116.9)
         USAF  WBAN                                 STATION CTRY ST CALL    LAT     LON
-11707 545130 99999                      BEI-JING/TONG-XIAN   CH         39.817 116.700
 11705 545110 99999 BEIJING - CAPITAL INTERNATIONAL AIRPORT   CH    ZBAA 40.080 116.585
-28953 999999 44101                                  PEKING   CH    RPEK 40.000 116.500
-11706 545120 99999                       BEI-JING/NAN-YUAN   CH         39.783 116.383
-11690 544290 99999                                  ZUNHUA   CH         40.200 117.967
-11688 544060 99999                     YEN-CHING /YEN-KING   CH         40.467 115.933
 11711 545270 99999                                 TIANJIN   CH         39.100 117.167
-11713 545280 99999                      TIAN-JIN/ZHANG-GUI   CH         39.133 117.350
 11712 545273 99999                                  BINHAI   CH    ZBTJ 39.124 117.346
 11715 545340 99999                                TANGSHAN   CH         39.650 118.100
+11687 544050 99999                                 HUAILAI   CH         40.417 115.500
+11666 543080 99999                                FENGNING   CH         41.200 116.633
+11689 544230 99999                                 CHENGDE   CH         40.967 117.917
+11691 544360 99999                                QINGLONG   CH         40.400 118.950
+11716 545390 99999                                  LETING   CH         39.433 118.900
+11724 546020 99999                                 BAODING   CH         38.733 115.483
       ELEV(M)      BEGIN        END         code    longR      latR      dist
-11707    21.0 1980-07-03 2001-07-25 545130-99999 2.036799 0.6949377  26.55320
 11705    35.4 1945-10-31 2015-06-12 545110-99999 2.034792 0.6995280  28.25299
-28953    50.9 1946-04-30 1946-06-30 999999-44101 2.033309 0.6981317  34.07207
-11706    40.0 1980-07-01 2002-02-09 545120-99999 2.031267 0.6943443  50.27657
-11690   152.0 1957-06-01 2002-09-30 544290-99999 2.058913 0.7016224  93.43849
-11688      NA 1961-01-10 1961-02-28 544060-99999 2.023413 0.7062824  97.13189
 11711     5.0 1956-08-20 2015-06-11 545270-99999 2.044950 0.6824237 102.66020
-11713     3.0 1980-07-02 2002-09-11 545280-99999 2.048144 0.6829997 103.83608
 11712     3.0 1981-11-25 2015-06-12 545273-99999 2.048074 0.6828426 104.64104
 11715    29.0 1956-08-20 2015-06-11 545340-99999 2.061234 0.6920230 109.61783
+11687   538.0 1956-08-20 2015-06-12 544050-99999 2.015855 0.7054097 127.60780
+11666   661.0 1957-06-01 2015-06-12 543080-99999 2.035630 0.7190757 135.32440
+11689   423.0 1956-08-20 2015-06-12 544230-99999 2.058040 0.7150090 137.69215
+11691   228.0 1957-06-02 2015-06-12 544360-99999 2.076069 0.7051130 179.69364
+11716    12.0 1957-06-01 2015-06-11 545390-99999 2.075196 0.6882357 182.30889
+11724    17.0 1956-08-20 2015-06-12 546020-99999 2.015559 0.6760184 186.23783
 ```
 
 To obtain the data the user must supply a `code` (see above) and year or years of interest. For example, to download data for Heathrow Airport in 2010 (code 037720-99999):
