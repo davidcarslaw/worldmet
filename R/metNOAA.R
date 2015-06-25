@@ -146,25 +146,25 @@ getDat <- function(code, year) {
                           'sea_levp_flag')
     
     ## find and set missing
-    id <- which(dat$wind_dir_flag == 9)
+    id <- which(dat$wd == 999)
     dat$wd[id] <- NA
     
-    id <- which(dat$wind_speed_flag == 9)
+    id <- which(dat$ws == 9999)
     dat$ws[id] <- NA
     
-    id <- which(dat$sky_ceil_flag == 9)
+    id <- which(dat$sky_ceiling == 99999)
     dat$sky_ceiling[id] <- NA
     
-    id <- which(dat$vis_flag == 9)
+    id <- which(dat$visibility == 999999)
     dat$visibility[id] <- NA
     
-    id <- which(dat$air_temp_flag == 9)
+    id <- which(dat$air_temp == 9999)
     dat$air_temp[id] <- NA
     
-    id <- which(dat$dew_point_flag == 9)
+    id <- which(dat$dew_point == 9999)
     dat$dew_point[id] <- NA
     
-    id <- which(dat$sea_levp_flag == 9)
+    id <- which(dat$sea_lev_press== 99999)
     dat$sea_lev_press[id] <- NA
     
     ## used for calms in openair
