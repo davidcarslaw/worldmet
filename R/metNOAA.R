@@ -56,8 +56,19 @@ getDat <- function(code, year) {
 
     ## read.table can only read from a text-mode connection.
     ## note the last set of data 'V32' is the additional data that contains cloud cover etc.
-    raw <- textConnection(readLines(z))
-    close(z)
+
+    ## deal with any missing data, issue warning
+    raw <- try(textConnection(readLines(z)), TRUE)
+    if (!inherits(raw, "try-error")) {
+
+        close(z)
+
+    } else {
+        
+        warning(call. = FALSE, paste0("Data for ", year, " does not exist on server"))
+        return()
+    }
+    
     dat <- read.fwf(raw, header = FALSE, widths = c(4, 6, 5, 8, 4, 1, 6, 7, 5, 
                                                     5, 5, 4, 3, 1, 1, 4, 1, 5, 1, 
                                                     1, 1, 6, 1, 1, 1, 5, 1, 5, 1, 
