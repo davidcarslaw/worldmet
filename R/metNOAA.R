@@ -7,6 +7,62 @@
 ##' \url{https://www.ncdc.noaa.gov/isd} and the map here
 ##' \url{https://gis.ncdc.noaa.gov/map/viewer/#app=cdo&cfg=cdo&theme=hourly&layers=1}.
 ##'
+##' Note the following units for the main variables:
+##'
+##' \describe{
+##'
+##' \item{date}{Date/time in POSIXct format. \strong{Note the time
+##' zone is GMT (UTC) and may need to be adjusted to merge with other
+##' local data. See details below.}}
+##' 
+##' \item{lat}{Latitude in decimal degrees (-90 to 90).}
+##'
+##' \item{lon}{Longitude in decimal degrees (-180 to 180). Negative
+##' numbers are west of the Greenwich Meridian.}
+##' 
+##' \item{elev}{Elevention of site in metres.}
+##' 
+##' \item{wd}{Wind direction in degrees. 90 is from the east.}
+##' 
+##' \item{ws}{Wind speed in m/s.}
+##'
+##' \item{sky_ceiling}{The height above ground level (AGL) of the
+##' lowest cloud or obscuring phenomena layer aloft with 5/8 or more
+##' summation total sky cover, which may be predominantly opaque, or
+##' the vertical visibility into a surface-based obstruction.}
+##'
+##' \item{visibility}{The visibility in metres.}
+##'
+##' \item{air_temp}{Air temperature in degrees Celcius.}
+##'
+##' \item{dew_point}{The dew point temperature in degrees Celcius.}
+##'
+##' \item{sea_level_press}{The sea level pressure in millibars.}
+##'
+##' \item{RH}{The relative humidity (\%).}
+##'
+##' \item{cl_1,  ...,  cl_3}{Cloud cover for different layers in Oktas (1-8).}
+##'
+##' \item{cl}{Maximum of cl_1 to cl_3 cloud cover in Oktas (1-8).}
+##'
+##' \item{cl_1_height, ..., cl_3_height}{Height of the cloud base for
+##' each later in metres.}
+##'
+##' \item{pwc}{The description of the present weather description (if available).}
+##'
+##' }
+##'
+##' The data are returned in GMT (UTC). It may be necessary to adjust
+##' the time zone when comining with other data. For example, if air
+##' quality data were available for Beijing with time zone set to
+##' "Etc/GMT-8" (note the negative offset even though Beijing is ahead
+##' of GMT. See the \code{openair} package and manual for more
+##' details), then the time zone of the met data can be changed to be
+##' the same. One way of doing this would be \code{attr(met$date,
+##' "tzone") <- "Etc/GMT-8"} for a meteorological data frame called
+##' \code{met}. The two data sets could then be merged based on
+##' \code{date}.
+##'
 ##' @title Import meteorological data
 ##' @param code The identifing code as a character string. The code is
 ##' a combination of the USAF and the WBAN unique identifiers. The
