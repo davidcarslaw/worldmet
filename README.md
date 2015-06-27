@@ -2,7 +2,7 @@
 
 [![Travis-CI Build Status](https://travis-ci.org/davidcarslaw/worldmet.svg?branch=master)](https://travis-ci.org/davidcarslaw/worldmet)
 
-`worldmet` provides and easy way to access data from the [NOAA Integrated
+`worldmet` provides an easy way to access data from the [NOAA Integrated
 Surface Database](https://www.ncdc.noaa.gov/isd) (ISD). The ISD contains detailed surface
 meteorological data from around the world for over 35,000
 locations. See also the
