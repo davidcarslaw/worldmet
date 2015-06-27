@@ -8,7 +8,7 @@ meteorological data from around the world for over 35,000
 locations. See also the
 [map](https://gis.ncdc.noaa.gov/map/viewer/#app=cdo&cfg=cdo&theme=hourly&layers=1).
 
-The package outputs (typically hourly meteorogical data) work very
+The package outputs (typically hourly meteorological data) work very
 well with the [openair](https://github.com/davidcarslaw/openair) package.
 
 ## Installation
@@ -38,7 +38,7 @@ getMeta(site = "heathrow")
 1687 037720-99999
 ```
 
-Often we have a latitude / longitude of interest. A search can be made based on supplied decimal coordnates and the top `n` nearest sites are returned. Note that the default query will return sites where there are some measurements for the current year. All sites can be shown with the option `current = FALSE`.
+Often we have a latitude / longitude of interest. A search can be made based on supplied decimal coordinates and the top `n` nearest sites are returned. Note that the default query will return sites where there are some measurements for the current year. All sites can be shown with the option `current = FALSE`.
 
 ```R
 ## search for near a specified lat/lon - near Beijing airport
