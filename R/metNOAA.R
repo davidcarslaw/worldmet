@@ -69,8 +69,8 @@
 ##' @param year The year to import. This can be a vector of years e.g. 
 ##'   \code{year = 2000:2005}.
 ##' @param hourly Should hourly means be calculated? The default is \code{TRUE}.
+##' @param PWC Description of the present weather conditions (if available).
 ##'   If \code{FALSE} then the raw data are returned. The latter option can be
-##'   useful if access to the underlying data are required.
 ##' @export
 ##' @import openair
 ##' @import plyr
@@ -87,7 +87,7 @@
 ##' ## use Beijing airport code (see getMeta example)
 ##' dat <- importNOAA(code = "545110-99999", year = 2010:2011)
 ##' }
-importNOAA <- function(code = "037720-99999", year = 2014, hourly = TRUE) {
+importNOAA <- function(code = "037720-99999", year = 2014, hourly = TRUE, PWC = FALSE) {
   
   ## main web site https://www.ncdc.noaa.gov/isd
   
@@ -96,13 +96,13 @@ importNOAA <- function(code = "037720-99999", year = 2014, hourly = TRUE) {
   ## gis map https://gis.ncdc.noaa.gov/map/viewer/#app=cdo&cfg=cdo&theme=hourly&layers=1
   
   ## go through each of the years selected
-  dat <- plyr::ldply(year, getDat, code = code, hourly = hourly)
+  dat <- plyr::ldply(year, getDat, code = code, hourly = hourly, PWC = PWC)
   
   return(dat)
   
 }
 
-getDat <- function(code, year, hourly) {
+getDat <- function(code, year, hourly, PWC) {
   
   ## location of data
   file.name <- paste0("ftp://ftp.ncdc.noaa.gov/pub/data/noaa/",
@@ -182,9 +182,9 @@ getDat <- function(code, year, hourly) {
   ## relative humidity - general formula based on T and dew point
   dat$RH <- 100 * ((112 - 0.1 * dat$air_temp + dat$dew_point) /
                      (112 + 0.9 * dat$air_temp)) ^ 8
-  
+    
   ## process the additional data separately
-  dat <- procAddit(dat)
+  dat <- procAddit(dat, PWC)
   
   ## for cloud cover, make new 'cl' max of 3 cloud layers
   dat$cl <- pmax(dat$cl_1, dat$cl_2, dat$cl_3, na.rm = TRUE)
@@ -196,8 +196,7 @@ getDat <- function(code, year, hourly) {
                                "cl_1_height", "cl_2_height", "cl_3_height", "pwc")]
   
   ## present weather is character and cannot be averaged, take first
-  PWC <- FALSE
-  if ("pwc" %in% names(dat) && hourly) {
+    if ("pwc" %in% names(dat) && hourly) {
     
     pwc <- dat[c("date", "pwc")]
     pwc$date2 <- format(pwc$date, "%Y-%m-%d %H") ## nearest hour
@@ -220,7 +219,7 @@ getDat <- function(code, year, hourly) {
   
 }
 
-procAddit <- function(dat) {
+procAddit <- function(dat, PWC) {
   
   ## function to process additional data such as cloud cover
   
@@ -229,7 +228,10 @@ procAddit <- function(dat) {
   dat <- extractCloud(dat, "GA2", "cl_2")
   dat <- extractCloud(dat, "GA3", "cl_3")
   
-  dat <- extractCurrentWeather(dat, "AW1")
+  if (PWC)
+    dat <- extractCurrentWeather(dat, "AW1")
+  
+  return(dat)
   
 }
 

@@ -4,7 +4,8 @@
 \alias{importNOAA}
 \title{Import meteorological data}
 \usage{
-importNOAA(code = "037720-99999", year = 2014, hourly = TRUE)
+importNOAA(code = "037720-99999", year = 2014, hourly = TRUE,
+  PWC = FALSE)
 }
 \arguments{
 \item{code}{The identifing code as a character string. The code is a
@@ -14,9 +15,10 @@ sperated by a \dQuote{-} e.g. \code{code = "037720-99999"}.}
 \item{year}{The year to import. This can be a vector of years e.g.
 \code{year = 2000:2005}.}
 
-\item{hourly}{Should hourly means be calculated? The default is \code{TRUE}.
-If \code{FALSE} then the raw data are returned. The latter option can be
-useful if access to the underlying data are required.}
+\item{hourly}{Should hourly means be calculated? The default is \code{TRUE}.}
+
+\item{PWC}{Description of the present weather conditions (if available).
+If \code{FALSE} then the raw data are returned. The latter option can be}
 }
 \value{
 Returns a data frame of surface observations. The data frame is
