@@ -7,7 +7,7 @@
 exportADMS(dat, out = "./ADMS_met.MET")
 }
 \arguments{
-\item{dat}{A data frame imported by \link{\code{importNOAA}}.}
+\item{dat}{A data frame imported by \code{\link{importNOAA}}.}
 
 \item{out}{A file name for the ADMS file. The file is written in the working directory by default.}
 }

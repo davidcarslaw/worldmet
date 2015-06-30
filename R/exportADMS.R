@@ -1,6 +1,6 @@
 #' Export a meteorological data frame in ADMS format
 #'
-#' @param dat A data frame imported by \link{\code{importNOAA}}.
+#' @param dat A data frame imported by \code{\link{importNOAA}}.
 #' @param out A file name for the ADMS file. The file is written in the working directory by default.
 #'
 #' @return Writes a text file to a location of the user's choosing.
