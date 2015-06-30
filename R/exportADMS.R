@@ -22,10 +22,10 @@ exportADMS <- function(dat, out = "./ADMS_met.MET") {
     
     adms <- data.frame(station, year, day, hour, round(dat$air_temp, 1), 
                        round(dat$ws, 1), round(dat$wd, 1), round(dat$RH, 1),
-                       as.integer(dat$cl))
+                       round(dat$cl), stringsAsFactors = FALSE)
     
     ## replace NA with -999
-    adms[] <- suppressWarnings(lapply(adms, function(x) replace(x, is.na(x), -999)))
+    adms[] <- lapply(adms, function(x) replace(x, is.na(x), -999))
     
     write.table(adms, file = out, col.names = FALSE, row.names = FALSE, sep = ",", quote = FALSE)
     
