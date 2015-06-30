@@ -5,7 +5,13 @@
 #'
 #' @return Writes a text file to a location of the user's choosing.
 #' @export
-#'
+#' @examples 
+#' 
+#' \dontrun{
+#' ## import some data then export it
+#' dat <- importNOAA(year = 2012)
+#' exportADMS(dat, file = "~/temp/adms_met.MET")
+#' }
 exportADMS <- function(dat, out = "./ADMS_met.MET") {
   
     ## exports met data to ADMS format file

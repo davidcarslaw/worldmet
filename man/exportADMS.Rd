@@ -17,4 +17,11 @@ Writes a text file to a location of the user's choosing.
 \description{
 Export a meteorological data frame in ADMS format
 }
+\examples{
+\dontrun{
+## import some data then export it
+dat <- importNOAA(year = 2012)
+exportADMS(dat, file = "~/temp/adms_met.MET")
+}
+}
 
