@@ -14,7 +14,10 @@
 #' }
 exportADMS <- function(dat, out = "./ADMS_met.MET") {
   
-    ## exports met data to ADMS format file
+  ## make sure the data do not have gaps
+  dat <- openair:::date.pad2(dat, interval = "hour")
+  
+  ## exports met data to ADMS format file
     year <- as.numeric(format(dat$date, "%Y"))
     day <- as.numeric(format(dat$date, "%j"))
     hour <- as.numeric(format(dat$date, "%H"))
