@@ -68,9 +68,8 @@
 ##'   sperated by a \dQuote{-} e.g. \code{code = "037720-99999"}.
 ##' @param year The year to import. This can be a vector of years e.g. 
 ##'   \code{year = 2000:2005}.
-##' @param hourly Should hourly means be calculated? The default is \code{TRUE}.
+##' @param hourly Should hourly means be calculated? The default is \code{TRUE}. If \code{FALSE} then the raw data are returned. 
 ##' @param PWC Description of the present weather conditions (if available).
-##'   If \code{FALSE} then the raw data are returned. The latter option can be
 ##' @export
 ##' @import openair
 ##' @import plyr
