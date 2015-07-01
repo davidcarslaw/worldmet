@@ -15,11 +15,13 @@
 exportADMS <- function(dat, out = "./ADMS_met.MET") {
   
   ## make sure the data do not have gaps
-  all.dates <- data.frame(date = seq(ISOdatetime(year = as.numeric(format(dat$date[1], "%Y")), 
-                                                 month = 1, day = 1, hour = 0, min = 0, sec = 0, tz = "GMT"),
-                                     ISOdatetime(year = as.numeric(format(dat$date[1], "%Y")), 
-                                                 month = 12, day = 31, hour = 23, min = 0, 
-                                                 sec = 0, tz = "GMT"), by = "hour"))
+  all.dates <- data.frame(
+    date = seq(ISOdatetime(year = as.numeric(format(dat$date[1], "%Y")),                     
+                           month = 1, day = 1, hour = 0, min = 0, sec = 0, tz = "GMT"),
+               ISOdatetime(year = as.numeric(format(dat$date[1], "%Y")), 
+                           month = 12, day = 31, hour = 23, min = 0, 
+                           sec = 0, tz = "GMT"), by = "hour")
+    )
   
   dat <- merge(dat, all.dates, all = TRUE)
   
