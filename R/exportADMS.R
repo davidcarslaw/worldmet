@@ -79,7 +79,8 @@ exportADMS <- function(dat, out = "./ADMS_met.MET", interp = FALSE, maxgap = 2) 
     adms[] <- lapply(adms, function(x) replace(x, is.na(x), -999))
     
     ## write the data file
-    write.table(adms, file = out, col.names = FALSE, row.names = FALSE, sep = ",", quote = FALSE)
+    write.table(adms, file = out, col.names = FALSE, row.names = FALSE, 
+                sep = ",", quote = FALSE)
     
     ## add the header lines
     fConn <- file(out, 'r+') 
