@@ -61,6 +61,19 @@ exportADMS <- function(dat, out = "./ADMS_met.MET", interp = FALSE, maxgap = 2) 
                        round(dat$ws, 1), round(dat$wd, 1), round(dat$RH, 1),
                        round(dat$cl), stringsAsFactors = FALSE)
     
+    ## print key data capture rates to the screen
+    dc <- round(100 - 100 * (length(which(is.na(dat$ws))) / length(dat$ws)), 1)
+    print(paste("Data capture for wind speed:", dc, "%"))
+    
+    dc <- round(100 - 100 * (length(which(is.na(dat$wd))) / length(dat$wd)), 1)
+    print(paste("Data capture for wind direction:", dc, "%"))
+    
+    dc <- round(100 - 100 * (length(which(is.na(dat$air_temp))) / length(dat$air_temp)), 1)
+    print(paste("Data capture for temperature:", dc, "%"))
+    
+    dc <- round(100 - 100 * (length(which(is.na(dat$cl))) / length(dat$cl)), 1)
+    print(paste("Data capture for cloud cover:", dc, "%"))
+    
     ## replace NA with -999
     adms[] <- lapply(adms, function(x) replace(x, is.na(x), -999))
     
@@ -70,8 +83,8 @@ exportADMS <- function(dat, out = "./ADMS_met.MET", interp = FALSE, maxgap = 2) 
     ## add the header lines
     fConn <- file(out, 'r+') 
     Lines <- readLines(fConn) 
-    writeLines(c("VARIABLES:\n9\nSTATION DCNN\nYEAR\nTDAY\nTHOUR\nT0C\nU\nPHI\nRH\nCL\nDATA:", Lines), 
-               con = fConn) 
+    writeLines(c("VARIABLES:\n9\nSTATION DCNN\nYEAR\nTDAY\nTHOUR\nT0C\nU\nPHI\nRH\nCL\nDATA:",
+                 Lines), con = fConn) 
     close(fConn) 
   
 }
