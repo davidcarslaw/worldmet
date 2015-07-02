@@ -1,10 +1,17 @@
 #' Export a meteorological data frame in ADMS format
 #'
 #' @param dat A data frame imported by \code{\link{importNOAA}}.
-#' @param out A file name for the ADMS file. The file is written in the working directory by default.
-#'
+#' @param out A file name for the ADMS file. The file is written in the working
+#'   directory by default.
+#' @param interp Should interpolation of missing values be undertaken? If
+#'   \code{TRUE} linear interpolation is carried out for gaps of up to an
+#'   including \code{maxgap}.
+#' @param maxgap The maximum gap in hours that should be interpolated where
+#'   there are missing data when \code{interp = TRUE.}
+#'   
 #' @return Writes a text file to a location of the user's choosing.
 #' @export
+#' @importFrom zoo na.approx
 #' @examples 
 #' 
 #' \dontrun{
@@ -12,7 +19,7 @@
 #' dat <- importNOAA(year = 2012)
 #' exportADMS(dat, file = "~/temp/adms_met.MET")
 #' }
-exportADMS <- function(dat, out = "./ADMS_met.MET") {
+exportADMS <- function(dat, out = "./ADMS_met.MET", interp = FALSE, maxgap = 2) {
   
   ## make sure the data do not have gaps
   all.dates <- data.frame(
@@ -24,6 +31,17 @@ exportADMS <- function(dat, out = "./ADMS_met.MET") {
     )
   
   dat <- merge(dat, all.dates, all = TRUE)
+  
+  
+  ## interpolate missing values if required
+  if (interp) {
+    
+    ## variables to interpolate
+    varInterp <- c("ws", "wd", "air_temp", "RH", "cl")
+    
+    dat[varInterp] <- zoo::na.approx(dat[varInterp], maxgap = maxgap)
+    
+  }
   
   ## exports met data to ADMS format file
     year <- as.numeric(format(dat$date, "%Y"))
