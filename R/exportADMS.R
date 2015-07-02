@@ -32,15 +32,22 @@ exportADMS <- function(dat, out = "./ADMS_met.MET", interp = FALSE, maxgap = 2) 
   
   dat <- merge(dat, all.dates, all = TRUE)
   
-  
-  ## interpolate missing values if required
   if (interp) {
     
     ## variables to interpolate
-    varInterp <- c("ws", "wd", "air_temp", "RH", "cl")
+    ## note need to deal with wd properly
+    dat <- transform(dat, u = sin(pi * wd / 180), v = cos(pi * wd / 180))
     
-    dat[varInterp] <- zoo::na.approx(dat[varInterp], maxgap = maxgap)
+    varInterp <- c("ws", "u", "v", "air_temp", "RH", "cl")
     
+    dat[varInterp] <- zoo::na.approx(dat[varInterp], maxgap = maxgap, na.rm = FALSE)
+    
+    ## now put wd back
+    dat <- within(dat, wd <- as.vector(atan2(u, v) * 360 / 2 / pi))
+    
+    ## correct for negative wind directions
+    ids <- which(dat$wd < 0)  ## ids where wd < 0
+    dat$wd[ids] <- dat$wd[ids] + 360
   }
   
   ## exports met data to ADMS format file
@@ -68,3 +75,6 @@ exportADMS <- function(dat, out = "./ADMS_met.MET", interp = FALSE, maxgap = 2) 
     close(fConn) 
   
 }
+
+
+
