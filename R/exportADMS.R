@@ -1,13 +1,14 @@
 #' Export a meteorological data frame in ADMS format
-#'
+#' 
 #' @param dat A data frame imported by \code{\link{importNOAA}}.
-#' @param out A file name for the ADMS file. The file is written in the working
+#' @param out A file name for the ADMS file. The file is written to the working 
 #'   directory by default.
-#' @param interp Should interpolation of missing values be undertaken? If
-#'   \code{TRUE} linear interpolation is carried out for gaps of up to an
+#' @param interp Should interpolation of missing values be undertaken? If 
+#'   \code{TRUE} linear interpolation is carried out for gaps of up to and 
 #'   including \code{maxgap}.
-#' @param maxgap The maximum gap in hours that should be interpolated where
-#'   there are missing data when \code{interp = TRUE.}
+#' @param maxgap The maximum gap in hours that should be interpolated where 
+#'   there are missing data when \code{interp = TRUE.} Data with gaps more than
+#'   \code{maxgap} are left as missing.
 #'   
 #' @return Writes a text file to a location of the user's choosing.
 #' @export
