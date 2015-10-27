@@ -4,8 +4,8 @@
 \alias{getMeta}
 \title{Find a ISD site code and other meta data}
 \usage{
-getMeta(site = "heathrow", lat = NA, lon = NA, country = NA, n = 10,
-  current = TRUE, fresh = FALSE)
+getMeta(site = "heathrow", lat = NA, lon = NA, country = NA,
+  state = NA, n = 10, current = TRUE, fresh = FALSE)
 }
 \arguments{
 \item{site}{A site name search string e.g. \code{site =
@@ -21,6 +21,8 @@ values -90 to 90.}
 \item{country}{The country code. This is a two letter code. For a
 full listing see
 \url{ftp://ftp.ncdc.noaa.gov/pub/data/noaa/country-list.txt}.}
+
+\item{state}{The state code. This is a two letter code.}
 
 \item{n}{The number of nearest sites to search based on
 \code{latitude} and \code{longitude}.}
