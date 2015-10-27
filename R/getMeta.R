@@ -16,6 +16,7 @@
 ##' @param country The country code. This is a two letter code. For a
 ##' full listing see
 ##' \url{ftp://ftp.ncdc.noaa.gov/pub/data/noaa/country-list.txt}.
+##' @param state The state code. This is a two letter code. 
 ##' @param n The number of nearest sites to search based on
 ##' \code{latitude} and \code{longitude}.
 ##' @param current If \code{current = TRUE} (the default) only sites
@@ -44,7 +45,7 @@
 ##' ## returns 'n' nearest by default
 ##' getMeta(lat = 40, lon = 116.9)
 ##' }
-getMeta <- function(site = "heathrow", lat = NA, lon = NA, country = NA, n = 10,
+getMeta <- function(site = "heathrow", lat = NA, lon = NA, country = NA, state = NA, n = 10,
                     current = TRUE, fresh = FALSE) {
     ## read the meta data
  
@@ -68,6 +69,14 @@ getMeta <- function(site = "heathrow", lat = NA, lon = NA, country = NA, n = 10,
     if (!missing(country)) {
         ## search for country
         id <- which(meta$CTRY %in% country)
+        meta <- meta[id, ]
+               
+    }
+    
+         ## search based on state codes
+    if (!missing(state)) {
+        ## search for state
+        id <- which(meta$ST %in% state)
         meta <- meta[id, ]
                
     }
