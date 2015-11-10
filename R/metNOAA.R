@@ -95,20 +95,20 @@ importNOAA <- function(code = "037720-99999", year = 2014, hourly = TRUE, PWC = 
   ## gis map https://gis.ncdc.noaa.gov/map/viewer/#app=cdo&cfg=cdo&theme=hourly&layers=1
   
   ## go through each of the years selected
-  dat <- plyr::ldply(year, getDat, code = code, hourly = hourly, PWC = PWC)
+    dat <- plyr::ldply(year, getDat, code = code, hourly = hourly, PWC = PWC)
   
   return(dat)
   
 }
 
 getDat <- function(code, year, hourly, PWC) {
-  
+    
   ## location of data
   file.name <- paste0("ftp://ftp.ncdc.noaa.gov/pub/data/noaa/",
                       year, "/", code, "-", year, ".gz")
   
   z <- gzcon(url(file.name))
-  
+    
   ## read.table can only read from a text-mode connection.
   ## note the last set of data 'V32' is the additional data that contains cloud cover etc.
   
@@ -143,7 +143,7 @@ getDat <- function(code, year, hourly, PWC) {
                         'visibility', 'vis_flag', 'vis_var', 'vis_var_flag', 'air_temp',
                         'air_temp_flag', 'dew_point', 'dew_point_flag', 'sea_lev_press',
                         'sea_levp_flag')
-  
+    
   ## find and set missing
   id <- which(dat$wd == 999)
   dat$wd[id] <- NA
@@ -186,13 +186,16 @@ getDat <- function(code, year, hourly, PWC) {
   dat <- procAddit(dat, PWC)
   
   ## for cloud cover, make new 'cl' max of 3 cloud layers
-  dat$cl <- pmax(dat$cl_1, dat$cl_2, dat$cl_3, na.rm = TRUE)
-  
-  ## select the variables we want
-  dat <- dat[names(dat) %in% c("date", "ws", "wd", "air_temp", "sea_lev_press",
-                               "visibility", "dew_point", "RH", "sky_ceiling", "lat",
-                               "long", "elev", "cl_1", "cl_2", "cl_3", "cl",
-                               "cl_1_height", "cl_2_height", "cl_3_height", "pwc")]
+    dat$cl <- pmax(dat$cl_1, dat$cl_2, dat$cl_3, na.rm = TRUE)
+
+      ## select the variables we want
+    dat <- dat[names(dat) %in% c("date", "usaf_id", "wban", "station",
+                                 "ws", "wd", "air_temp",
+                                 "sea_lev_press", "visibility",
+                                 "dew_point", "RH", "sky_ceiling",
+                                 "lat", "long", "elev", "cl_1",
+                                 "cl_2", "cl_3", "cl", "cl_1_height",
+                                 "cl_2_height", "cl_3_height", "pwc")]
   
   ## present weather is character and cannot be averaged, take first
     if ("pwc" %in% names(dat) && hourly) {
@@ -208,7 +211,7 @@ getDat <- function(code, year, hourly, PWC) {
   
   ## average to hourly
   if (hourly)
-    dat <- openair::timeAverage(dat, avg.time = "hour")
+      dat <- openair::timeAverage(dat, avg.time = "hour")
   
   ## add pwc back in
   if (PWC)
@@ -228,9 +231,9 @@ procAddit <- function(dat, PWC) {
   dat <- extractCloud(dat, "GA3", "cl_3")
   
   if (PWC)
-    dat <- extractCurrentWeather(dat, "AW1")
-  
-  return(dat)
+      dat <- extractCurrentWeather(dat, "AW1")
+
+   return(dat)
   
 }
 
