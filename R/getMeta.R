@@ -50,7 +50,7 @@ getMeta <- function(site = "heathrow", lat = NA, lon = NA, country = NA, n = 10,
  
     ## download the file, else use the package version
     if (fresh) meta <- getMetaLive()
-
+    
     ## if current year
     if (current) {
         id <- which(format(meta$END, "%Y") == format(Sys.Date(), "%Y"))
@@ -65,7 +65,7 @@ getMeta <- function(site = "heathrow", lat = NA, lon = NA, country = NA, n = 10,
     }
 
      ## search based on country codes
-    if (!missing(country)) {
+    if (!missing(country) && !is.na(country)) {
         ## search for country
         id <- which(meta$CTRY %in% country)
         meta <- meta[id, ]
