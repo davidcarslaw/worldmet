@@ -38,7 +38,7 @@ getMeta(site = "heathrow")
 1687 037720-99999
 ```
 
-Often we have a latitude / longitude of interest. A search can be made based on supplied decimal coordinates and the top `n` nearest sites are returned. Note that the default query will return sites where there are some measurements for the current year. All sites can be shown with the option `current = FALSE`.
+Often we have a latitude / longitude of interest. A search can be made based on supplied decimal coordinates and the top `n` nearest sites are returned.
 
 ```R
 ## search for near a specified lat/lon - near Beijing airport

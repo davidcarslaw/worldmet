@@ -7,30 +7,30 @@
 ##' latitude and logitude.
 ##' @title Find a ISD site code and other meta data
 ##' @param site A site name search string e.g. \code{site =
-##' "heathrow"}. The search strings and be partial and can be upper or
-##' lower case e.g. \code{site = "HEATHR"}.
+##'     "heathrow"}. The search strings and be partial and can be
+##'     upper or lower case e.g. \code{site = "HEATHR"}.
 ##' @param lat A latitude in decimal degrees to search. Takes the
-##' values -90 to 90.
+##'     values -90 to 90.
 ##' @param lon A longitude in decimal degrees to search. Takes values
-##' -180 to 180. Negative numbers are west of the Greenwich meridian.
+##'     -180 to 180. Negative numbers are west of the Greenwich
+##'     meridian.
 ##' @param country The country code. This is a two letter code. For a
-##' full listing see
-##' \url{ftp://ftp.ncdc.noaa.gov/pub/data/noaa/country-list.txt}.
-##' @param state The state code. This is a two letter code. 
+##'     full listing see
+##'     \url{ftp://ftp.ncdc.noaa.gov/pub/data/noaa/country-list.txt}.
+##' @param state The state code. This is a two letter code.
 ##' @param n The number of nearest sites to search based on
-##' \code{latitude} and \code{longitude}.
-##' @param current If \code{current = TRUE} (the default) only sites
-##' that have data up to the current year are included.
+##'     \code{latitude} and \code{longitude}.
 ##' @param fresh Should the meta data be read from the NOAA server or
-##' the \code{worldmet} package?. If \code{FALSE} (the default) it is
-##' read from the package version, which is fast. If \code{TRUE} the
-##' data are read from the NOAA server. Most of the time the default
-##' should be acceptable as it is updated with each release of the
-##' package.
+##'     the \code{worldmet} package?. If \code{FALSE} (the default) it
+##'     is read from the package version, which is fast. If
+##'     \code{TRUE} the data are read from the NOAA server. Most of
+##'     the time the default should be acceptable as it is updated
+##'     with each release of the package.
 ##' @return A data frame is returned with all available meta data,
-##' mostly importantly including a \code{code} that can be supplied to
-##' \code{\link{importNOAA}}. If latitude and longitude searches are
-##' made an approximate distance, \code{dist} in km is also returned.
+##'     mostly importantly including a \code{code} that can be
+##'     supplied to \code{\link{importNOAA}}. If latitude and
+##'     longitude searches are made an approximate distance,
+##'     \code{dist} in km is also returned.
 ##' @export
 ##' @author David Carslaw
 ##' @examples 
@@ -45,18 +45,12 @@
 ##' ## returns 'n' nearest by default
 ##' getMeta(lat = 40, lon = 116.9)
 ##' }
-getMeta <- function(site = "heathrow", lat = NA, lon = NA, country = NA, state = NA, n = 10,
-                    current = TRUE, fresh = FALSE) {
+getMeta <- function(site = "heathrow", lat = NA, lon = NA,
+                    country = NA, state = NA, n = 10, fresh = FALSE) {
     ## read the meta data
  
     ## download the file, else use the package version
     if (fresh) meta <- getMetaLive()
-    
-    ## if current year
-    if (current) {
-        id <- which(format(meta$END, "%Y") == format(Sys.Date(), "%Y"))
-        meta <- meta[id, ]
-    }
     
     ## search based on name of site
     if (!missing(site)) {
