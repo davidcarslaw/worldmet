@@ -99,8 +99,13 @@ getMeta <- function(site = "heathrow", lat = NA, lon = NA,
 getMetaLive <- function(...) {
 
     ## downloads the whole thing fresh
-    meta <- read.csv("ftp://ftp.ncdc.noaa.gov/pub/data/noaa/isd-history.csv",
-                     header = FALSE, skip = 21)
+       
+    ## use RCurl 
+    bin <- getBinaryURL("ftp://ftp.ncdc.noaa.gov/pub/data/noaa/isd-history.csv",
+                        ssl.verifypeer = FALSE)
+    tmp <- tempfile()
+    writeBin(bin, tmp)
+    meta <-  read.csv(tmp, header = FALSE, skip = 21)
 
     closeAllConnections()
 

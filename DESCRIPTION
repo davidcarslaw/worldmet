@@ -12,6 +12,7 @@ Depends:
 Imports:
     openair,
     plyr,
+    RCurl,
     zoo
 Maintainer: David Carslaw <david.carslaw@york.ac.uk>
 Description: Functions to import data from more than 30,000 surface

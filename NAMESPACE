@@ -3,6 +3,7 @@
 export(exportADMS)
 export(getMeta)
 export(importNOAA)
+import(RCurl)
 import(openair)
 import(plyr)
 importFrom(zoo,na.approx)
