@@ -8,22 +8,26 @@ importNOAA(code = "037720-99999", year = 2014, hourly = TRUE,
   PWC = FALSE)
 }
 \arguments{
-\item{code}{The identifing code as a character string. The code is a 
-combination of the USAF and the WBAN unique identifiers. The codes are 
-sperated by a \dQuote{-} e.g. \code{code = "037720-99999"}.}
+\item{code}{The identifing code as a character string. The code is
+a combination of the USAF and the WBAN unique identifiers. The
+codes are sperated by a \dQuote{-} e.g. \code{code =
+"037720-99999"}.}
 
-\item{year}{The year to import. This can be a vector of years e.g. 
+\item{year}{The year to import. This can be a vector of years e.g.
 \code{year = 2000:2005}.}
 
-\item{hourly}{Should hourly means be calculated? The default is \code{TRUE}. If \code{FALSE} then the raw data are returned.}
+\item{hourly}{Should hourly means be calculated? The default is
+\code{TRUE}. If \code{FALSE} then the raw data are returned.}
 
-\item{PWC}{Description of the present weather conditions (if available).}
+\item{PWC}{Description of the present weather conditions (if
+available).}
 }
 \value{
-Returns a data frame of surface observations. The data frame is 
-  consistent for use with the \code{openair} package. NOTE! the data are 
-  returned in GMT (UTC) time zone format. Users may wish to express the data
-  in other time zones e.g. to merge with air pollution data.
+Returns a data frame of surface observations. The data
+    frame is consistent for use with the \code{openair}
+    package. NOTE! the data are returned in GMT (UTC) time zone
+    format. Users may wish to express the data in other time zones
+    e.g. to merge with air pollution data.
 }
 \description{
 Main function for importing meteorological data
@@ -101,7 +105,7 @@ dat <- importNOAA(code = "545110-99999", year = 2010:2011)
 David Carslaw
 }
 \seealso{
-\code{\link{getMeta}} to obtain the codes based on various site 
-  search approaches.
+\code{\link{getMeta}} to obtain the codes based on
+    various site search approaches.
 }
 
