@@ -229,7 +229,7 @@ getDat <- function(code, year, hourly, PWC) {
     ## return other meta data
     info <- meta[meta$code == code, ]
 
-    dat$station <- info$STATION
+    dat$station <- as.character(info$STATION)
     dat$usaf <- info$USAF
     dat$wban <- info$WBAN
     dat$code <- code
