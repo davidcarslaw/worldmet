@@ -77,6 +77,7 @@
 ##' @import openair
 ##' @import plyr
 ##' @import RCurl
+##' @import readr
 ##' @return Returns a data frame of surface observations. The data
 ##'     frame is consistent for use with the \code{openair}
 ##'     package. NOTE! the data are returned in GMT (UTC) time zone
@@ -113,9 +114,7 @@ getDat <- function(code, year, hourly, PWC) {
     file.name <- paste0("ftp://ftp.ncdc.noaa.gov/pub/data/noaa/",
                         year, "/", code, "-", year, ".gz")
     
-    ## read.table can only read from a text-mode connection.
-    ## note the last set of data 'V32' is the additional data that contains cloud cover etc.
-    
+    ## Use RCurl - works behind vpn
     ## deal with any missing data, issue warning
     
     bin <- try(getBinaryURL(file.name, ssl.verifypeer = FALSE), TRUE)
@@ -126,78 +125,84 @@ getDat <- function(code, year, hourly, PWC) {
         return()
     }
 
-    tmp <- tempfile()
+    tmp <- tmp <- paste0(tempdir(), basename(file.name))
     writeBin(bin, tmp)
     
-    dat <- read.fwf(tmp, header = FALSE, widths = c(4, 6, 5, 8, 4, 1, 6, 7, 5, 
-                                                    5, 5, 4, 3, 1, 1, 4, 1, 5, 1, 
-                                                    1, 1, 6, 1, 1, 1, 5, 1, 5, 1, 
-                                                    5, 1, 1000))
-                                     
-    ## make a POSIXct date, all dates are UTC
-    dat$date <- paste(dat$V4, formatC(dat$V5, width = 4, format = "d", flag = "0"))
-    dat$date <- as.POSIXct(strptime(dat$date, format = "%Y%m%d %H%M", tz = "GMT"),
-                           tz = "GMT")
+    column_widths <- c(4, 6, 5, 4, 2, 2, 2, 2, 1, 6, 7, 5, 5, 5, 4, 3,
+                       1, 1, 4, 1, 5, 1, 1, 1, 6, 1, 1, 1, 5, 1, 5, 1,
+                       5, 1)
+
+    ## mandatory fields, fast read
+    dat <- read_fwf(tmp, fwf_widths(column_widths),
+                    col_types = "ccciiiiiciicicciccicicccicccicicic")
+
+    ## additional fields, variable length, need to read eveything
+    add <- readLines(tmp)
     
-    ## of Names variables
-    names(dat)[1:31] <- c('var_length', 'usaf_id', 'wban', 'dateX', 'gmt', 'data_source',
-                          'lat', 'long', 'report_type', 'elev', 'call_letters', 'qc_level',
-                          'wd', 'wind_dir_flag', 'wind_type', 'ws', 'wind_speed_flag',
-                          'sky_ceiling', 'sky_ceil_flag', 'sky_ceil_determ', 'sky_cavok',
-                          'visibility', 'vis_flag', 'vis_var', 'vis_var_flag', 'air_temp',
-                          'air_temp_flag', 'dew_point', 'dew_point_flag', 'sea_lev_press',
-                          'sea_levp_flag')
+    ## Remove select columns from data frame
+    dat <- dat[, c(2:8, 10:11, 13, 16, 19, 21, 25, 29, 31, 33)]
     
-    ## find and set missing
-    id <- which(dat$wd == 999)
-    dat$wd[id] <- NA
+                                        # Apply new names to the data frame columns
+    names(dat) <- c("usaf", "wban", "year", "month", "day", "hour",
+                    "minute", "lat", "lon", "elev", "wd", "ws",
+                    "ceil_hgt", "visibility", "air_temp", "dew_point", "atmos_pres")
     
-    id <- which(dat$ws == 9999)
-    dat$ws[id] <- NA
+    ## Correct the latitude values
+    dat$lat <- dat$lat/1000
     
-    id <- which(dat$sky_ceiling == 99999)
-    dat$sky_ceiling[id] <- NA
+    ## Correct the longitude values
+    dat$lon <- dat$lon/1000
     
-    id <- which(dat$visibility == 999999)
-    dat$visibility[id] <- NA
+    ## Correct the wind direction values
+    dat$wd <- 
+        ifelse(dat$wd == 999, NA, dat$wd)
     
-    id <- which(dat$air_temp == 9999)
-    dat$air_temp[id] <- NA
+    ## Correct the wind speed values
+    dat$ws <- 
+        ifelse(dat$ws == 9999, NA, dat$ws / 10)
     
-    id <- which(dat$dew_point == 9999)
-    dat$dew_point[id] <- NA
+    ## Correct the temperature values
+    dat$air_temp <- 
+        ifelse(dat$air_temp == 9999, NA, dat$air_temp / 10)
+
+    ## Correct the visibility values
+    dat$visibility <- 
+        ifelse(dat$visibility == 999999, NA, dat$visibility)
     
-    id <- which(dat$sea_lev_press== 99999)
-    dat$sea_lev_press[id] <- NA
+    ## Correct the dew point values
+    dat$dew_point <- 
+        ifelse(dat$dew_point == 9999, NA, dat$dew_point / 10)
     
-    ## used for calms in openair
-    id <- which(dat$ws == 0)
-    dat$wd[id] <- 0
+    ## Correct the atmospheric pressure values
+    dat$atmos_pres <- 
+        ifelse(dat$atmos_pres == 99999, NA, dat$atmos_pres / 10)
     
-    ## sort out the units
-    dat$lat <- dat$lat / 1000
-    dat$long <- dat$long / 1000
-    dat$ws <- dat$ws / 10
-    dat$air_temp <- dat$air_temp / 10
-    dat$sea_lev_press <- dat$sea_lev_press / 10
-    dat$dew_point <- dat$dew_point / 10
-    
+    ## Correct the ceiling height values
+    dat$ceil_hgt <- 
+        ifelse(dat$ceil_hgt == 99999, NA, dat$ceil_hgt)
+
     ## relative humidity - general formula based on T and dew point
     dat$RH <- 100 * ((112 - 0.1 * dat$air_temp + dat$dew_point) /
                      (112 + 0.9 * dat$air_temp)) ^ 8
+
+    dat$date <- ISOdatetime(dat$year, dat$month, dat$day, dat$hour,
+                            dat$minute, 0, tz = "GMT")
+
+    ## drop date components that are not needed
+    dat <- subset(dat, select = -c(year, month, day, hour, minute))
     
     ## process the additional data separately
-    dat <- procAddit(dat, PWC)
+    dat <- procAddit(add, dat, PWC)
     
     ## for cloud cover, make new 'cl' max of 3 cloud layers
     dat$cl <- pmax(dat$cl_1, dat$cl_2, dat$cl_3, na.rm = TRUE)
 
     ## select the variables we want
-    dat <- dat[names(dat) %in% c("date", "usaf_id", "wban", "station",
+    dat <- dat[names(dat) %in% c("date", "usaf", "wban", "station",
                                  "ws", "wd", "air_temp",
-                                 "sea_lev_press", "visibility",
-                                 "dew_point", "RH", "sky_ceiling",
-                                 "lat", "long", "elev", "cl_1",
+                                 "atmos_pres", "visibility",
+                                 "dew_point", "RH", "ceil_hgt",
+                                 "lat", "lon", "elev", "cl_1",
                                  "cl_2", "cl_3", "cl", "cl_1_height",
                                  "cl_2_height", "cl_3_height", "pwc")]
     
@@ -220,35 +225,48 @@ getDat <- function(code, year, hourly, PWC) {
     ## add pwc back in
     if (PWC)
         dat <- merge(dat, pwc, by = "date", all = TRUE)
+
+    ## return other meta data
+    info <- meta[meta$code == code, ]
+
+    dat$station <- info$STATION
+    dat$usaf <- info$USAF
+    dat$wban <- info$WBAN
+    dat$code <- code
     
+    ## rearrange columns, one to move to front
+    move <- c("date", "usaf", "wban", "code", "station")
+    dat <-  dat[c(move, setdiff(names(dat), move))]
     return(dat)
     
 }
 
-procAddit <- function(dat, PWC) {
+
+
+procAddit <- function(add, dat, PWC) {
     
     ## function to process additional data such as cloud cover
     
     ## consider first 3 layers of cloud GA1, GA2, GA3
-    dat <- extractCloud(dat, "GA1", "cl_1")
-    dat <- extractCloud(dat, "GA2", "cl_2")
-    dat <- extractCloud(dat, "GA3", "cl_3")
+    dat <- extractCloud(add, dat, "GA1", "cl_1")
+    dat <- extractCloud(add, dat, "GA2", "cl_2")
+    dat <- extractCloud(add, dat, "GA3", "cl_3")
     
     if (PWC)
-        dat <- extractCurrentWeather(dat, "AW1")
+        dat <- extractCurrentWeather(add, dat, "AW1")
 
     return(dat)
     
 }
 
-extractCloud <- function(dat, field = "GA1", out = "cl_1") {
+extractCloud <- function(add, dat, field = "GA1", out = "cl_1") {
     
     ## 3 fields are used: GA1, GA2 and GA3
     
     height <- paste0(out, "_height") ## cloud height field
     
     ## fields that contain search string
-    id <- grep(field, dat[ , "V32"])
+    id <- grep(field, add)
     
     ## variables for cloud amount (oktas) and cloud height
     dat[[out]] <- NA
@@ -257,11 +275,12 @@ extractCloud <- function(dat, field = "GA1", out = "cl_1") {
     if (length(id) > 1) {
         
         ## location of begining of GA1 etc
-        loc <- sapply(id, function (x) regexpr(field, dat[x, "V32"]))
+        
+        loc <- sapply(id, function (x) regexpr(field, add[x]))
         
         ## extract the variable
         cl <- sapply(seq_along(id), function (x)
-            substr(dat$V32[id[x]], start = loc[x] + 3, stop = loc[x] + 4))
+            substr(add[id[x]], start = loc[x] + 3, stop = loc[x] + 4))
         cl <- as.numeric(cl)
         
         miss <- which(cl > 8) ## missing or obscured in some way
@@ -269,7 +288,7 @@ extractCloud <- function(dat, field = "GA1", out = "cl_1") {
         
         ## and height of cloud
         h <- sapply(seq_along(id), function (x)
-            substr(dat$V32[id[x]], start = loc[x] + 6, stop = loc[x] + 11))
+            substr(add[id[x]], start = loc[x] + 6, stop = loc[x] + 11))
         h <- as.numeric(h)
         
         miss <- which(h == 99999)
@@ -284,12 +303,12 @@ extractCloud <- function(dat, field = "GA1", out = "cl_1") {
     
 }
 
-extractCurrentWeather <- function(dat, field = "AW1") {
+extractCurrentWeather <- function(add, dat, field = "AW1") {
     
     ## extracts the present weather description based on code
     
     ## fields that contain search string
-    id <- grep(field, dat[ , "V32"])
+    id <- grep(field, add)
     
     if (length(id) > 1) {
         
@@ -297,11 +316,11 @@ extractCurrentWeather <- function(dat, field = "AW1") {
         dat[["pwc"]] <- NA
         
         ## location of begining of AW1
-        loc <- sapply(id, function (x) regexpr(field, dat[x, "V32"]))
+        loc <- sapply(id, function (x) regexpr(field, add[x]))
         
         ## extract the variable
         pwc <- sapply(seq_along(id), function (x)
-            substr(dat$V32[id[x]], start = loc[x] + 3, stop = loc[x] + 4))
+            substr(add[id[x]], start = loc[x] + 3, stop = loc[x] + 4))
         pwc <- as.character(pwc)
         
         ## look up code in weatherCodes.RData
