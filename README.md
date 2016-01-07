@@ -73,16 +73,17 @@ To obtain the data the user must supply a `code` (see above) and year or years o
 ```R
 dat <- importNOAA(code = "037720-99999", year = 2010)
 head(dat)
-Source: local data frame [6 x 19]
+|=====================================================================|100% ~0 s remaining     Source: local data frame [6 x 23]
 
-                 date       ws          wd   air_temp sea_lev_press visibility dew_point
-1 2010-01-01 00:00:00 3.266667  17.3515933 1.03333333        1001.1   16055.00 -1.900000
-2 2010-01-01 01:00:00 3.100000   6.1317598 0.96666667        1001.4   14266.67 -1.866667
-3 2010-01-01 02:00:00 3.100000  15.5928825 1.03333333        1001.5   15600.00 -1.866667
-4 2010-01-01 03:00:00 2.933333  17.0497878 1.00000000        1001.6   16843.33 -2.000000
-5 2010-01-01 04:00:00 2.766667   0.6056525 0.26666667        1001.9   15600.00 -2.433333
-6 2010-01-01 05:00:00 2.433333 356.4417142 0.06666667        1002.1   15600.00 -2.866667
-Variables not shown: RH (dbl), sky_ceiling (dbl), lat (dbl), long (dbl), elev (dbl), cl_1
-  (dbl), cl_2 (dbl), cl_3 (dbl), cl (dbl), cl_1_height (dbl), cl_2_height (dbl), cl_3_height
-  (dbl)
+                 date   usaf  wban         code  station    lat   lon  elev          wd
+               (time)  (chr) (int)        (chr)    (chr)  (dbl) (dbl) (dbl)       (dbl)
+1 2010-01-01 00:00:00 037720 99999 037720-99999 HEATHROW 51.483 -0.45    25  17.3515933
+2 2010-01-01 01:00:00 037720 99999 037720-99999 HEATHROW 51.483 -0.45    25   6.1317598
+3 2010-01-01 02:00:00 037720 99999 037720-99999 HEATHROW 51.483 -0.45    25  15.5928825
+4 2010-01-01 03:00:00 037720 99999 037720-99999 HEATHROW 51.483 -0.45    25  17.0497878
+5 2010-01-01 04:00:00 037720 99999 037720-99999 HEATHROW 51.483 -0.45    25   0.6056525
+6 2010-01-01 05:00:00 037720 99999 037720-99999 HEATHROW 51.483 -0.45    25 356.4417142
+Variables not shown: ws (dbl), ceil_hgt (dbl), visibility (dbl), air_temp (dbl), dew_point
+  (dbl), atmos_pres (dbl), RH (dbl), cl_1 (dbl), cl_1_height (dbl), cl_2 (dbl), cl_2_height
+  (dbl), cl_3 (dbl), cl_3_height (dbl), cl (dbl)
 ```
