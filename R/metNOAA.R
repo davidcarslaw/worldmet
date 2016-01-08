@@ -46,6 +46,8 @@
 ##' 
 ##' \item{cl_1_height, ..., cl_3_height}{Height of the cloud base for each later
 ##' in metres.}
+##'
+##' \item{precip_12}{12-hour precipitation in mm.}
 ##' 
 ##' \item{pwc}{The description of the present weather description (if 
 ##' available).}
