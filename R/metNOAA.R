@@ -199,12 +199,12 @@ getDat <- function(code, year, hourly, PWC) {
 
     ## select the variables we want
     dat <- dat[names(dat) %in% c("date", "usaf", "wban", "station",
-                                 "ws", "wd", "air_temp",
-                                 "atmos_pres", "visibility",
-                                 "dew_point", "RH", "ceil_hgt",
-                                 "lat", "lon", "elev", "cl_1",
-                                 "cl_2", "cl_3", "cl", "cl_1_height",
-                                 "cl_2_height", "cl_3_height", "pwc")]
+                                 "ws", "wd", "air_temp", "atmos_pres",
+                                 "visibility", "dew_point", "RH",
+                                 "ceil_hgt", "lat", "lon", "elev",
+                                 "cl_1", "cl_2", "cl_3", "cl",
+                                 "cl_1_height", "cl_2_height",
+                                 "cl_3_height", "pwc", "precip_12")]
     
     ## present weather is character and cannot be averaged, take first
     if ("pwc" %in% names(dat) && hourly) {
@@ -251,6 +251,10 @@ procAddit <- function(add, dat, PWC) {
     dat <- extractCloud(add, dat, "GA1", "cl_1")
     dat <- extractCloud(add, dat, "GA2", "cl_2")
     dat <- extractCloud(add, dat, "GA3", "cl_3")
+
+
+    ## 12 hour precipitation
+    dat <- extractPrecip(add, dat, "AA112", "precip_12")
     
     if (PWC)
         dat <- extractCurrentWeather(add, dat, "AW1")
@@ -258,6 +262,40 @@ procAddit <- function(add, dat, PWC) {
     return(dat)
     
 }
+
+extractPrecip <- function(add, dat, field = "AA112", out = "precip_12") {
+
+    ## fields that contain search string
+    id <- grep(field, add)
+    
+    ## variables for precip amount 
+    dat[[out]] <- NA
+   
+    if (length(id) > 1) {
+        
+        ## location of begining of AA1 etc
+        
+        loc <- sapply(id, function (x) regexpr(field, add[x]))
+        
+        ## extract amount of rain
+        
+        amnt <- sapply(seq_along(id), function (x)
+            substr(add[id[x]], start = loc[x] + 5, stop = loc[x] + 8))
+        
+        miss <- which(amnt == "9999") ## missing 
+        if (length(miss) > 0) amnt[miss] <- NA
+
+        amnt <- as.numeric(amnt) / 12
+        
+        
+        dat[[out]][id] <- amnt
+       
+    }
+    
+    return(dat)
+    
+}
+
 
 extractCloud <- function(add, dat, field = "GA1", out = "cl_1") {
     
