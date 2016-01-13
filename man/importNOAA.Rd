@@ -82,6 +82,8 @@ in metres.}
 
 \item{precip_12}{12-hour precipitation in mm.}
 
+\item{precip_6}{6-hour precipitation in mm.}
+
 \item{pwc}{The description of the present weather description (if 
 available).}
 

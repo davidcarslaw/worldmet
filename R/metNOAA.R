@@ -48,6 +48,8 @@
 ##' in metres.}
 ##'
 ##' \item{precip_12}{12-hour precipitation in mm.}
+##'
+##' \item{precip_6}{6-hour precipitation in mm.}
 ##' 
 ##' \item{pwc}{The description of the present weather description (if 
 ##' available).}
@@ -206,7 +208,8 @@ getDat <- function(code, year, hourly, PWC) {
                                  "ceil_hgt", "lat", "lon", "elev",
                                  "cl_1", "cl_2", "cl_3", "cl",
                                  "cl_1_height", "cl_2_height",
-                                 "cl_3_height", "pwc", "precip_12")]
+                                 "cl_3_height", "pwc", "precip_12",
+                                 "precip_6")]
     
     ## present weather is character and cannot be averaged, take first
     if ("pwc" %in% names(dat) && hourly) {
@@ -257,6 +260,9 @@ procAddit <- function(add, dat, PWC) {
 
     ## 12 hour precipitation
     dat <- extractPrecip(add, dat, "AA112", "precip_12")
+
+    ## 6 hour precipitation
+    dat <- extractPrecip(add, dat, "AA106", "precip_6")
     
     if (PWC)
         dat <- extractCurrentWeather(add, dat, "AW1")
@@ -287,7 +293,7 @@ extractPrecip <- function(add, dat, field = "AA112", out = "precip_12") {
         miss <- which(amnt == "9999") ## missing 
         if (length(miss) > 0) amnt[miss] <- NA
 
-        amnt <- as.numeric(amnt) / 12
+        amnt <- as.numeric(amnt) / 10
         
         
         dat[[out]][id] <- amnt
