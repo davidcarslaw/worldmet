@@ -50,6 +50,10 @@
 ##' \item{precip_12}{12-hour precipitation in mm.}
 ##'
 ##' \item{precip_6}{6-hour precipitation in mm.}
+##'
+##' \item{precip}{Based on the 12 hourly and 6 hourly totals,
+##' \code{precip}} spreads the 6-hourly totals across the previous
+##' 6-hours to provide an indication of hourly precipitation.
 ##' 
 ##' \item{pwc}{The description of the present weather description (if 
 ##' available).}
@@ -75,6 +79,10 @@
 ##'     \code{year = 2000:2005}.
 ##' @param hourly Should hourly means be calculated? The default is
 ##'     \code{TRUE}. If \code{FALSE} then the raw data are returned.
+##' @param precip Should precipitation measurements be returned? If
+##'     \code{TRUE} the 12-hourly and 6-hourly totals are returned (if
+##'     available). In addition, an hourly sequence is also returned,
+##'     as described below.
 ##' @param PWC Description of the present weather conditions (if
 ##'     available).
 ##' @export
@@ -97,7 +105,7 @@
 ##' dat <- importNOAA(code = "545110-99999", year = 2010:2011)
 ##' }
 importNOAA <- function(code = "037720-99999", year = 2014,
-                       hourly = TRUE, PWC = FALSE) {
+                       hourly = TRUE, precip = FALSE, PWC = FALSE) {
     
     ## main web site https://www.ncdc.noaa.gov/isd
     
@@ -196,7 +204,7 @@ getDat <- function(code, year, hourly, PWC) {
     dat <- subset(dat, select = -c(year, month, day, hour, minute))
     
     ## process the additional data separately
-    dat <- procAddit(add, dat, PWC)
+    dat <- procAddit(add, dat, precip, PWC)
     
     ## for cloud cover, make new 'cl' max of 3 cloud layers
     dat$cl <- pmax(dat$cl_1, dat$cl_2, dat$cl_3, na.rm = TRUE)
@@ -231,6 +239,30 @@ getDat <- function(code, year, hourly, PWC) {
     if (PWC)
         dat <- merge(dat, pwc, by = "date", all = TRUE)
 
+    ## add precipitation
+    if (precip) {
+        ## spread out precipitation across each hour
+        ## met data gives 12 hour total and every other 6 hour total
+
+        ## make new precip variable
+        met$precip <- NA
+
+        ## id where there is 6 hour data
+        id <- which(!is.na(met$precip_6))
+        id <- id[id < (nrow(met) - 6)] ## make sure we don't run off end
+
+        ## calculate new 6 hour based on 12 hr total - 6 hr total
+        met$precip_6[id + 6] <- met$precip_12[id + 6] - met$precip_6[id]
+
+        ## ids for new 6 hr totals
+        id <- which(!is.na(met$precip_6))
+        id <- id[id > 6]
+
+        ## Divide 6 hour total over each of 6 hours
+        for (i in seq_along(id))
+            met$precip[(id[i] - 5):id[i]] <- met$precip_6[id[i]] / 6
+    }
+
     ## return other meta data
     info <- meta[meta$code == code, ]
 
@@ -248,7 +280,7 @@ getDat <- function(code, year, hourly, PWC) {
 
 
 
-procAddit <- function(add, dat, PWC) {
+procAddit <- function(add, dat, precip, PWC) {
     
     ## function to process additional data such as cloud cover
     

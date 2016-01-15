@@ -5,7 +5,7 @@
 \title{Import meteorological data}
 \usage{
 importNOAA(code = "037720-99999", year = 2014, hourly = TRUE,
-  PWC = FALSE)
+  precip = FALSE, PWC = FALSE)
 }
 \arguments{
 \item{code}{The identifing code as a character string. The code is
@@ -18,6 +18,11 @@ codes are sperated by a \dQuote{-} e.g. \code{code =
 
 \item{hourly}{Should hourly means be calculated? The default is
 \code{TRUE}. If \code{FALSE} then the raw data are returned.}
+
+\item{precip}{Should precipitation measurements be returned? If
+\code{TRUE} the 12-hourly and 6-hourly totals are returned (if
+available). In addition, an hourly sequence is also returned,
+as described below.}
 
 \item{PWC}{Description of the present weather conditions (if
 available).}
@@ -83,6 +88,10 @@ in metres.}
 \item{precip_12}{12-hour precipitation in mm.}
 
 \item{precip_6}{6-hour precipitation in mm.}
+
+\item{precip}{Based on the 12 hourly and 6 hourly totals,
+\code{precip}} spreads the 6-hourly totals across the previous
+6-hours to provide an indication of hourly precipitation.
 
 \item{pwc}{The description of the present weather description (if 
 available).}
