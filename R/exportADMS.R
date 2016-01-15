@@ -21,46 +21,53 @@
 #' exportADMS(dat, file = "~/temp/adms_met.MET")
 #' }
 exportADMS <- function(dat, out = "./ADMS_met.MET", interp = FALSE, maxgap = 2) {
-  
-  ## make sure the data do not have gaps
-  all.dates <- data.frame(
-    date = seq(ISOdatetime(year = as.numeric(format(dat$date[1], "%Y")),                     
-                           month = 1, day = 1, hour = 0, min = 0, sec = 0, tz = "GMT"),
-               ISOdatetime(year = as.numeric(format(dat$date[1], "%Y")), 
-                           month = 12, day = 31, hour = 23, min = 0, 
-                           sec = 0, tz = "GMT"), by = "hour")
+    
+    ## make sure the data do not have gaps
+    all.dates <- data.frame(
+        date = seq(ISOdatetime(year = as.numeric(format(dat$date[1], "%Y")),
+                               month = 1, day = 1, hour = 0, min = 0,
+                               sec = 0, tz = "GMT"),
+                   ISOdatetime(year = as.numeric(format(dat$date[1], "%Y")), 
+                               month = 12, day = 31, hour = 23, min = 0, 
+                               sec = 0, tz = "GMT"), by = "hour")
     )
-  
-  dat <- merge(dat, all.dates, all = TRUE)
-  
-  if (interp) {
     
-    ## variables to interpolate
-    ## note need to deal with wd properly
-    dat <- transform(dat, u = sin(pi * wd / 180), v = cos(pi * wd / 180))
+    dat <- merge(dat, all.dates, all = TRUE)
+
+    ## make sure precipitation is available
+    if (!"precip" %in% names(dat))
+        dat$precip <- NA
     
-    varInterp <- c("ws", "u", "v", "air_temp", "RH", "cl")
+    if (interp) {
+        
+        ## variables to interpolate
+        ## note need to deal with wd properly
+        dat <- transform(dat, u = sin(pi * wd / 180), v = cos(pi * wd / 180))
+        
+        varInterp <- c("ws", "u", "v", "air_temp", "RH", "cl", "precip")
+        
+        dat[varInterp] <- zoo::na.approx(dat[varInterp], maxgap = maxgap, na.rm = FALSE)
+        
+        ## now put wd back
+        dat <- within(dat, wd <- as.vector(atan2(u, v) * 360 / 2 / pi))
+        
+        ## correct for negative wind directions
+        ids <- which(dat$wd < 0)  ## ids where wd < 0
+        dat$wd[ids] <- dat$wd[ids] + 360
+    }
     
-    dat[varInterp] <- zoo::na.approx(dat[varInterp], maxgap = maxgap, na.rm = FALSE)
-    
-    ## now put wd back
-    dat <- within(dat, wd <- as.vector(atan2(u, v) * 360 / 2 / pi))
-    
-    ## correct for negative wind directions
-    ids <- which(dat$wd < 0)  ## ids where wd < 0
-    dat$wd[ids] <- dat$wd[ids] + 360
-  }
-  
-  ## exports met data to ADMS format file
+    ## exports met data to ADMS format file
     year <- as.numeric(format(dat$date, "%Y"))
     day <- as.numeric(format(dat$date, "%j"))
     hour <- as.numeric(format(dat$date, "%H"))
     station <- "0000"
     
     ## data frame of met data needed
-    adms <- data.frame(station, year, day, hour, round(dat$air_temp, 1), 
-                       round(dat$ws, 1), round(dat$wd, 1), round(dat$RH, 1),
-                       round(dat$cl), stringsAsFactors = FALSE)
+    adms <- data.frame(station, year, day, hour,
+                       round(dat$air_temp, 1), round(dat$ws, 1),
+                       round(dat$wd, 1), round(dat$RH, 1),
+                       round(dat$cl), round(dat$precip, 1),
+                       stringsAsFactors = FALSE)
     
     ## print key data capture rates to the screen
     dc <- round(100 - 100 * (length(which(is.na(dat$ws))) / length(dat$ws)), 1)
@@ -85,10 +92,10 @@ exportADMS <- function(dat, out = "./ADMS_met.MET", interp = FALSE, maxgap = 2) 
     ## add the header lines
     fConn <- file(out, 'r+') 
     Lines <- readLines(fConn) 
-    writeLines(c("VARIABLES:\n9\nSTATION DCNN\nYEAR\nTDAY\nTHOUR\nT0C\nU\nPHI\nRH\nCL\nDATA:",
+    writeLines(c("VARIABLES:\n10\nSTATION DCNN\nYEAR\nTDAY\nTHOUR\nT0C\nU\nPHI\nRH\nCL\nPRECI\nDATA:",
                  Lines), con = fConn) 
     close(fConn) 
-  
+    
 }
 
 
