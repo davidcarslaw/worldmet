@@ -114,13 +114,14 @@ importNOAA <- function(code = "037720-99999", year = 2014,
     ## gis map https://gis.ncdc.noaa.gov/map/viewer/#app=cdo&cfg=cdo&theme=hourly&layers=1
     
     ## go through each of the years selected
-    dat <- plyr::ldply(year, getDat, code = code, hourly = hourly, PWC = PWC)
+    dat <- plyr::ldply(year, getDat, code = code, hourly = hourly,
+                       precip = precip, PWC = PWC)
     
     return(dat)
     
 }
 
-getDat <- function(code, year, hourly, PWC) {
+getDat <- function(code, year, hourly, precip, PWC) {
     
     ## location of data
     file.name <- paste0("ftp://ftp.ncdc.noaa.gov/pub/data/noaa/",
@@ -238,29 +239,29 @@ getDat <- function(code, year, hourly, PWC) {
     ## add pwc back in
     if (PWC)
         dat <- merge(dat, pwc, by = "date", all = TRUE)
-
+    
     ## add precipitation
     if (precip) {
         ## spread out precipitation across each hour
         ## met data gives 12 hour total and every other 6 hour total
 
         ## make new precip variable
-        met$precip <- NA
+        dat$precip <- NA
 
         ## id where there is 6 hour data
-        id <- which(!is.na(met$precip_6))
-        id <- id[id < (nrow(met) - 6)] ## make sure we don't run off end
+        id <- which(!is.na(dat$precip_6))
+        id <- id[id < (nrow(dat) - 6)] ## make sure we don't run off end
 
         ## calculate new 6 hour based on 12 hr total - 6 hr total
-        met$precip_6[id + 6] <- met$precip_12[id + 6] - met$precip_6[id]
+        dat$precip_6[id + 6] <- dat$precip_12[id + 6] - dat$precip_6[id]
 
         ## ids for new 6 hr totals
-        id <- which(!is.na(met$precip_6))
+        id <- which(!is.na(dat$precip_6))
         id <- id[id > 6]
 
         ## Divide 6 hour total over each of 6 hours
         for (i in seq_along(id))
-            met$precip[(id[i] - 5):id[i]] <- met$precip_6[id[i]] / 6
+            dat$precip[(id[i] - 5):id[i]] <- dat$precip_6[id[i]] / 6
     }
 
     ## return other meta data
@@ -289,12 +290,12 @@ procAddit <- function(add, dat, precip, PWC) {
     dat <- extractCloud(add, dat, "GA2", "cl_2")
     dat <- extractCloud(add, dat, "GA3", "cl_3")
 
-
-    ## 12 hour precipitation
-    dat <- extractPrecip(add, dat, "AA112", "precip_12")
-
-    ## 6 hour precipitation
-    dat <- extractPrecip(add, dat, "AA106", "precip_6")
+    ## 6 and 12 hour precipitation
+    if (precip) {
+        
+        dat <- extractPrecip(add, dat, "AA112", "precip_12")
+        dat <- extractPrecip(add, dat, "AA106", "precip_6")
+    }
     
     if (PWC)
         dat <- extractCurrentWeather(add, dat, "AW1")
