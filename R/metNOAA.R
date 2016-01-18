@@ -245,23 +245,27 @@ getDat <- function(code, year, hourly, precip, PWC) {
         ## spread out precipitation across each hour
         ## met data gives 12 hour total and every other 6 hour total
 
-        ## make new precip variable
-        dat$precip <- NA
+        ## only do this if precipitation exists
+        if (all(c("precip_6", "precip_12") %in% names(dat))) {
 
-        ## id where there is 6 hour data
-        id <- which(!is.na(dat$precip_6))
-        id <- id[id < (nrow(dat) - 6)] ## make sure we don't run off end
+            ## make new precip variable
+            dat$precip <- NA
+            
+            ## id where there is 6 hour data
+            id <- which(!is.na(dat$precip_6))
+            id <- id[id < (nrow(dat) - 6)] ## make sure we don't run off end
 
-        ## calculate new 6 hour based on 12 hr total - 6 hr total
-        dat$precip_6[id + 6] <- dat$precip_12[id + 6] - dat$precip_6[id]
+            ## calculate new 6 hour based on 12 hr total - 6 hr total
+            dat$precip_6[id + 6] <- dat$precip_12[id + 6] - dat$precip_6[id]
 
-        ## ids for new 6 hr totals
-        id <- which(!is.na(dat$precip_6))
-        id <- id[id > 6]
+            ## ids for new 6 hr totals
+            id <- which(!is.na(dat$precip_6))
+            id <- id[id > 6]
 
-        ## Divide 6 hour total over each of 6 hours
-        for (i in seq_along(id))
-            dat$precip[(id[i] - 5):id[i]] <- dat$precip_6[id[i]] / 6
+            ## Divide 6 hour total over each of 6 hours
+            for (i in seq_along(id))
+                dat$precip[(id[i] - 5):id[i]] <- dat$precip_6[id[i]] / 6
+        }
     }
 
     ## return other meta data
