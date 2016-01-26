@@ -92,7 +92,7 @@ exportADMS <- function(dat, out = "./ADMS_met.MET", interp = FALSE, maxgap = 2) 
     ## add the header lines
     fConn <- file(out, 'r+') 
     Lines <- readLines(fConn) 
-    writeLines(c("VARIABLES:\n10\nSTATION DCNN\nYEAR\nTDAY\nTHOUR\nT0C\nU\nPHI\nRH\nCL\nPRECI\nDATA:",
+    writeLines(c("VARIABLES:\n10\nSTATION DCNN\nYEAR\nTDAY\nTHOUR\nT0C\nU\nPHI\nRH\nCL\nP\nDATA:",
                  Lines), con = fConn) 
     close(fConn) 
     
