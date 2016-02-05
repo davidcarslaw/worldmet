@@ -46,6 +46,10 @@ exportADMS <- function(dat, out = "./ADMS_met.MET", interp = FALSE, maxgap = 2) 
         
         varInterp <- c("ws", "u", "v", "air_temp", "RH", "cl", "precip")
         
+        # don't want to try and interpret fields that are all missing
+        ids <- sapply(varInterp, function (x) !all(is.na(dat[[x]])))
+        varInterp <- varInterp[ids]
+        
         dat[varInterp] <- zoo::na.approx(dat[varInterp], maxgap = maxgap, na.rm = FALSE)
         
         ## now put wd back
