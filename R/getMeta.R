@@ -125,3 +125,8 @@ getMetaLive <- function(...) {
     
     return(meta)
 }
+
+# how to update meta data
+# meta <- getMeta(fresh = TRUE)
+# devtools::use_data(meta, overwrite = TRUE, internal = TRUE)
+# devtools::use_data(meta, overwrite = TRUE)
