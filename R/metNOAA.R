@@ -90,6 +90,8 @@
 ##' @import plyr
 ##' @import RCurl
 ##' @import readr
+##' @import leaflet
+##' @importFrom dplyr %>%
 ##' @importFrom utils head read.csv write.table
 ##' @importFrom leaflet addCircles addMarkers addTiles
 ##' @return Returns a data frame of surface observations. The data
