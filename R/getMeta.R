@@ -1,16 +1,16 @@
 ##' Get information on meteorological sites
-##'
-##' This function is primarily used to find a site code that can be
+##' 
+##' This function is primarily used to find a site code that can be 
 ##' used to access data using \code{\link{importNOAA}}. Sites searches
 ##' of approximately 30,000 sites can be carried out based on the site
-##' name and based on the nearest locations based on user-supplied
+##' name and based on the nearest locations based on user-supplied 
 ##' latitude and logitude.
 ##' @title Find a ISD site code and other meta data
-##' @param site A site name search string e.g. \code{site =
-##'     "heathrow"}. The search strings and be partial and can be
-##'     upper or lower case e.g. \code{site = "HEATHR"}.
-##' @param lat A latitude in decimal degrees to search. Takes the
-##' values -90 to 90.
+##' @param site A site name search string e.g. \code{site = 
+##'   "heathrow"}. The search strings and be partial and can be upper
+##'   or lower case e.g. \code{site = "HEATHR"}.
+##' @param lat A latitude in decimal degrees to search. Takes the 
+##'   values -90 to 90.
 ##' @param lon A longitude in decimal degrees to search. Takes values 
 ##'   -180 to 180. Negative numbers are west of the Greenwich 
 ##'   meridian.
@@ -20,23 +20,25 @@
 ##' @param state The state code. This is a two letter code.
 ##' @param n The number of nearest sites to search based on 
 ##'   \code{latitude} and \code{longitude}.
-##' @param end.year To help filter sites based on how recent the
+##' @param end.year To help filter sites based on how recent the 
 ##'   available data are. \code{end.year} can be "current", "any" or a
-##'   numeric year such as 2016. \strong{By default only sites that have some
-##'   data for the current year are returned}.
-##' @param plot If \code{TRUE} will plot sites on an interactive
+##'   numeric year such as 2016, or a range of years e.g. 1990:2016
+##'   (which would select any site that had an end date in that range.
+##'   \strong{By default only sites that have some data for the
+##'   current year are returned}.
+##' @param plot If \code{TRUE} will plot sites on an interactive 
 ##'   leaflet map.
 ##' @param fresh Should the meta data be read from the NOAA server or 
 ##'   the \code{worldmet} package?. If \code{FALSE} (the default) it 
-##'   is read from the package version, which is fast. If \code{TRUE}
-##'   the data are read from the NOAA server. Most of the time the
-##'   default should be acceptable as it is updated with each release
+##'   is read from the package version, which is fast. If \code{TRUE} 
+##'   the data are read from the NOAA server. Most of the time the 
+##'   default should be acceptable as it is updated with each release 
 ##'   of the package.
 ##' @return A data frame is returned with all available meta data, 
-##'   mostly importantly including a \code{code} that can be supplied
-##'   to \code{\link{importNOAA}}. If latitude and
-##'     longitude searches are made an approximate distance,
-##'     \code{dist} in km is also returned.
+##'   mostly importantly including a \code{code} that can be supplied 
+##'   to \code{\link{importNOAA}}. If latitude and longitude searches
+##'   are made an approximate distance, \code{dist} in km is also
+##'   returned.
 ##' @export
 ##' @author David Carslaw
 ##' @examples 
@@ -57,14 +59,14 @@ getMeta <- function(site = "heathrow", lat = NA, lon = NA,
     ## read the meta data
   
   # check year
-  if (!end.year %in% c("current", "all")) {
+  if (!any(end.year %in% c("current", "all"))) {
     if (!is.numeric(end.year)) {
       stop("end.year should be one of 'current', 'all' or a numeric 4-digit year such as 2016.")
     }
   }
   
-  if (end.year == "current") end.year <- format(Sys.Date(), "%Y")
-  if (end.year == "all") end.year <- 1900:2100
+  if ("current" %in% end.year) end.year <- format(Sys.Date(), "%Y")
+  if ("all" %in% end.year) end.year <- 1900:2100
   
   
     ## download the file, else use the package version
