@@ -393,7 +393,8 @@ extractCloud <- function(add, dat, field = "GA1", out = "cl_1") {
 }
 
 extractCurrentWeather <- function(add, dat, field = "AW1") {
-    
+  
+  
     ## extracts the present weather description based on code
     
     ## fields that contain search string

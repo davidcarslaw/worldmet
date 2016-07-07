@@ -21,6 +21,9 @@
 #' exportADMS(dat, file = "~/temp/adms_met.MET")
 #' }
 exportADMS <- function(dat, out = "./ADMS_met.MET", interp = FALSE, maxgap = 2) {
+  
+  # keep R check quiet
+  wd = u = v = NULL
     
     ## make sure the data do not have gaps
     all.dates <- data.frame(
