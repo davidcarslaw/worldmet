@@ -5,7 +5,8 @@
 \title{Find a ISD site code and other meta data}
 \usage{
 getMeta(site = "heathrow", lat = NA, lon = NA, country = NA,
-  state = NA, n = 10, plot = TRUE, fresh = FALSE)
+  state = NA, n = 10, end.year = "current", plot = TRUE,
+  fresh = FALSE)
 }
 \arguments{
 \item{site}{A site name search string e.g. \code{site =
@@ -15,32 +16,38 @@ upper or lower case e.g. \code{site = "HEATHR"}.}
 \item{lat}{A latitude in decimal degrees to search. Takes the
 values -90 to 90.}
 
-\item{lon}{A longitude in decimal degrees to search. Takes values
--180 to 180. Negative numbers are west of the Greenwich
+\item{lon}{A longitude in decimal degrees to search. Takes values 
+-180 to 180. Negative numbers are west of the Greenwich 
 meridian.}
 
-\item{country}{The country code. This is a two letter code. For a
-full listing see
+\item{country}{The country code. This is a two letter code. For a 
+full listing see 
 \url{ftp://ftp.ncdc.noaa.gov/pub/data/noaa/country-list.txt}.}
 
 \item{state}{The state code. This is a two letter code.}
 
-\item{n}{The number of nearest sites to search based on
+\item{n}{The number of nearest sites to search based on 
 \code{latitude} and \code{longitude}.}
 
-\item{plot}{If \code{TRUE} will plot sites on an intercative leaflet map.}
+\item{end.year}{To help filter sites based on how recent the
+available data are. \code{end.year} can be "current", "any" or a
+numeric year such as 2016. \strong{By default only sites that have some
+data for the current year are returned}.}
 
-\item{fresh}{Should the meta data be read from the NOAA server or
-the \code{worldmet} package?. If \code{FALSE} (the default) it
-is read from the package version, which is fast. If
-\code{TRUE} the data are read from the NOAA server. Most of
-the time the default should be acceptable as it is updated
-with each release of the package.}
+\item{plot}{If \code{TRUE} will plot sites on an interactive
+leaflet map.}
+
+\item{fresh}{Should the meta data be read from the NOAA server or 
+the \code{worldmet} package?. If \code{FALSE} (the default) it 
+is read from the package version, which is fast. If \code{TRUE}
+the data are read from the NOAA server. Most of the time the
+default should be acceptable as it is updated with each release
+of the package.}
 }
 \value{
-A data frame is returned with all available meta data,
-    mostly importantly including a \code{code} that can be
-    supplied to \code{\link{importNOAA}}. If latitude and
+A data frame is returned with all available meta data, 
+  mostly importantly including a \code{code} that can be supplied
+  to \code{\link{importNOAA}}. If latitude and
     longitude searches are made an approximate distance,
     \code{dist} in km is also returned.
 }
