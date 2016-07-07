@@ -95,6 +95,17 @@ getMeta <- function(site = "heathrow", lat = NA, lon = NA,
                
     }
     
+    # make sure no missing lat / lon
+    id <- which(is.na(meta$LON))
+    if (length(id) > 0) meta <- meta[-id, ]
+    
+    id <- which(is.na(meta$LAT))
+    if (length(id) > 0) meta <- meta[-id, ]
+    
+    # filter by end year
+    id <- which(format(meta$END, "%Y") %in% end.year)
+    meta <- meta[id, ]
+    
     ## approximate distance to site
     if (!missing(lat) && !missing(lon)) {
         r <- 6371 # radius of the Earth
@@ -112,16 +123,7 @@ getMeta <- function(site = "heathrow", lat = NA, lon = NA,
         
     }
     
-    # make sure no missing lat / lon
-    id <- which(is.na(meta$LON))
-    if (length(id) > 0) meta <- meta[-id, ]
     
-    id <- which(is.na(meta$LAT))
-    if (length(id) > 0) meta <- meta[-id, ]
-    
-    # filter by end year
-    id <- which(format(meta$END, "%Y") %in% end.year)
-    meta <- meta[id, ]
   
   if (plot) {
     
