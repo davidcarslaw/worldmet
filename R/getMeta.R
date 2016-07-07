@@ -20,6 +20,7 @@
 ##' @param state The state code. This is a two letter code.
 ##' @param n The number of nearest sites to search based on
 ##'     \code{latitude} and \code{longitude}.
+##' @param plot If \code{TRUE} will plot sites on an intercative leaflet map.
 ##' @param fresh Should the meta data be read from the NOAA server or
 ##'     the \code{worldmet} package?. If \code{FALSE} (the default) it
 ##'     is read from the package version, which is fast. If
@@ -46,9 +47,10 @@
 ##' getMeta(lat = 40, lon = 116.9)
 ##' }
 getMeta <- function(site = "heathrow", lat = NA, lon = NA,
-                    country = NA, state = NA, n = 10, fresh = FALSE) {
+                    country = NA, state = NA, n = 10, 
+                    plot = TRUE, fresh = FALSE) {
     ## read the meta data
- 
+  
     ## download the file, else use the package version
     if (fresh) meta <- getMetaLive()
     
@@ -82,15 +84,51 @@ getMeta <- function(site = "heathrow", lat = NA, lon = NA,
         ## Coordinates need to be in radians
         meta$longR <- meta$LON * pi / 180
         meta$latR <- meta$LAT * pi / 180
-        lon <- lon * pi / 180
-        lat <- lat * pi / 180
-        meta$dist <- acos(sin(lat) * sin(meta$latR) + cos(lat) * 
-                              cos(meta$latR) * cos(meta$longR - lon)) * r
+        LON <- lon * pi / 180
+        LAT <- lat * pi / 180
+        meta$dist <- acos(sin(LAT) * sin(meta$latR) + cos(LAT) * 
+                              cos(meta$latR) * cos(meta$longR - LON)) * r
 
         ## sort and retrun top n nearest
         meta <- head(openair:::sortDataFrame(meta, key = "dist"), n)
         
     }
+    
+    # make sure no missing lat / lon
+    id <- which(is.na(meta$LON))
+    if (length(id) > 0) meta <- meta[-id, ]
+    
+    id <- which(is.na(meta$LAT))
+    if (length(id) > 0) meta <- meta[-id, ]
+  
+  if (plot) {
+    
+    dat <- dplyr::rename(meta, latitude = LAT, longitude = LON) 
+    
+    if (!"dist" %in% names(dat)) dat$dist <- NA
+    
+    content <- paste(paste(dat$STATION, 
+                           paste("Code:", dat$code), 
+                           paste("Start:", dat$BEGIN),
+                           paste("End:", dat$END),
+                           paste("Distance (km)", round(dat$dist, 1)),
+                           sep = "<br/>"))
+    
+    
+    m <- leaflet(dat) %>% addTiles() %>%  
+      addMarkers(~longitude, ~latitude, popup = content) 
+    
+    if (!is.na(lat) && !is.na(lon))
+      m <- m %>% addCircles(lng = lon, lat = lat, weight = 20, radius = 200,
+                            stroke = TRUE, color = "red",
+                            popup = paste("Search location",
+                                          paste("Lat =", lat),
+                                          paste("Lon =", lon), sep = "<br/>"))
+    print(m)
+    
+  }
+    
+
     
     return(meta)
     

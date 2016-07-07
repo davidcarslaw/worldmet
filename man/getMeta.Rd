@@ -5,7 +5,7 @@
 \title{Find a ISD site code and other meta data}
 \usage{
 getMeta(site = "heathrow", lat = NA, lon = NA, country = NA,
-  state = NA, n = 10, fresh = FALSE)
+  state = NA, n = 10, plot = TRUE, fresh = FALSE)
 }
 \arguments{
 \item{site}{A site name search string e.g. \code{site =
@@ -27,6 +27,8 @@ full listing see
 
 \item{n}{The number of nearest sites to search based on
 \code{latitude} and \code{longitude}.}
+
+\item{plot}{If \code{TRUE} will plot sites on an intercative leaflet map.}
 
 \item{fresh}{Should the meta data be read from the NOAA server or
 the \code{worldmet} package?. If \code{FALSE} (the default) it

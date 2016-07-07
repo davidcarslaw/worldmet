@@ -8,10 +8,12 @@ Authors@R: c(person("David", "Carslaw", role = c("aut", "cre"), email =
     "david.carslaw@york.ac.uk"))
 ByteCompile: true
 Depends:
-    R (>= 2.15.1)
+    R (>= 3.2.0)
 Imports:
     openair,
     plyr,
+    dplyr,
+    leaflet,
     RCurl,
     readr,
     zoo

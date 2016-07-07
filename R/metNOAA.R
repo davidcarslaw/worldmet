@@ -90,6 +90,8 @@
 ##' @import plyr
 ##' @import RCurl
 ##' @import readr
+##' @importFrom utils head read.csv write.table
+##' @importFrom leaflet addCircles addMarkers addTiles
 ##' @return Returns a data frame of surface observations. The data
 ##'     frame is consistent for use with the \code{openair}
 ##'     package. NOTE! the data are returned in GMT (UTC) time zone
@@ -122,6 +124,8 @@ importNOAA <- function(code = "037720-99999", year = 2014,
 }
 
 getDat <- function(code, year, hourly, precip, PWC) {
+  
+  month = day = hour = minute = NULL
     
     ## location of data
     file.name <- paste0("ftp://ftp.ncdc.noaa.gov/pub/data/noaa/",
