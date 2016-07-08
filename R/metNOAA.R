@@ -144,7 +144,7 @@ getDat <- function(code, year, hourly, precip, PWC) {
         return()
     }
 
-    tmp <- tmp <- paste0(tempdir(), basename(file.name))
+    tmp <- paste0(tempdir(), basename(file.name))
     writeBin(bin, tmp)
     
     column_widths <- c(4, 6, 5, 4, 2, 2, 2, 2, 1, 6, 7, 5, 5, 5, 4, 3,
