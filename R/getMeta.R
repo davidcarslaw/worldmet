@@ -82,7 +82,7 @@ getMeta <- function(site = "heathrow", lat = NA, lon = NA,
      ## search based on country codes
     if (!missing(country) && !is.na(country)) {
         ## search for country
-        id <- which(meta$CTRY %in% country)
+        id <- which(meta$CTRY %in% toupper(country))
         meta <- meta[id, ]
                
     }
@@ -90,7 +90,7 @@ getMeta <- function(site = "heathrow", lat = NA, lon = NA,
          ## search based on state codes
     if (!missing(state)) {
         ## search for state
-        id <- which(meta$ST %in% state)
+        id <- which(meta$ST %in% toupper(state))
         meta <- meta[id, ]
                
     }
