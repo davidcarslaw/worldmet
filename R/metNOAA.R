@@ -90,10 +90,9 @@
 ##' @import plyr
 ##' @import RCurl
 ##' @import readr
-##' @import leaflet
 ##' @importFrom dplyr %>%
 ##' @importFrom utils head read.csv write.table
-##' @importFrom leaflet addCircles addMarkers addTiles
+##' @importFrom leaflet addCircles addMarkers addTiles leaflet
 ##' @return Returns a data frame of surface observations. The data
 ##'     frame is consistent for use with the \code{openair}
 ##'     package. NOTE! the data are returned in GMT (UTC) time zone
