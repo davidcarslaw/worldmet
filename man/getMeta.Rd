@@ -44,8 +44,9 @@ the \code{worldmet} package?. If \code{FALSE} (the default) it
 is read from the package version, which is fast. If \code{TRUE} 
 the data are read from the NOAA server. Most of the time the 
 default should be acceptable as it is updated with each release 
-of the package.
-@param returnMap Should the leaflet map be returned instead of the meta data? Default is \code{FALSE}.}
+of the package.}
+
+\item{returnMap}{Should the leaflet map be returned instead of the meta data? Default is \code{FALSE}.}
 }
 \value{
 A data frame is returned with all available meta data, 
