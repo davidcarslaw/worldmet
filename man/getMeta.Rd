@@ -6,7 +6,7 @@
 \usage{
 getMeta(site = "heathrow", lat = NA, lon = NA, country = NA,
   state = NA, n = 10, end.year = "current", plot = TRUE,
-  fresh = FALSE)
+  fresh = FALSE, returnMap = FALSE)
 }
 \arguments{
 \item{site}{A site name search string e.g. \code{site = 
@@ -44,7 +44,8 @@ the \code{worldmet} package?. If \code{FALSE} (the default) it
 is read from the package version, which is fast. If \code{TRUE} 
 the data are read from the NOAA server. Most of the time the 
 default should be acceptable as it is updated with each release 
-of the package.}
+of the package.
+@param returnMap Should the leaflet map be returned instead of the meta data? Default is \code{FALSE}.}
 }
 \value{
 A data frame is returned with all available meta data, 
