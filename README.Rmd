@@ -1,7 +1,7 @@
 ---
 always_allow_html: yes
 output: 
-  html_document: 
+  github_document: 
     toc: FALSE
 ---
 
@@ -20,7 +20,6 @@ knitr::opts_chunk$set(
   cache = TRUE
 )
 ```
-
 
 
 [![Travis-CI Build Status](https://travis-ci.org/davidcarslaw/worldmet.svg?branch=master)](https://travis-ci.org/davidcarslaw/worldmet)

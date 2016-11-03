@@ -38,7 +38,7 @@ getMeta(site = "heathrow")
 ## 1687 2016-07-04 037720-99999
 ```
 
-Often we have a latitude / longitude of interest. A search can be made based on supplied decimal coordinates and the top `n` nearest sites are returned.
+Often we have a latitude / longitude of interest. A search can be made based on supplied decimal coordinates and the top `n` nearest sites are returned. The map shows the location searched by the user (red dot) and markers showing the nearest meteorological stations. Click on a station marker to obtain the code and other basic information.
 
 ``` r
 ## search for near a specified lat/lon - near Beijing airport
@@ -46,11 +46,10 @@ Often we have a latitude / longitude of interest. A search can be made based on 
 info <- getMeta(lat = 40, lon = 116.9)
 ```
 
-``` r
-info <- getMeta(lat = 40, lon = 116.9, returnMap = TRUE)
-print(info)
-```
+<!--html_preserve-->
 
+<script type="application/json" data-for="htmlwidget-4aae08a8dcbdfe001f3a">{"x":{"calls":[{"method":"addTiles","args":["http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"maxNativeZoom":null,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"continuousWorld":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":null,"unloadInvisibleTiles":null,"updateWhenIdle":null,"detectRetina":false,"reuseTiles":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap\u003c/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA\u003c/a>"}]},{"method":"addMarkers","args":[[40.08,39.1,39.124,39.65,40.417,41.2,40.967,40.4,39.433,38.733],[116.585,117.167,117.346,118.1,115.5,116.633,117.917,118.95,118.9,115.483],null,null,null,{"clickable":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},["BEIJING - CAPITAL INTERNATIONAL AIRPORT<br/>Code: 545110-99999<br/>Start: 1945-10-31<br/>End: 2016-07-04<br/>Distance (km) 28.3","TIANJIN<br/>Code: 545270-99999<br/>Start: 1956-08-20<br/>End: 2016-07-04<br/>Distance (km) 102.7","BINHAI<br/>Code: 545273-99999<br/>Start: 1981-11-25<br/>End: 2016-07-04<br/>Distance (km) 104.6","TANGSHAN<br/>Code: 545340-99999<br/>Start: 1956-08-20<br/>End: 2016-07-04<br/>Distance (km) 109.6","HUAILAI<br/>Code: 544050-99999<br/>Start: 1956-08-20<br/>End: 2016-07-04<br/>Distance (km) 127.6","FENGNING<br/>Code: 543080-99999<br/>Start: 1957-06-01<br/>End: 2016-07-04<br/>Distance (km) 135.3","CHENGDE<br/>Code: 544230-99999<br/>Start: 1956-08-20<br/>End: 2016-07-04<br/>Distance (km) 137.7","QINGLONG<br/>Code: 544360-99999<br/>Start: 1957-06-02<br/>End: 2016-07-04<br/>Distance (km) 179.7","LETING<br/>Code: 545390-99999<br/>Start: 1957-06-01<br/>End: 2016-07-04<br/>Distance (km) 182.3","BAODING<br/>Code: 546020-99999<br/>Start: 1956-08-20<br/>End: 2016-07-04<br/>Distance (km) 186.2"],null,null,null,null]},{"method":"addCircles","args":[40,116.9,200,null,null,{"lineCap":null,"lineJoin":null,"clickable":true,"pointerEvents":null,"className":"","stroke":true,"color":"red","weight":20,"opacity":0.5,"fill":true,"fillColor":"red","fillOpacity":0.2,"dashArray":null},"Search location<br/>Lat = 40<br/>Lon = 116.9",null,null]}],"limits":{"lat":[38.733,41.2],"lng":[115.483,118.95]}},"evals":[],"jsHooks":[]}</script>
+<!--/html_preserve-->
 To obtain the data the user must supply a `code` (see above) and year or years of interest. For example, to download data for Heathrow Airport in 2010 (code 037720-99999):
 
 ``` r
