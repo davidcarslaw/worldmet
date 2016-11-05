@@ -284,6 +284,9 @@ getDat <- function(code, year, hourly, precip, PWC) {
     ## rearrange columns, one to move to front
     move <- c("date", "usaf", "wban", "code", "station")
     dat <-  dat[c(move, setdiff(names(dat), move))]
+    
+    # replace NaN with NA
+    dat[] <- lapply(dat, function(x) {replace(x, is.nan(x), NA)})
     return(dat)
     
 }
