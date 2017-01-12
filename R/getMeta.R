@@ -34,6 +34,7 @@
 ##'   the data are read from the NOAA server. Most of the time the 
 ##'   default should be acceptable as it is updated with each release 
 ##'   of the package.
+##' @param returnMap Should the leaflet map be returned instead of the meta data? Default is \code{FALSE}.
 ##' @return A data frame is returned with all available meta data, 
 ##'   mostly importantly including a \code{code} that can be supplied 
 ##'   to \code{\link{importNOAA}}. If latitude and longitude searches
@@ -55,7 +56,7 @@
 ##' }
 getMeta <- function(site = "heathrow", lat = NA, lon = NA,
                     country = NA, state = NA, n = 10, end.year = "current",
-                    plot = TRUE, fresh = FALSE) {
+                    plot = TRUE, fresh = FALSE, returnMap = FALSE) {
     ## read the meta data
   
   # check year
@@ -153,8 +154,7 @@ getMeta <- function(site = "heathrow", lat = NA, lon = NA,
   }
     
 
-    
-    return(meta)
+    if (returnMap) return(m) else return(dat)
     
 }
 
