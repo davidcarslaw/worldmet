@@ -22,22 +22,21 @@
 ##'   \code{latitude} and \code{longitude}.
 ##' @param end.year To help filter sites based on how recent the 
 ##'   available data are. \code{end.year} can be "current", "any" or a
-##'   numeric year such as 2016, or a range of years e.g. 1990:2016
+##'   numeric year such as 2016, or a range of years e.g. 1990:2016 
 ##'   (which would select any site that had an end date in that range.
-##'   \strong{By default only sites that have some data for the
+##'   \strong{By default only sites that have some data for the 
 ##'   current year are returned}.
 ##' @param plot If \code{TRUE} will plot sites on an interactive 
 ##'   leaflet map.
 ##' @param fresh Should the meta data be read from the NOAA server or 
-##'   the \code{worldmet} package?. If \code{FALSE} (the default) it 
-##'   is read from the package version, which is fast. If \code{TRUE} 
-##'   the data are read from the NOAA server. Most of the time the 
-##'   default should be acceptable as it is updated with each release 
-##'   of the package.
-##' @param returnMap Should the leaflet map be returned instead of the meta data? Default is \code{FALSE}.
+##'   the \code{worldmet} package?. If \code{FALSE} it is read from
+##'   the package version, which is fast but might be out of date. If
+##'   \code{TRUE} the data are read from the NOAA server.
+##' @param returnMap Should the leaflet map be returned instead of the
+##'   meta data? Default is \code{FALSE}.
 ##' @return A data frame is returned with all available meta data, 
 ##'   mostly importantly including a \code{code} that can be supplied 
-##'   to \code{\link{importNOAA}}. If latitude and longitude searches
+##'   to \code{\link{importNOAA}}. If latitude and longitude searches 
 ##'   are made an approximate distance, \code{dist} in km is also
 ##'   returned.
 ##' @export
@@ -56,7 +55,7 @@
 ##' }
 getMeta <- function(site = "heathrow", lat = NA, lon = NA,
                     country = NA, state = NA, n = 10, end.year = "current",
-                    plot = TRUE, fresh = FALSE, returnMap = FALSE) {
+                    plot = TRUE, fresh = TRUE, returnMap = FALSE) {
     ## read the meta data
   
   # check year
@@ -66,7 +65,8 @@ getMeta <- function(site = "heathrow", lat = NA, lon = NA,
     }
   }
   
-  if ("current" %in% end.year) end.year <- format(Sys.Date(), "%Y")
+  # we base the current year as the max available in the meta data
+  if ("current" %in% end.year) end.year <- max(as.numeric(format(meta$END, "%Y")), na.rm = TRUE)
   if ("all" %in% end.year) end.year <- 1900:2100
   
   

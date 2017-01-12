@@ -1,3 +1,9 @@
+# Changes in worldmet 0.7.3
+
+- default to downloading fresh meta data each time
+- fix current year problem (base on meta data available in package)
+- update meta data
+
 # Changes in worldmet 0.7.2
 
 - make sure data are returned with `NA` when missing and not `NaN`

@@ -5,8 +5,8 @@
 \title{Find a ISD site code and other meta data}
 \usage{
 getMeta(site = "heathrow", lat = NA, lon = NA, country = NA,
-  state = NA, n = 10, end.year = "current", plot = TRUE,
-  fresh = FALSE, returnMap = FALSE)
+  state = NA, n = 10, end.year = "current", plot = TRUE, fresh = TRUE,
+  returnMap = FALSE)
 }
 \arguments{
 \item{site}{A site name search string e.g. \code{site = 
@@ -31,27 +31,26 @@ full listing see
 
 \item{end.year}{To help filter sites based on how recent the 
 available data are. \code{end.year} can be "current", "any" or a
-numeric year such as 2016, or a range of years e.g. 1990:2016
+numeric year such as 2016, or a range of years e.g. 1990:2016 
 (which would select any site that had an end date in that range.
-\strong{By default only sites that have some data for the
+\strong{By default only sites that have some data for the 
 current year are returned}.}
 
 \item{plot}{If \code{TRUE} will plot sites on an interactive 
 leaflet map.}
 
 \item{fresh}{Should the meta data be read from the NOAA server or 
-the \code{worldmet} package?. If \code{FALSE} (the default) it 
-is read from the package version, which is fast. If \code{TRUE} 
-the data are read from the NOAA server. Most of the time the 
-default should be acceptable as it is updated with each release 
-of the package.}
+the \code{worldmet} package?. If \code{FALSE} it is read from
+the package version, which is fast but might be out of date. If
+\code{TRUE} the data are read from the NOAA server.}
 
-\item{returnMap}{Should the leaflet map be returned instead of the meta data? Default is \code{FALSE}.}
+\item{returnMap}{Should the leaflet map be returned instead of the
+meta data? Default is \code{FALSE}.}
 }
 \value{
 A data frame is returned with all available meta data, 
   mostly importantly including a \code{code} that can be supplied 
-  to \code{\link{importNOAA}}. If latitude and longitude searches
+  to \code{\link{importNOAA}}. If latitude and longitude searches 
   are made an approximate distance, \code{dist} in km is also
   returned.
 }
