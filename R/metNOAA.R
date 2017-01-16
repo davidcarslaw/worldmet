@@ -398,6 +398,8 @@ extractCurrentWeather <- function(add, dat, field = "AW1") {
   
   
     ## extracts the present weather description based on code
+  
+  weatherCodes <- weatherCodes
     
     ## fields that contain search string
     id <- grep(field, add)

@@ -19,8 +19,8 @@ Imports:
     zoo
 Maintainer: David Carslaw <david.carslaw@york.ac.uk>
 Description: Functions to import data from more than 30,000 surface
-    meteorological sites around the world managed by the NOAA Integrated Surface
-    Database (ISD).
+    meteorological sites around the world managed by the National Oceanic and Atmospheric Administration (NOAA) Integrated Surface
+    Database (ISD, see <https://www.ncdc.noaa.gov/isd>).
 License: GPL (>= 2)
 URL: http://github.com/davidcarslaw/worldmet
 BugReports: http://github.com/davidcarslaw/worldmet/issues
