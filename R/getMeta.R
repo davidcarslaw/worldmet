@@ -169,8 +169,6 @@ getMetaLive <- function(...) {
     writeBin(bin, tmp)
     meta <-  read.csv(tmp, header = FALSE, skip = 21)
 
-    closeAllConnections()
-
     ## names in the meta file
     names(meta) <- c("USAF", "WBAN","STATION", "CTRY", "ST", "CALL", "LAT",
                      "LON", "ELEV(M)", "BEGIN", "END")

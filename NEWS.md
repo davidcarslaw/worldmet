@@ -1,3 +1,7 @@
+# Changes in worldmet 0.7.4
+
+- don't use closeAllConnections()
+
 # Changes in worldmet 0.7.3
 
 - default to downloading fresh meta data each time
