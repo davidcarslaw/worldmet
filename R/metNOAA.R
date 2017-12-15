@@ -89,6 +89,7 @@
 ##' @import openair
 ##' @import plyr
 ##' @import readr
+##' @import doParallel parallel foreach
 ##' @importFrom dplyr %>%
 ##' @importFrom utils head read.csv write.table download.file
 ##' @importFrom leaflet addCircles addMarkers addTiles leaflet
@@ -115,9 +116,20 @@ importNOAA <- function(code = "037720-99999", year = 2014,
     
     ## gis map https://gis.ncdc.noaa.gov/map/viewer/#app=cdo&cfg=cdo&theme=hourly&layers=1
     
-    ## go through each of the years selected
-    dat <- plyr::ldply(year, getDat, code = code, hourly = hourly,
-                       precip = precip, PWC = PWC)
+    ## go through each of the years selected, use parallel processing
+  
+    i <- NULL
+    
+    cl <- makeCluster(detectCores() - 1)
+    registerDoParallel(cl)
+    
+    dat <- foreach (i = year, .combine = "rbind", 
+                           .packages = "plyr", .export = "getDat") %dopar%
+      getDat(year = i, code = code, hourly = hourly,
+             precip = precip, PWC = PWC)
+    
+    stopCluster(cl)
+    
     
     return(dat)
     

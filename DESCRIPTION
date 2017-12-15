@@ -11,6 +11,9 @@ Depends:
     R (>= 3.2.0)
 Imports:
     openair,
+    doParallel,
+    parallel,
+    foreach,
     plyr,
     dplyr,
     leaflet,

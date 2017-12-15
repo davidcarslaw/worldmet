@@ -1,6 +1,7 @@
 # Changes in worldmet 0.8.0
 
 - downloads now from webserver rather than ftp. Should be faster and allow more downloads. Thanks to Stuart Grange.
+- add parallel processing using foreach
 
 # Changes in worldmet 0.7.4
 
