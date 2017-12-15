@@ -162,12 +162,8 @@ getMetaLive <- function(...) {
 
     ## downloads the whole thing fresh
        
-    ## use RCurl 
-    bin <- getBinaryURL("ftp://ftp.ncdc.noaa.gov/pub/data/noaa/isd-history.csv",
-                        ssl.verifypeer = FALSE)
-    tmp <- tempfile()
-    writeBin(bin, tmp)
-    meta <-  read.csv(tmp, header = FALSE, skip = 21)
+    url <- "https://www1.ncdc.noaa.gov/pub/data/noaa/isd-history.csv"
+    meta <- suppressMessages(read.csv(url, skip = 21))
 
     ## names in the meta file
     names(meta) <- c("USAF", "WBAN","STATION", "CTRY", "ST", "CALL", "LAT",

@@ -16,4 +16,3 @@ head(weatherCodes)
 
 }
 \keyword{datasets}
-

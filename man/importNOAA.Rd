@@ -114,11 +114,10 @@ The two data sets could then be merged based on \code{date}.
 dat <- importNOAA(code = "545110-99999", year = 2010:2011)
 }
 }
-\author{
-David Carslaw
-}
 \seealso{
 \code{\link{getMeta}} to obtain the codes based on
     various site search approaches.
 }
-
+\author{
+David Carslaw
+}

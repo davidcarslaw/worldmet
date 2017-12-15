@@ -80,4 +80,3 @@ getMeta(lat = 40, lon = 116.9)
 \author{
 David Carslaw
 }
-

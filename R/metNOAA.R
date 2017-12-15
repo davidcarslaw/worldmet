@@ -88,10 +88,9 @@
 ##' @export
 ##' @import openair
 ##' @import plyr
-##' @import RCurl
 ##' @import readr
 ##' @importFrom dplyr %>%
-##' @importFrom utils head read.csv write.table
+##' @importFrom utils head read.csv write.table download.file
 ##' @importFrom leaflet addCircles addMarkers addTiles leaflet
 ##' @return Returns a data frame of surface observations. The data
 ##'     frame is consistent for use with the \code{openair}
@@ -127,15 +126,18 @@ importNOAA <- function(code = "037720-99999", year = 2014,
 getDat <- function(code, year, hourly, precip, PWC) {
   
   month = day = hour = minute = NULL
+  
+  # Download file to temp directory
+  tmp <- tempfile()
     
     ## location of data
-    file.name <- paste0("ftp://ftp.ncdc.noaa.gov/pub/data/noaa/",
+    file.name <- paste0("https://www1.ncdc.noaa.gov/pub/data/noaa/",
                         year, "/", code, "-", year, ".gz")
     
-    ## Use RCurl - works behind vpn
+    
     ## deal with any missing data, issue warning
     
-    bin <- try(getBinaryURL(file.name, ssl.verifypeer = FALSE), TRUE)
+    bin <- try(download.file(file.name, tmp, quiet = TRUE, mode = "wb"))
 
     if (inherits(bin, "try-error")) {
 
@@ -144,7 +146,6 @@ getDat <- function(code, year, hourly, precip, PWC) {
     }
 
     tmp <- paste0(tempdir(), basename(file.name))
-    writeBin(bin, tmp)
     
     column_widths <- c(4, 6, 5, 4, 2, 2, 2, 2, 1, 6, 7, 5, 5, 5, 4, 3,
                        1, 1, 4, 1, 5, 1, 1, 1, 6, 1, 1, 1, 5, 1, 5, 1,

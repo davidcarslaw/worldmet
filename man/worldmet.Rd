@@ -19,9 +19,6 @@ note of the usage restrictions.
 These data work well with the \code{openair} package that has been
 developed to analyse air pollution data.
 }
-\author{
-David Carslaw
-}
 \references{
 For general information of the ISD see
 \url{https://www.ncdc.noaa.gov/isd} and the map here
@@ -31,5 +28,7 @@ For general information of the ISD see
 See \url{https://github.com/davidcarslaw/openair} for
 information on the related \code{openair} package.
 }
+\author{
+David Carslaw
+}
 \keyword{methods}
-

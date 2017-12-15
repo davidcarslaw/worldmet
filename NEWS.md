@@ -1,3 +1,7 @@
+# Changes in worldmet 0.8.0
+
+- downloads now from webserver rather than ftp. Should be faster and allow more downloads. Thanks to Stuart Grange.
+
 # Changes in worldmet 0.7.4
 
 - don't use closeAllConnections()

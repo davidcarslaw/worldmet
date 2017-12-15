@@ -34,4 +34,3 @@ dat <- importNOAA(year = 2012)
 exportADMS(dat, file = "~/temp/adms_met.MET")
 }
 }
-
