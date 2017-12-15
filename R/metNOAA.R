@@ -127,13 +127,13 @@ getDat <- function(code, year, hourly, precip, PWC) {
   
   month = day = hour = minute = NULL
   
-  # Download file to temp directory
-  tmp <- tempfile()
-    
+  
     ## location of data
     file.name <- paste0("https://www1.ncdc.noaa.gov/pub/data/noaa/",
                         year, "/", code, "-", year, ".gz")
     
+    # Download file to temp directory
+    tmp <- paste0(tempdir(), basename(file.name))
     
     ## deal with any missing data, issue warning
     
@@ -145,8 +145,7 @@ getDat <- function(code, year, hourly, precip, PWC) {
         return()
     }
 
-    tmp <- paste0(tempdir(), basename(file.name))
-    
+
     column_widths <- c(4, 6, 5, 4, 2, 2, 2, 2, 1, 6, 7, 5, 5, 5, 4, 3,
                        1, 1, 4, 1, 5, 1, 1, 1, 6, 1, 1, 1, 5, 1, 5, 1,
                        5, 1)
