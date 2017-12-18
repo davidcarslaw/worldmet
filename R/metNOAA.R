@@ -1,49 +1,49 @@
 ##' Main function for importing meteorological data
-##' 
-##' This is the main function to import data from the NOAA Integrated Surface 
-##' Database (ISD). The ISD contains detailed surface meteorological data from 
-##' around the world for over 30,000 locations. For general information of the 
-##' ISD see \url{https://www.ncdc.noaa.gov/isd} and the map here 
+##'
+##' This is the main function to import data from the NOAA Integrated Surface
+##' Database (ISD). The ISD contains detailed surface meteorological data from
+##' around the world for over 30,000 locations. For general information of the
+##' ISD see \url{https://www.ncdc.noaa.gov/isd} and the map here
 ##' \url{https://gis.ncdc.noaa.gov/map/viewer/#app=cdo&cfg=cdo&theme=hourly&layers=1}.
-##' 
+##'
 ##' Note the following units for the main variables:
-##' 
+##'
 ##' \describe{
-##' 
-##' \item{date}{Date/time in POSIXct format. \strong{Note the time zone is GMT 
-##' (UTC) and may need to be adjusted to merge with other local data. See 
+##'
+##' \item{date}{Date/time in POSIXct format. \strong{Note the time zone is GMT
+##' (UTC) and may need to be adjusted to merge with other local data. See
 ##' details below.}}
-##' 
+##'
 ##' \item{lat}{Latitude in decimal degrees (-90 to 90).}
-##' 
-##' \item{lon}{Longitude in decimal degrees (-180 to 180). Negative numbers are 
+##'
+##' \item{lon}{Longitude in decimal degrees (-180 to 180). Negative numbers are
 ##' west of the Greenwich Meridian.}
-##' 
+##'
 ##' \item{elev}{Elevention of site in metres.}
-##' 
+##'
 ##' \item{wd}{Wind direction in degrees. 90 is from the east.}
-##' 
+##'
 ##' \item{ws}{Wind speed in m/s.}
-##' 
-##' \item{sky_ceiling}{The height above ground level (AGL) of the lowest cloud 
-##' or obscuring phenomena layer aloft with 5/8 or more summation total sky 
-##' cover, which may be predominantly opaque, or the vertical visibility into a 
+##'
+##' \item{sky_ceiling}{The height above ground level (AGL) of the lowest cloud
+##' or obscuring phenomena layer aloft with 5/8 or more summation total sky
+##' cover, which may be predominantly opaque, or the vertical visibility into a
 ##' surface-based obstruction.}
-##' 
+##'
 ##' \item{visibility}{The visibility in metres.}
-##' 
+##'
 ##' \item{air_temp}{Air temperature in degrees Celcius.}
-##' 
+##'
 ##' \item{dew_point}{The dew point temperature in degrees Celcius.}
-##' 
+##'
 ##' \item{sea_level_press}{The sea level pressure in millibars.}
-##' 
+##'
 ##' \item{RH}{The relative humidity (\%).}
-##' 
+##'
 ##' \item{cl_1,  ...,  cl_3}{Cloud cover for different layers in Oktas (1-8).}
-##' 
+##'
 ##' \item{cl}{Maximum of cl_1 to cl_3 cloud cover in Oktas (1-8).}
-##' 
+##'
 ##' \item{cl_1_height, ..., cl_3_height}{Height of the cloud base for each later
 ##' in metres.}
 ##'
@@ -51,40 +51,39 @@
 ##'
 ##' \item{precip_6}{6-hour precipitation in mm.}
 ##'
-##' \item{precip}{Based on the 12 hourly and 6 hourly totals,
-##' \code{precip}} spreads the 6-hourly totals across the previous
-##' 6-hours to provide an indication of hourly precipitation.
-##' 
-##' \item{pwc}{The description of the present weather description (if 
+##' \item{precip}{Based on the 12 hourly and 6 hourly totals, \code{precip}}
+##' spreads the 6-hourly totals across the previous 6-hours to provide an
+##' indication of hourly precipitation.
+##'
+##' \item{pwc}{The description of the present weather description (if
 ##' available).}
-##' 
+##'
 ##' }
-##' 
-##' The data are returned in GMT (UTC). It may be necessary to adjust the time 
-##' zone when comining with other data. For example, if air quality data were 
-##' available for Beijing with time zone set to "Etc/GMT-8" (note the negative 
-##' offset even though Beijing is ahead of GMT. See the \code{openair} package 
-##' and manual for more details), then the time zone of the met data can be 
-##' changed to be the same. One way of doing this would be \code{attr(met$date, 
-##' "tzone") <- "Etc/GMT-8"} for a meteorological data frame called \code{met}. 
+##'
+##' The data are returned in GMT (UTC). It may be necessary to adjust the time
+##' zone when comining with other data. For example, if air quality data were
+##' available for Beijing with time zone set to "Etc/GMT-8" (note the negative
+##' offset even though Beijing is ahead of GMT. See the \code{openair} package
+##' and manual for more details), then the time zone of the met data can be
+##' changed to be the same. One way of doing this would be \code{attr(met$date,
+##' "tzone") <- "Etc/GMT-8"} for a meteorological data frame called \code{met}.
 ##' The two data sets could then be merged based on \code{date}.
-##' 
+##'
 ##' @title Import meteorological data
-##'   
-##' @param code The identifing code as a character string. The code is
-##'     a combination of the USAF and the WBAN unique identifiers. The
-##'     codes are sperated by a \dQuote{-} e.g. \code{code =
-##'     "037720-99999"}.
+##'
+##' @param code The identifing code as a character string. The code is a
+##'   combination of the USAF and the WBAN unique identifiers. The codes are
+##'   sperated by a \dQuote{-} e.g. \code{code = "037720-99999"}.
 ##' @param year The year to import. This can be a vector of years e.g.
-##'     \code{year = 2000:2005}.
-##' @param hourly Should hourly means be calculated? The default is
-##'     \code{TRUE}. If \code{FALSE} then the raw data are returned.
-##' @param precip Should precipitation measurements be returned? If
-##'     \code{TRUE} the 12-hourly and 6-hourly totals are returned (if
-##'     available). In addition, an hourly sequence is also returned,
-##'     as described below.
-##' @param PWC Description of the present weather conditions (if
-##'     available).
+##'   \code{year = 2000:2005}.
+##' @param hourly Should hourly means be calculated? The default is \code{TRUE}.
+##'   If \code{FALSE} then the raw data are returned.
+##' @param precip Should precipitation measurements be returned? If \code{TRUE}
+##'   the 12-hourly and 6-hourly totals are returned (if available). In
+##'   addition, an hourly sequence is also returned, as described below.
+##' @param PWC Description of the present weather conditions (if available).
+##' @param parallel Should the importing use mutiple processors? By default the
+##'   number of cores - 1 are used.
 ##' @export
 ##' @import openair
 ##' @import plyr
@@ -93,22 +92,22 @@
 ##' @importFrom dplyr %>%
 ##' @importFrom utils head read.csv write.table download.file
 ##' @importFrom leaflet addCircles addMarkers addTiles leaflet
-##' @return Returns a data frame of surface observations. The data
-##'     frame is consistent for use with the \code{openair}
-##'     package. NOTE! the data are returned in GMT (UTC) time zone
-##'     format. Users may wish to express the data in other time zones
-##'     e.g. to merge with air pollution data.
-##' @seealso \code{\link{getMeta}} to obtain the codes based on
-##'     various site search approaches.
+##' @return Returns a data frame of surface observations. The data frame is
+##'   consistent for use with the \code{openair} package. NOTE! the data are
+##'   returned in GMT (UTC) time zone format. Users may wish to express the data
+##'   in other time zones e.g. to merge with air pollution data.
+##' @seealso \code{\link{getMeta}} to obtain the codes based on various site
+##'   search approaches.
 ##' @author David Carslaw
-##' @examples 
-##' 
+##' @examples
+##'
 ##' \dontrun{
 ##' ## use Beijing airport code (see getMeta example)
 ##' dat <- importNOAA(code = "545110-99999", year = 2010:2011)
 ##' }
 importNOAA <- function(code = "037720-99999", year = 2014,
-                       hourly = TRUE, precip = FALSE, PWC = FALSE) {
+                       hourly = TRUE, precip = FALSE, PWC = FALSE,
+                       parallel = TRUE) {
     
     ## main web site https://www.ncdc.noaa.gov/isd
     
@@ -120,6 +119,8 @@ importNOAA <- function(code = "037720-99999", year = 2014,
   
     i <- NULL
     
+    if (parallel) {
+    
     cl <- makeCluster(detectCores() - 1)
     registerDoParallel(cl)
     
@@ -129,6 +130,13 @@ importNOAA <- function(code = "037720-99999", year = 2014,
              precip = precip, PWC = PWC)
     
     stopCluster(cl)
+    
+    } else {
+      
+      dat <- getDat(year = year, code = code, hourly = hourly,
+                    precip = precip, PWC = PWC)
+      
+    }
     
     
     return(dat)
