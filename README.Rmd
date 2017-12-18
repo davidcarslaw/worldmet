@@ -72,7 +72,7 @@ info <- getMeta(lat = 40, lon = 116.9)
 ```
 
 
-![](inst/images/map.png)
+<img src="inst/images/map.png" alt="map of Beijing area" width="75%" />
 
 To obtain the data the user must supply a `code` (see above) and year or years of interest. For example, to download data for Heathrow Airport in 2010 (code 037720-99999):
 
