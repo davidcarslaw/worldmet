@@ -46,7 +46,7 @@ Often we have a latitude / longitude of interest. A search can be made based on 
 info <- getMeta(lat = 40, lon = 116.9)
 ```
 
-<img src="inst/images/map.png" alt="map of Beijing area" width="75%" />
+<img src="inst/images/map.PNG" alt="map of Beijing area" width="75%" />
 
 To obtain the data the user must supply a `code` (see above) and year or years of interest. For example, to download data for Heathrow Airport in 2010 (code 037720-99999):
 
