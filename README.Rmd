@@ -59,17 +59,20 @@ getMeta(site = "heathrow")
 
 Often we have a latitude / longitude of interest. A search can be made based on supplied decimal coordinates and the top `n` nearest sites are returned. The map shows the location searched by the user (red dot) and markers showing the nearest meteorological stations. Click on a station marker to obtain the code and other basic information.
 
-```{r eval=TRUE}
+```{r eval=TRUE,echo=FALSE}
+## search for near a specified lat/lon - near Beijing airport
+## returns 'n' nearest by default
+info <- getMeta(lat = 40, lon = 116.9, plot = FALSE, returnMap = FALSE)
+```
+
+```{r eval=FALSE}
 ## search for near a specified lat/lon - near Beijing airport
 ## returns 'n' nearest by default
 info <- getMeta(lat = 40, lon = 116.9)
 ```
 
-```{r echo=FALSE,eval=TRUE}
-info <- getMeta(lat = 40, lon = 116.9, returnMap = TRUE)
-info
-```
 
+![](inst/images/map.png)
 
 To obtain the data the user must supply a `code` (see above) and year or years of interest. For example, to download data for Heathrow Airport in 2010 (code 037720-99999):
 

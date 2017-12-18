@@ -124,11 +124,10 @@ getMeta <- function(site = "heathrow", lat = NA, lon = NA,
         
     }
     
-    
+    dat <- dplyr::rename(meta, latitude = LAT, longitude = LON)   
   
   if (plot) {
-    
-    dat <- dplyr::rename(meta, latitude = LAT, longitude = LON) 
+  
     
     if (!"dist" %in% names(dat)) dat$dist <- NA
     
