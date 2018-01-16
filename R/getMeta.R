@@ -58,6 +58,9 @@ getMeta <- function(site = "heathrow", lat = NA, lon = NA,
                     plot = TRUE, fresh = TRUE, returnMap = FALSE) {
     ## read the meta data
   
+  ## download the file, else use the package version
+  if (fresh) meta <- getMetaLive()
+  
   # check year
   if (!any(end.year %in% c("current", "all"))) {
     if (!is.numeric(end.year)) {
@@ -69,9 +72,7 @@ getMeta <- function(site = "heathrow", lat = NA, lon = NA,
   if ("current" %in% end.year) end.year <- max(as.numeric(format(meta$END, "%Y")), na.rm = TRUE)
   if ("all" %in% end.year) end.year <- 1900:2100
   
-  
-    ## download the file, else use the package version
-    if (fresh) meta <- getMetaLive()
+
     
     ## search based on name of site
     if (!missing(site)) {

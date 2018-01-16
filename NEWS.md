@@ -1,3 +1,7 @@
+# Changes in worldmet 0.8.099
+
+- query live meta data when using `getMeta`
+
 # Changes in worldmet 0.8.0
 
 - downloads now from webserver rather than ftp. Should be faster and allow more downloads. Thanks to Stuart Grange.
