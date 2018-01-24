@@ -125,7 +125,8 @@ importNOAA <- function(code = "037720-99999", year = 2014,
     registerDoParallel(cl)
     
     dat <- foreach (i = year, .combine = "rbind", 
-                           .packages = "plyr", .export = "getDat") %dopar%
+                           .packages = "plyr", .export = "getDat",
+                    .errorhandling = "remove") %dopar%
       getDat(year = i, code = code, hourly = hourly,
              precip = precip, PWC = PWC)
     

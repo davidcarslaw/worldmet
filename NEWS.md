@@ -1,6 +1,7 @@
 # Changes in worldmet 0.8.099
 
 - query live meta data when using `getMeta`
+- fix bug when data not available for a year when using parallel processing
 
 # Changes in worldmet 0.8.0
 
