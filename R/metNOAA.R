@@ -108,41 +108,54 @@
 importNOAA <- function(code = "037720-99999", year = 2014,
                        hourly = TRUE, precip = FALSE, PWC = FALSE,
                        parallel = TRUE) {
-    
-    ## main web site https://www.ncdc.noaa.gov/isd
-    
-    ## formats document ftp://ftp.ncdc.noaa.gov/pub/data/noaa/ish-format-document.pdf
-    
-    ## gis map https://gis.ncdc.noaa.gov/map/viewer/#app=cdo&cfg=cdo&theme=hourly&layers=1
-    
-    ## go through each of the years selected, use parallel processing
-  
-    i <- NULL
-    
-    if (parallel) {
-    
+
+  ## main web site https://www.ncdc.noaa.gov/isd
+
+  ## formats document ftp://ftp.ncdc.noaa.gov/pub/data/noaa/ish-format-document.pdf
+
+  ## gis map https://gis.ncdc.noaa.gov/map/viewer/#app=cdo&cfg=cdo&theme=hourly&layers=1
+
+  ## go through each of the years selected, use parallel processing
+
+  i <- NULL
+
+  # sites and years to process
+  site_process <- expand.grid(
+    code = code,
+    year = year,
+    stringsAsFactors = FALSE
+  )
+
+  if (parallel) {
     cl <- makeCluster(detectCores() - 1)
     registerDoParallel(cl)
-    
-    dat <- foreach (i = year, .combine = "rbind", 
-                           .packages = "plyr", .export = "getDat",
-                    .errorhandling = "remove") %dopar%
-      getDat(year = i, code = code, hourly = hourly,
-             precip = precip, PWC = PWC)
-    
+
+    dat <- foreach(
+      i = 1:nrow(site_process), .combine = "rbind",
+      .packages = "plyr", .export = "getDat",
+      .errorhandling = "remove"
+    ) %dopar%
+      getDat(
+        year = site_process$year[i],
+        code = site_process$code[i],
+        hourly = hourly,
+        precip = precip,
+        PWC = PWC
+      )
+
     stopCluster(cl)
-    
-    } else {
-      
-      dat <- getDat(year = year, code = code, hourly = hourly,
-                    precip = precip, PWC = PWC)
-      
-    }
-    
-    
-    return(dat)
-    
+  } else {
+    dat <- rowwise(site_process) %>%
+      getDat(
+        year = .$year, code = .$code, hourly = hourly,
+        precip = precip, PWC = PWC
+      )
+  }
+
+
+  return(dat)
 }
+
 
 getDat <- function(code, year, hourly, precip, PWC) {
   
@@ -372,86 +385,79 @@ extractPrecip <- function(add, dat, field = "AA112", out = "precip_12") {
 
 
 extractCloud <- function(add, dat, field = "GA1", out = "cl_1") {
-    
-    ## 3 fields are used: GA1, GA2 and GA3
-    
-    height <- paste0(out, "_height") ## cloud height field
-    
-    ## fields that contain search string
-    id <- grep(field, add)
-    
-    ## variables for cloud amount (oktas) and cloud height
-    dat[[out]] <- NA
-    dat[[height]] <- NA
-    
-    if (length(id) > 1) {
-        
-        ## location of begining of GA1 etc
-        
-        loc <- sapply(id, function (x) regexpr(field, add[x]))
-        
-        ## extract the variable
-        cl <- sapply(seq_along(id), function (x)
-            substr(add[id[x]], start = loc[x] + 3, stop = loc[x] + 4))
-        cl <- as.numeric(cl)
-        
-        miss <- which(cl > 8) ## missing or obscured in some way
-        if (length(miss) > 0) cl[miss] <- NA
-        
-        ## and height of cloud
-        h <- sapply(seq_along(id), function (x)
-            substr(add[id[x]], start = loc[x] + 6, stop = loc[x] + 11))
-        h <- as.numeric(h)
-        
-        miss <- which(h == 99999)
-        if (length(miss) > 0) h[miss] <- NA
-        
-        dat[[out]][id] <- cl
-        dat[[height]][id] <- h
-        
-    }
-    
-    return(dat)
-    
+
+  ## 3 fields are used: GA1, GA2 and GA3
+
+  height <- paste0(out, "_height") ## cloud height field
+
+  ## fields that contain search string
+  id <- grep(field, add)
+
+  ## variables for cloud amount (oktas) and cloud height
+  dat[[out]] <- NA
+  dat[[height]] <- NA
+
+  if (length(id) > 1) {
+
+    ## location of begining of GA1 etc
+
+    loc <- sapply(id, function(x) regexpr(field, add[x]))
+
+    ## extract the variable
+    cl <- sapply(seq_along(id), function(x)
+      substr(add[id[x]], start = loc[x] + 3, stop = loc[x] + 4))
+    cl <- as.numeric(cl)
+
+    miss <- which(cl > 8) ## missing or obscured in some way
+    if (length(miss) > 0) cl[miss] <- NA
+
+    ## and height of cloud
+    h <- sapply(seq_along(id), function(x)
+      substr(add[id[x]], start = loc[x] + 6, stop = loc[x] + 11))
+    h <- as.numeric(h)
+
+    miss <- which(h == 99999)
+    if (length(miss) > 0) h[miss] <- NA
+
+    dat[[out]][id] <- cl
+    dat[[height]][id] <- h
+  }
+
+  return(dat)
 }
 
 extractCurrentWeather <- function(add, dat, field = "AW1") {
-  
-  
-    ## extracts the present weather description based on code
-  
-  weatherCodes <- weatherCodes
-    
-    ## fields that contain search string
-    id <- grep(field, add)
-    
-    if (length(id) > 1) {
-        
-        ## name of output variable
-        dat[["pwc"]] <- NA
-        
-        ## location of begining of AW1
-        loc <- sapply(id, function (x) regexpr(field, add[x]))
-        
-        ## extract the variable
-        pwc <- sapply(seq_along(id), function (x)
-            substr(add[id[x]], start = loc[x] + 3, stop = loc[x] + 4))
-        pwc <- as.character(pwc)
-        
-        ## look up code in weatherCodes.RData
-        
-        desc <- sapply(pwc, function(x)
-            weatherCodes$description[which(weatherCodes$pwc == x)])
-        
-        dat[["pwc"]][id] <- desc
-        
-    } else {
-        
-        return(dat)
-        
-    }
-    
-    return(dat)
-    
-}
 
+
+  ## extracts the present weather description based on code
+
+  weatherCodes <- weatherCodes
+
+  ## fields that contain search string
+  id <- grep(field, add)
+
+  if (length(id) > 1) {
+
+    ## name of output variable
+    dat[["pwc"]] <- NA
+
+    ## location of begining of AW1
+    loc <- sapply(id, function(x) regexpr(field, add[x]))
+
+    ## extract the variable
+    pwc <- sapply(seq_along(id), function(x)
+      substr(add[id[x]], start = loc[x] + 3, stop = loc[x] + 4))
+    pwc <- as.character(pwc)
+
+    ## look up code in weatherCodes.RData
+
+    desc <- sapply(pwc, function(x)
+      weatherCodes$description[which(weatherCodes$pwc == x)])
+
+    dat[["pwc"]][id] <- desc
+  } else {
+    return(dat)
+  }
+
+  return(dat)
+}

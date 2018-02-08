@@ -2,6 +2,7 @@
 
 - query live meta data when using `getMeta`
 - fix bug when data not available for a year when using parallel processing
+- parallel processing for sites and years
 
 # Changes in worldmet 0.8.0
 

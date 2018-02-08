@@ -15,27 +15,27 @@
 ##' @format Data frame with 65533 observations (rows) on the following 10
 ##'   variables: \describe{
 ##' \item{USAF}{USAF site id.}
-##' 
+##'
 ##'  \item{WBAN}{WBAN id.}
-##' 
+##'
 ##'  \item{STATION}{Name of measurement site.}
-##' 
+##'
 ##' \item{CTRY}{Country code.}
-##' 
+##'
 ##' \item{ST}{State.}
-##' 
+##'
 ##' \item{CALL}{Airport id if available.}
-##' 
+##'
 ##' \item{LAT}{Latitude in decimal degrees.}
-##' 
+##'
 ##'   \item{LON}{Longitude in decimal degrees.}
-##' 
+##'
 ##' \item{ELEV(M)}{Elevation of site in metres.}
-##' 
+##'
 ##' \item{BEGIN}{Date the measurements started, in \code{Date} format.}
-##' 
+##'
 ##' \item{END}{Date the measurements ended, in \code{Date} format.}
-##' 
+##'
 ##' \item{code}{The unique code that is used in
 ##' \code{\link{importNOAA}} that is a combination of the USAF and
 ##' WBAN codes.}
