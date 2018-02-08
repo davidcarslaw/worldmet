@@ -89,7 +89,7 @@
 ##' @import plyr
 ##' @import readr
 ##' @import doParallel parallel foreach
-##' @importFrom dplyr %>%
+##' @importFrom dplyr %>% rowwise do
 ##' @importFrom utils head read.csv write.table download.file
 ##' @importFrom leaflet addCircles addMarkers addTiles leaflet
 ##' @return Returns a data frame of surface observations. The data frame is
@@ -146,16 +146,15 @@ importNOAA <- function(code = "037720-99999", year = 2014,
     stopCluster(cl)
   } else {
     dat <- rowwise(site_process) %>%
-      getDat(
+      do(getDat(
         year = .$year, code = .$code, hourly = hourly,
         precip = precip, PWC = PWC
-      )
+      ))
   }
 
 
   return(dat)
 }
-
 
 getDat <- function(code, year, hourly, precip, PWC) {
   
