@@ -9,14 +9,14 @@ exportADMS(dat, out = "./ADMS_met.MET", interp = FALSE, maxgap = 2)
 \arguments{
 \item{dat}{A data frame imported by \code{\link{importNOAA}}.}
 
-\item{out}{A file name for the ADMS file. The file is written to the working 
+\item{out}{A file name for the ADMS file. The file is written to the working
 directory by default.}
 
-\item{interp}{Should interpolation of missing values be undertaken? If 
-\code{TRUE} linear interpolation is carried out for gaps of up to and 
+\item{interp}{Should interpolation of missing values be undertaken? If
+\code{TRUE} linear interpolation is carried out for gaps of up to and
 including \code{maxgap}.}
 
-\item{maxgap}{The maximum gap in hours that should be interpolated where 
+\item{maxgap}{The maximum gap in hours that should be interpolated where
 there are missing data when \code{interp = TRUE.} Data with gaps more than
 \code{maxgap} are left as missing.}
 }

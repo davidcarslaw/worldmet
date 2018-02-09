@@ -138,7 +138,7 @@ getMeta <- function(site = "heathrow", lat = NA, lon = NA,
 
     m <- leaflet(dat) %>%
       addTiles() %>%
-      addMarkers(~longitude, ~latitude, popup = content)
+      addMarkers(~ longitude, ~ latitude, popup = content)
 
     if (!is.na(lat) && !is.na(lon)) {
       m <- m %>% addCircles(
@@ -147,7 +147,8 @@ getMeta <- function(site = "heathrow", lat = NA, lon = NA,
         popup = paste(
           "Search location",
           paste("Lat =", lat),
-          paste("Lon =", lon), sep = "<br/>"
+          paste("Lon =", lon),
+          sep = "<br/>"
         )
       )
     }
