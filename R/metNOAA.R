@@ -84,12 +84,11 @@
 ##' @param PWC Description of the present weather conditions (if available).
 ##' @param parallel Should the importing use mutiple processors? By default the
 ##'   number of cores - 1 are used.
+##' @param quiet If FALSE, print missing sites / years to the screen.
 ##' @export
 ##' @import openair
-##' @import plyr
 ##' @import readr
-##' @import doParallel parallel foreach
-##' @importFrom dplyr %>% rowwise do
+##' @import doParallel parallel foreach dplyr
 ##' @importFrom utils head read.csv write.table download.file
 ##' @importFrom leaflet addCircles addMarkers addTiles leaflet
 ##' @return Returns a data frame of surface observations. The data frame is
@@ -107,7 +106,7 @@
 ##' }
 importNOAA <- function(code = "037720-99999", year = 2014,
                        hourly = TRUE, precip = FALSE, PWC = FALSE,
-                       parallel = TRUE) {
+                       parallel = TRUE, quiet = FALSE) {
 
   ## main web site https://www.ncdc.noaa.gov/isd
 
@@ -117,7 +116,7 @@ importNOAA <- function(code = "037720-99999", year = 2014,
 
   ## go through each of the years selected, use parallel processing
 
-  i <- NULL
+  i = station = . = NULL
 
   # sites and years to process
   site_process <- expand.grid(
@@ -152,7 +151,24 @@ importNOAA <- function(code = "037720-99999", year = 2014,
       ))
   }
 
-
+  if (is.null(dat)) {
+    print("site(s) do not exist.")
+    return()
+  }
+  
+  # check to see what is missing and print to screen
+  actual <- select(dat, code, date, station) %>% 
+    mutate(year = as.numeric(format(date, "%Y"))) %>% 
+    group_by(code, year) %>% 
+    slice(1)
+  
+  actual <- left_join(site_process, actual, by = c("code", "year"))
+  
+  if (length(which(is.na(actual$date))) > 0 && !quiet) {
+    print("The following sites / years are missing:")
+    print(filter(actual, is.na(date)))
+  }
+  
   return(dat)
 }
 
