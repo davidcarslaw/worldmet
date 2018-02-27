@@ -1,9 +1,11 @@
-# Changes in worldmet 0.8.099
+# Changes in worldmet 0.8.99
+
+# Changes in worldmet 0.8.4
 
 - query live meta data when using `getMeta`
 - fix bug when data not available for a year when using parallel processing
 - parallel processing for sites and years
-- use read_csv
+- use `read_csv` for meta data (read.csv seems very slow in R 3.4.3)
 
 # Changes in worldmet 0.8.0
 
