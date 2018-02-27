@@ -89,7 +89,7 @@
 ##' @import openair
 ##' @import readr
 ##' @import doParallel parallel foreach dplyr
-##' @importFrom utils head read.csv write.table download.file
+##' @importFrom utils head write.table download.file
 ##' @importFrom leaflet addCircles addMarkers addTiles leaflet
 ##' @return Returns a data frame of surface observations. The data frame is
 ##'   consistent for use with the \code{openair} package. NOTE! the data are

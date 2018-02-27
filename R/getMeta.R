@@ -164,7 +164,7 @@ getMetaLive <- function(...) {
   ## downloads the whole thing fresh
 
   url <- "https://www1.ncdc.noaa.gov/pub/data/noaa/isd-history.csv"
-  meta <- suppressMessages(read.csv(url, skip = 21))
+  meta <- suppressMessages(read_csv(url, skip = 21, col_names = FALSE))
 
   ## names in the meta file
   names(meta) <- c(
