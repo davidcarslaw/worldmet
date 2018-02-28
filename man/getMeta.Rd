@@ -5,7 +5,7 @@
 \title{Find a ISD site code and other meta data}
 \usage{
 getMeta(site = "heathrow", lat = NA, lon = NA, country = NA,
-  state = NA, n = 10, end.year = "current", plot = TRUE, fresh = TRUE,
+  state = NA, n = 10, end.year = "current", plot = TRUE,
   returnMap = FALSE)
 }
 \arguments{
@@ -39,11 +39,6 @@ current year are returned}.}
 \item{plot}{If \code{TRUE} will plot sites on an interactive
 leaflet map.}
 
-\item{fresh}{Should the meta data be read from the NOAA server or
-the \code{worldmet} package?. If \code{FALSE} it is read from
-the package version, which is fast but might be out of date. If
-\code{TRUE} the data are read from the NOAA server.}
-
 \item{returnMap}{Should the leaflet map be returned instead of the
 meta data? Default is \code{FALSE}.}
 }
@@ -58,11 +53,13 @@ A data frame is returned with all available meta data,
 Get information on meteorological sites
 }
 \details{
-This function is primarily used to find a site code that can be
-used to access data using \code{\link{importNOAA}}. Sites searches
-of approximately 30,000 sites can be carried out based on the site
-name and based on the nearest locations based on user-supplied
-latitude and logitude.
+This function is primarily used to find a site code that can be used to
+access data using \code{\link{importNOAA}}. Sites searches of approximately
+30,000 sites can be carried out based on the site name and based on the
+nearest locations based on user-supplied latitude and logitude.
+
+See also \code{\link{getMetaLive}} to download the all meta data to allow
+re-use and direct querying.
 }
 \examples{
 

@@ -1,5 +1,8 @@
 # Changes in worldmet 0.8.99
 
+- export `getMetaLive` to allow users direct access to all meta data and easy re-use without re-downloading.
+- deprecate `fresh` option in `getMeta`.
+
 # Changes in worldmet 0.8.4
 
 - query live meta data when using `getMeta`

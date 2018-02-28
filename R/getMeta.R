@@ -1,10 +1,13 @@
 ##' Get information on meteorological sites
 ##'
-##' This function is primarily used to find a site code that can be
-##' used to access data using \code{\link{importNOAA}}. Sites searches
-##' of approximately 30,000 sites can be carried out based on the site
-##' name and based on the nearest locations based on user-supplied
-##' latitude and logitude.
+##' This function is primarily used to find a site code that can be used to
+##' access data using \code{\link{importNOAA}}. Sites searches of approximately
+##' 30,000 sites can be carried out based on the site name and based on the
+##' nearest locations based on user-supplied latitude and logitude.
+##'
+##' See also \code{\link{getMetaLive}} to download the all meta data to allow
+##' re-use and direct querying.
+##' 
 ##' @title Find a ISD site code and other meta data
 ##' @param site A site name search string e.g. \code{site =
 ##'   "heathrow"}. The search strings and be partial and can be upper
@@ -28,10 +31,6 @@
 ##'   current year are returned}.
 ##' @param plot If \code{TRUE} will plot sites on an interactive
 ##'   leaflet map.
-##' @param fresh Should the meta data be read from the NOAA server or
-##'   the \code{worldmet} package?. If \code{FALSE} it is read from
-##'   the package version, which is fast but might be out of date. If
-##'   \code{TRUE} the data are read from the NOAA server.
 ##' @param returnMap Should the leaflet map be returned instead of the
 ##'   meta data? Default is \code{FALSE}.
 ##' @return A data frame is returned with all available meta data,
@@ -55,11 +54,11 @@
 ##' }
 getMeta <- function(site = "heathrow", lat = NA, lon = NA,
                     country = NA, state = NA, n = 10, end.year = "current",
-                    plot = TRUE, fresh = TRUE, returnMap = FALSE) {
+                    plot = TRUE, returnMap = FALSE) {
   ## read the meta data
 
   ## download the file, else use the package version
-  if (fresh) meta <- getMetaLive()
+  meta <- getMetaLive()
 
   # check year
   if (!any(end.year %in% c("current", "all"))) {
@@ -159,6 +158,19 @@ getMeta <- function(site = "heathrow", lat = NA, lon = NA,
   if (returnMap) return(m) else return(dat)
 }
 
+
+#' Obtain site meta data from NOAA server
+#'
+#' @param ... Currently unused.
+#'
+#' @return A tibble with meta data.
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' meta <- getMetaLive()
+#' head(meta)
+#' }
 getMetaLive <- function(...) {
 
   ## downloads the whole thing fresh
