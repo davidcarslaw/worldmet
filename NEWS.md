@@ -2,6 +2,7 @@
 
 - export `getMetaLive` to allow users direct access to all meta data and easy re-use without re-downloading.
 - deprecate `fresh` option in `getMeta`.
+- Assume 9999 is missing for visibility (was 999999)
 
 # Changes in worldmet 0.8.4
 
