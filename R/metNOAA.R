@@ -85,6 +85,8 @@
 ##' @param parallel Should the importing use mutiple processors? By default the
 ##'   number of cores - 1 are used.
 ##' @param quiet If FALSE, print missing sites / years to the screen.
+##' @param path If a file path is provided, the data are saved as an rds file at 
+##' the chosen location e.g.  \code{path = "C:/Users/David"}.
 ##' @export
 ##' @import openair
 ##' @import readr
@@ -106,7 +108,7 @@
 ##' }
 importNOAA <- function(code = "037720-99999", year = 2014,
                        hourly = TRUE, precip = FALSE, PWC = FALSE,
-                       parallel = TRUE, quiet = FALSE) {
+                       parallel = TRUE, quiet = FALSE, path = NA) {
 
   ## main web site https://www.ncdc.noaa.gov/isd
 
@@ -168,6 +170,27 @@ importNOAA <- function(code = "037720-99999", year = 2014,
   if (length(which(is.na(actual$date))) > 0 && !quiet) {
     print("The following sites / years are missing:")
     print(filter(actual, is.na(date)))
+  }
+  
+  if (!is.na(path)) {
+    
+    if (!dir.exists(path)) {
+      
+      warning("Directory does not exist, file not saved", call. = FALSE)
+      return()
+    }
+    
+    if (length(year) == 1L) {
+      
+      year_range <- year
+      
+    } else {
+      
+      year_range <- paste0(min(year), "_", max(year))
+      
+    }
+    
+    saveRDS(dat, paste0(path, "/", code, "_", year_range, ".rds"))
   }
 
   return(dat)
