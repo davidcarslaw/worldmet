@@ -5,7 +5,8 @@
 \title{Import meteorological data}
 \usage{
 importNOAA(code = "037720-99999", year = 2014, hourly = TRUE,
-  precip = FALSE, PWC = FALSE, parallel = TRUE, quiet = FALSE)
+  precip = FALSE, PWC = FALSE, parallel = TRUE, quiet = FALSE,
+  path = NA)
 }
 \arguments{
 \item{code}{The identifing code as a character string. The code is a
@@ -28,6 +29,9 @@ addition, an hourly sequence is also returned, as described below.}
 number of cores - 1 are used.}
 
 \item{quiet}{If FALSE, print missing sites / years to the screen.}
+
+\item{path}{If a file path is provided, the data are saved as an rds file at 
+the chosen location e.g.  \code{path = "C:/Users/David"}.}
 }
 \value{
 Returns a data frame of surface observations. The data frame is
