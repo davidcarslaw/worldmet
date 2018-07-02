@@ -86,7 +86,7 @@
 ##'   number of cores - 1 are used.
 ##' @param quiet If FALSE, print missing sites / years to the screen.
 ##' @param path If a file path is provided, the data are saved as an rds file at 
-##' the chosen location e.g.  \code{path = "C:/Users/David"}.
+##' the chosen location e.g.  \code{path = "C:/Users/David"}. Files are saved by year and site.
 ##' @export
 ##' @import openair
 ##' @import readr
@@ -180,17 +180,15 @@ importNOAA <- function(code = "037720-99999", year = 2014,
       return()
     }
     
-    if (length(year) == 1L) {
-      
-      year_range <- year
-      
-    } else {
-      
-      year_range <- paste0(min(year), "_", max(year))
-      
+    # save as year / site files
+    writeMet <- function(dat) {
+      saveRDS(dat, paste0(path, "/", unique(dat$code), "_", unique(dat$year), ".rds"))
+      return(dat)
     }
     
-    saveRDS(dat, paste0(path, "/", code, "_", year_range, ".rds"))
+    mutate(dat, year = format(date, "%Y")) %>% 
+      group_by(code, year) %>% 
+      do(writeMet(.))
   }
 
   return(dat)

@@ -31,7 +31,7 @@ number of cores - 1 are used.}
 \item{quiet}{If FALSE, print missing sites / years to the screen.}
 
 \item{path}{If a file path is provided, the data are saved as an rds file at 
-the chosen location e.g.  \code{path = "C:/Users/David"}.}
+the chosen location e.g.  \code{path = "C:/Users/David"}. Files are saved by year and site.}
 }
 \value{
 Returns a data frame of surface observations. The data frame is
