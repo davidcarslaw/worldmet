@@ -261,7 +261,7 @@ getDat <- function(code, year, hourly, precip, PWC) {
 
   ## Correct the visibility values
   dat$visibility <-
-    ifelse(dat$visibility == 9999, NA, dat$visibility)
+    ifelse(dat$visibility %in% c(9999, 999999), NA, dat$visibility)
 
   ## Correct the dew point values
   dat$dew_point <-
