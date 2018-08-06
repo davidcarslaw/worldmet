@@ -4,6 +4,7 @@
 - deprecate `fresh` option in `getMeta`.
 - Assume 9999 is missing for visibility (was 999999)
 - add option `path` to allow users to save met data as an rds file.
+- fix short WBAN codes.
 
 # Changes in worldmet 0.8.4
 
