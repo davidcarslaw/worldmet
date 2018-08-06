@@ -137,7 +137,8 @@ getMeta <- function(site = "heathrow", lat = NA, lon = NA,
 
     m <- leaflet(dat) %>%
       addTiles() %>%
-      addMarkers(~ longitude, ~ latitude, popup = content)
+      addMarkers(~ longitude, ~ latitude, popup = content,
+                 clusterOptions = markerClusterOptions())
 
     if (!is.na(lat) && !is.na(lon)) {
       m <- m %>% addCircles(

@@ -27,4 +27,4 @@ URL: http://github.com/davidcarslaw/worldmet
 BugReports: http://github.com/davidcarslaw/worldmet/issues
 LazyLoad: true
 LazyData: true
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0

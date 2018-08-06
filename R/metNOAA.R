@@ -92,7 +92,7 @@
 ##' @import readr
 ##' @import doParallel parallel foreach dplyr
 ##' @importFrom utils head write.table download.file
-##' @importFrom leaflet addCircles addMarkers addTiles leaflet
+##' @importFrom leaflet addCircles addMarkers addTiles leaflet markerClusterOptions
 ##' @return Returns a data frame of surface observations. The data frame is
 ##'   consistent for use with the \code{openair} package. NOTE! the data are
 ##'   returned in GMT (UTC) time zone format. Users may wish to express the data
