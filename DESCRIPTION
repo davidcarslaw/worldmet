@@ -27,4 +27,5 @@ URL: http://github.com/davidcarslaw/worldmet
 BugReports: http://github.com/davidcarslaw/worldmet/issues
 LazyLoad: true
 LazyData: true
+Encoding: UTF-8
 RoxygenNote: 6.1.0
