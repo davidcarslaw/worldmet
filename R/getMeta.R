@@ -188,8 +188,8 @@ getMetaLive <- function(...) {
                                       X7 = col_double(),
                                       X8 = col_double(),
                                       X9 = col_double(),
-                                      X10 = col_integer(),
-                                      X11 = col_integer()
+                                      X10 = col_date(format = "%Y%m%d"),
+                                      X11 = col_date(format = "%Y%m%d")
                                     )))
 
   ## names in the meta file
@@ -201,11 +201,7 @@ getMetaLive <- function(...) {
   ## full character string of site id
   meta$USAF <- formatC(meta$USAF, width = 6, format = "d", flag = "0")
 
-  ## start/end date of measurements
-  meta$BEGIN <- as.Date(as.character(meta$BEGIN), format = "%Y%m%d")
-  meta$END <- as.Date(as.character(meta$END), format = "%Y%m%d")
-
-  ## code used to query data
+   ## code used to query data
   meta$code <- paste(meta$USAF, meta$WBAN, sep = "-")
 
   return(meta)
