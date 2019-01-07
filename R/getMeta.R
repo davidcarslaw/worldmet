@@ -192,6 +192,11 @@ getMetaLive <- function(...) {
                                       X11 = col_date(format = "%Y%m%d")
                                     )))
 
+  # if not available e.g. due to US Government shutdown, flag and exit
+  # some header data may still be read, so check column number
+  if (ncol(meta) == 1L) 
+    stop("File not available, check \nhttps://www1.ncdc.noaa.gov/pub/data/noaa/ for potential server problems.", call. = FALSE)
+  
   ## names in the meta file
   names(meta) <- c(
     "USAF", "WBAN", "STATION", "CTRY", "ST", "CALL", "LAT",
