@@ -3,7 +3,7 @@ Type: Package
 Title: Import Surface Meteorological Data from NOAA Integrated Surface Database
     (ISD)
 Version: 0.8.7
-Date: 2018-08-06
+Date: 2019-04-17
 Authors@R: c(person("David", "Carslaw", role = c("aut", "cre"), email =
     "david.carslaw@york.ac.uk"))
 ByteCompile: true
@@ -28,4 +28,4 @@ BugReports: http://github.com/davidcarslaw/worldmet/issues
 LazyLoad: true
 LazyData: true
 Encoding: UTF-8
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
