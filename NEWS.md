@@ -5,6 +5,7 @@
 - Assume 9999 is missing for visibility (was 999999)
 - add option `path` to allow users to save met data as an rds file.
 - fix short WBAN codes.
+- make sure all meta data are used and not only sites with most recent year
 
 # Changes in worldmet 0.8.4
 
