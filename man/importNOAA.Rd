@@ -4,9 +4,16 @@
 \alias{importNOAA}
 \title{Import meteorological data}
 \usage{
-importNOAA(code = "037720-99999", year = 2014, hourly = TRUE,
-  precip = FALSE, PWC = FALSE, parallel = TRUE, quiet = FALSE,
-  path = NA)
+importNOAA(
+  code = "037720-99999",
+  year = 2014,
+  hourly = TRUE,
+  precip = FALSE,
+  PWC = FALSE,
+  parallel = TRUE,
+  quiet = FALSE,
+  path = NA
+)
 }
 \arguments{
 \item{code}{The identifing code as a character string. The code is a

@@ -3,7 +3,6 @@
 \docType{package}
 \name{worldmet}
 \alias{worldmet}
-\alias{worldmet-package}
 \title{Access surface meteorological data from the NOAA Integrated Surface Database
 from around the world}
 \description{

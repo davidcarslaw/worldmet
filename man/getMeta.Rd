@@ -4,9 +4,17 @@
 \alias{getMeta}
 \title{Find a ISD site code and other meta data}
 \usage{
-getMeta(site = "heathrow", lat = NA, lon = NA, country = NA,
-  state = NA, n = 10, end.year = "current", plot = TRUE,
-  returnMap = FALSE)
+getMeta(
+  site = "heathrow",
+  lat = NA,
+  lon = NA,
+  country = NA,
+  state = NA,
+  n = 10,
+  end.year = "current",
+  plot = TRUE,
+  returnMap = FALSE
+)
 }
 \arguments{
 \item{site}{A site name search string e.g. \code{site =
