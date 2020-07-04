@@ -71,14 +71,14 @@
 ##'
 ##' @title Import meteorological data
 ##'
-##' @param code The identifing code as a character string. The code is a
+##' @param code The identifying code as a character string. The code is a
 ##'   combination of the USAF and the WBAN unique identifiers. The codes are
-##'   sperated by a \dQuote{-} e.g. \code{code = "037720-99999"}.
+##'   separated by a \dQuote{-} e.g. \code{code = "037720-99999"}.
 ##' @param year The year to import. This can be a vector of years e.g.
 ##'   \code{year = 2000:2005}.
 ##' @param hourly Should hourly means be calculated? The default is \code{TRUE}.
 ##'   If \code{FALSE} then the raw data are returned.
-##' @param parallel Should the importing use mutiple processors? By default the
+##' @param parallel Should the importing use multiple processors? By default the
 ##'   number of cores - 1 are used.
 ##' @param quiet If FALSE, print missing sites / years to the screen.
 ##' @param path If a file path is provided, the data are saved as an rds file at

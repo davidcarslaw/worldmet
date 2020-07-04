@@ -14,9 +14,9 @@ importNOAA(
 )
 }
 \arguments{
-\item{code}{The identifing code as a character string. The code is a
+\item{code}{The identifying code as a character string. The code is a
 combination of the USAF and the WBAN unique identifiers. The codes are
-sperated by a \dQuote{-} e.g. \code{code = "037720-99999"}.}
+separated by a \dQuote{-} e.g. \code{code = "037720-99999"}.}
 
 \item{year}{The year to import. This can be a vector of years e.g.
 \code{year = 2000:2005}.}
@@ -24,7 +24,7 @@ sperated by a \dQuote{-} e.g. \code{code = "037720-99999"}.}
 \item{hourly}{Should hourly means be calculated? The default is \code{TRUE}.
 If \code{FALSE} then the raw data are returned.}
 
-\item{parallel}{Should the importing use mutiple processors? By default the
+\item{parallel}{Should the importing use multiple processors? By default the
 number of cores - 1 are used.}
 
 \item{quiet}{If FALSE, print missing sites / years to the screen.}
