@@ -116,9 +116,6 @@ importNOAA <- function(code = "037720-99999", year = 2014,
   ## go through each of the years selected, use parallel processing
 
   i <- station <- . <- NULL
-  
-  # files now stored without hyphen
-  code <- gsub("-", "", code)
 
   # sites and years to process
   site_process <- expand.grid(
@@ -194,7 +191,7 @@ getDat <- function(code, year, hourly) {
   ## location of data
   file.name <- paste0(
     "https://www.ncei.noaa.gov/data/global-hourly/access/",
-    year, "/", code, ".csv"
+    year, "/", gsub(pattern = "-", "", code), ".csv"
   )
 
 
@@ -209,7 +206,7 @@ getDat <- function(code, year, hourly) {
     elev = ELEVATION
   )
 
-  dat$code <- as.character(dat$code)
+  dat$code <- code
 
   # separate WND column
 
