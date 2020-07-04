@@ -1,4 +1,10 @@
-# Changes in worldmet 0.8.99
+# Changes in worldmet 0.9.0
+
+- Significant changes due to NOAA storage formats and different storage locations
+- Remove options for precipitation and present weather in `importNOAA`; just return everything
+- Return data as tibble
+
+# Changes in worldmet 0.8.8
 
 - export `getMetaLive` to allow users direct access to all meta data and easy re-use without re-downloading.
 - deprecate `fresh` option in `getMeta`.

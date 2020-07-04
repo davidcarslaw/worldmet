@@ -8,8 +8,6 @@ importNOAA(
   code = "037720-99999",
   year = 2014,
   hourly = TRUE,
-  precip = FALSE,
-  PWC = FALSE,
   parallel = TRUE,
   quiet = FALSE,
   path = NA
@@ -26,18 +24,12 @@ sperated by a \dQuote{-} e.g. \code{code = "037720-99999"}.}
 \item{hourly}{Should hourly means be calculated? The default is \code{TRUE}.
 If \code{FALSE} then the raw data are returned.}
 
-\item{precip}{Should precipitation measurements be returned? If \code{TRUE}
-the 12-hourly and 6-hourly totals are returned (if available). In
-addition, an hourly sequence is also returned, as described below.}
-
-\item{PWC}{Description of the present weather conditions (if available).}
-
 \item{parallel}{Should the importing use mutiple processors? By default the
 number of cores - 1 are used.}
 
 \item{quiet}{If FALSE, print missing sites / years to the screen.}
 
-\item{path}{If a file path is provided, the data are saved as an rds file at 
+\item{path}{If a file path is provided, the data are saved as an rds file at
 the chosen location e.g.  \code{path = "C:/Users/David"}. Files are saved by year and site.}
 }
 \value{
@@ -64,18 +56,18 @@ Note the following units for the main variables:
 (UTC) and may need to be adjusted to merge with other local data. See
 details below.}}
 
-\item{lat}{Latitude in decimal degrees (-90 to 90).}
+\item{latitude}{Latitude in decimal degrees (-90 to 90).}
 
-\item{lon}{Longitude in decimal degrees (-180 to 180). Negative numbers are
+\item{longitude}{Longitude in decimal degrees (-180 to 180). Negative numbers are
 west of the Greenwich Meridian.}
 
-\item{elev}{Elevention of site in metres.}
+\item{elevation}{Elevention of site in metres.}
 
 \item{wd}{Wind direction in degrees. 90 is from the east.}
 
 \item{ws}{Wind speed in m/s.}
 
-\item{sky_ceiling}{The height above ground level (AGL) of the lowest cloud
+\item{ceil_hgt}{The height above ground level (AGL) of the lowest cloud
 or obscuring phenomena layer aloft with 5/8 or more summation total sky
 cover, which may be predominantly opaque, or the vertical visibility into a
 surface-based obstruction.}
@@ -86,7 +78,7 @@ surface-based obstruction.}
 
 \item{dew_point}{The dew point temperature in degrees Celcius.}
 
-\item{sea_level_press}{The sea level pressure in millibars.}
+\item{atmos_pres}{The sea level pressure in millibars.}
 
 \item{RH}{The relative humidity (\%).}
 
