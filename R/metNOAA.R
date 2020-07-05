@@ -112,6 +112,8 @@ importNOAA <- function(code = "037720-99999", year = 2014,
   ## main web site https://www.ncdc.noaa.gov/isd
 
   ## formats document https://www.ncei.noaa.gov/data/global-hourly/doc/isd-format-document.pdf
+  
+  # brief csv file description https://www.ncei.noaa.gov/data/global-hourly/doc/CSV_HELP.pdf
 
   ## gis map https://gis.ncdc.noaa.gov/map/viewer/#app=cdo&cfg=cdo&theme=hourly&layers=1
 
