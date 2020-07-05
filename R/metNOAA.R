@@ -16,8 +16,8 @@
 ##'
 ##' \item{latitude}{Latitude in decimal degrees (-90 to 90).}
 ##'
-##' \item{longitude}{Longitude in decimal degrees (-180 to 180). Negative numbers are
-##' west of the Greenwich Meridian.}
+##' \item{longitude}{Longitude in decimal degrees (-180 to 180). Negative
+##' numbers are west of the Greenwich Meridian.}
 ##'
 ##' \item{elevation}{Elevention of site in metres.}
 ##'
@@ -25,9 +25,9 @@
 ##'
 ##' \item{ws}{Wind speed in m/s.}
 ##'
-##' \item{ceil_hgt}{The height above ground level (AGL) of the lowest cloud
-##' or obscuring phenomena layer aloft with 5/8 or more summation total sky
-##' cover, which may be predominantly opaque, or the vertical visibility into a
+##' \item{ceil_hgt}{The height above ground level (AGL) of the lowest cloud or
+##' obscuring phenomena layer aloft with 5/8 or more summation total sky cover,
+##' which may be predominantly opaque, or the vertical visibility into a
 ##' surface-based obstruction.}
 ##'
 ##' \item{visibility}{The visibility in metres.}
@@ -78,18 +78,20 @@
 ##'   \code{year = 2000:2005}.
 ##' @param hourly Should hourly means be calculated? The default is \code{TRUE}.
 ##'   If \code{FALSE} then the raw data are returned.
-##' @param parallel Should the importing use multiple processors? By default the
-##'   number of cores - 1 are used.
+##' @param n.cores Number of cores to use for parallel processing. Default is 1
+##'   and hence no parallelism.
 ##' @param quiet If FALSE, print missing sites / years to the screen.
 ##' @param path If a file path is provided, the data are saved as an rds file at
-##' the chosen location e.g.  \code{path = "C:/Users/David"}. Files are saved by year and site.
+##'   the chosen location e.g.  \code{path = "C:/Users/David"}. Files are saved
+##'   by year and site.
 ##' @export
 ##' @import openair
 ##' @import readr
 ##' @import tidyr
 ##' @import doParallel parallel foreach dplyr
 ##' @importFrom utils head write.table download.file
-##' @importFrom leaflet addCircles addMarkers addTiles leaflet markerClusterOptions
+##' @importFrom leaflet addCircles addMarkers addTiles leaflet
+##'   markerClusterOptions
 ##' @return Returns a data frame of surface observations. The data frame is
 ##'   consistent for use with the \code{openair} package. NOTE! the data are
 ##'   returned in GMT (UTC) time zone format. Users may wish to express the data
@@ -105,7 +107,7 @@
 ##' }
 importNOAA <- function(code = "037720-99999", year = 2014,
                        hourly = TRUE,
-                       parallel = TRUE, quiet = FALSE, path = NA) {
+                       n.cores = 1, quiet = FALSE, path = NA) {
 
   ## main web site https://www.ncdc.noaa.gov/isd
 
@@ -124,8 +126,8 @@ importNOAA <- function(code = "037720-99999", year = 2014,
     stringsAsFactors = FALSE
   )
 
-  if (parallel) {
-    cl <- makeCluster(detectCores() - 1)
+  if (n.cores > 1) {
+    cl <- makeCluster(n.cores)
     registerDoParallel(cl)
 
     dat <- foreach(
@@ -194,8 +196,34 @@ getDat <- function(code, year, hourly) {
     year, "/", gsub(pattern = "-", "", code), ".csv"
   )
 
-
-  dat <- read_csv(file.name, guess_max = 10000, col_types = cols())
+  # suppress warnings because some fields might be missing in the list
+  # Note that not all available data is returned - just what I think is most useful
+  dat <- suppressWarnings(read_csv(file.name,  
+                  col_types = cols_only(
+                    STATION = col_character(),
+                    DATE = col_datetime(format = ""),
+                    SOURCE = col_double(),
+                    LATITUDE = col_double(),
+                    LONGITUDE = col_double(),
+                    ELEVATION = col_double(),
+                    NAME = col_character(),
+                    REPORT_TYPE = col_character(),
+                    CALL_SIGN = col_double(),
+                    QUALITY_CONTROL = col_character(),
+                    WND = col_character(),
+                    CIG = col_character(),
+                    VIS = col_character(),
+                    TMP = col_character(),
+                    DEW = col_character(),
+                    SLP = col_character(),
+                    AA1 = col_character(),
+                    AW1 = col_character(),
+                    GA1 = col_character(),
+                    GA2 = col_character(),
+                    GA3 = col_character()
+                  )
+  )
+  )
 
   dat <- rename(dat,
     code = STATION,
@@ -333,7 +361,7 @@ getDat <- function(code, year, hourly) {
   }
 
   ## for cloud cover, make new 'cl' max of 3 cloud layers
-  if ("GA3" %in% names(dat)) {
+  if ("cl_3" %in% names(dat)) {
     dat$cl <- pmax(dat$cl_1, dat$cl_2, dat$cl_3, na.rm = TRUE)
   }
 
