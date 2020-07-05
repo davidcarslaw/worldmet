@@ -8,7 +8,7 @@ importNOAA(
   code = "037720-99999",
   year = 2014,
   hourly = TRUE,
-  parallel = TRUE,
+  n.cores = 1,
   quiet = FALSE,
   path = NA
 )
@@ -24,13 +24,14 @@ separated by a \dQuote{-} e.g. \code{code = "037720-99999"}.}
 \item{hourly}{Should hourly means be calculated? The default is \code{TRUE}.
 If \code{FALSE} then the raw data are returned.}
 
-\item{parallel}{Should the importing use multiple processors? By default the
-number of cores - 1 are used.}
+\item{n.cores}{Number of cores to use for parallel processing. Default is 1
+and hence no parallelism.}
 
 \item{quiet}{If FALSE, print missing sites / years to the screen.}
 
 \item{path}{If a file path is provided, the data are saved as an rds file at
-the chosen location e.g.  \code{path = "C:/Users/David"}. Files are saved by year and site.}
+the chosen location e.g.  \code{path = "C:/Users/David"}. Files are saved
+by year and site.}
 }
 \value{
 Returns a data frame of surface observations. The data frame is
@@ -58,8 +59,8 @@ details below.}}
 
 \item{latitude}{Latitude in decimal degrees (-90 to 90).}
 
-\item{longitude}{Longitude in decimal degrees (-180 to 180). Negative numbers are
-west of the Greenwich Meridian.}
+\item{longitude}{Longitude in decimal degrees (-180 to 180). Negative
+numbers are west of the Greenwich Meridian.}
 
 \item{elevation}{Elevention of site in metres.}
 
@@ -67,9 +68,9 @@ west of the Greenwich Meridian.}
 
 \item{ws}{Wind speed in m/s.}
 
-\item{ceil_hgt}{The height above ground level (AGL) of the lowest cloud
-or obscuring phenomena layer aloft with 5/8 or more summation total sky
-cover, which may be predominantly opaque, or the vertical visibility into a
+\item{ceil_hgt}{The height above ground level (AGL) of the lowest cloud or
+obscuring phenomena layer aloft with 5/8 or more summation total sky cover,
+which may be predominantly opaque, or the vertical visibility into a
 surface-based obstruction.}
 
 \item{visibility}{The visibility in metres.}
