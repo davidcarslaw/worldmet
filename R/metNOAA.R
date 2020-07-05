@@ -147,8 +147,8 @@ importNOAA <- function(code = "037720-99999", year = 2014,
     stopCluster(cl)
   } else {
     dat <- rowwise(site_process) %>%
-      do(getDat(
-        year = .$year, code = .$code, hourly = hourly
+      summarise(getDat(
+        year = .data$year, code = .data$code, hourly = hourly
       ))
   }
 
