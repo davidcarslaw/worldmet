@@ -1,3 +1,7 @@
+# Changes in worldmet 0.9.99
+
+- fix bug when lat and lon provided in `getMeta`
+
 # Changes in worldmet 0.9.0
 
 - Significant changes due to NOAA storage formats and different storage locations

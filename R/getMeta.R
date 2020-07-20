@@ -148,8 +148,8 @@ getMeta <- function(site = "heathrow", lat = NA, lon = NA,
         stroke = TRUE, color = "red",
         popup = paste(
           "Search location",
-          paste("Lat =", latitude),
-          paste("Lon =", longitude),
+          paste("Lat =", dat$latitude),
+          paste("Lon =", dat$longitude),
           sep = "<br/>"
         )
       )
