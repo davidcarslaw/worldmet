@@ -75,6 +75,10 @@ exportADMS <- function(dat, out = "./ADMS_met.MET", interp = FALSE, maxgap = 2) 
   day <- as.numeric(format(dat$date, "%j"))
   hour <- as.numeric(format(dat$date, "%H"))
   station <- "0000"
+  
+  # check if present
+  if (!"cl" %in% names(dat)) dat$cl <- NA
+  if (!"precip" %in% names(dat)) dat$precip <- NA
 
   ## data frame of met data needed
   adms <- data.frame(station, year, day, hour,
