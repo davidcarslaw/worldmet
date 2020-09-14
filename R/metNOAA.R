@@ -92,6 +92,7 @@
 ##' @importFrom utils head write.table download.file
 ##' @importFrom leaflet addCircles addMarkers addTiles leaflet
 ##'   markerClusterOptions
+##' @importFrom dplyr `%>%`
 ##' @return Returns a data frame of surface observations. The data frame is
 ##'   consistent for use with the \code{openair} package. NOTE! the data are
 ##'   returned in GMT (UTC) time zone format. Users may wish to express the data
@@ -432,7 +433,7 @@ getDat <- function(code, year, hourly) {
       sep = ",", fill = "right"
     )
 
-    dat <- left_join(dat, weatherCodes, by = "pwc")
+    dat <- left_join(dat, worldmet::weatherCodes, by = "pwc")
     dat <- select(dat, -pwc) %>%
       rename(pwc = description)
   }

@@ -1,4 +1,10 @@
-# Changes in worldmet 0.9.99
+# Changes in worldmet 0.9.2
+
+- Exporting `weatherCodes` so that everything works when used by other 
+packages through "explicit namespacing"" (_e.g._ `worldmet::importNOAA()`)
+without having to `library(worldmet)`.
+
+# Changes in worldmet 0.9.1
 
 - fix bug when lat and lon provided in `getMeta`
 
