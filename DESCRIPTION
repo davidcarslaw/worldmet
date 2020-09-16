@@ -3,7 +3,7 @@ Type: Package
 Title: Import Surface Meteorological Data from NOAA Integrated Surface Database
     (ISD)
 Version: 0.9.2
-Date: 2020-07-20
+Date: 2020-09-16
 Authors@R: c(person("David", "Carslaw", role = c("aut", "cre"), email =
     "david.carslaw@york.ac.uk"))
 ByteCompile: true
@@ -25,8 +25,8 @@ Description: Functions to import data from more than 30,000 surface
     meteorological sites around the world managed by the National Oceanic and Atmospheric Administration (NOAA) Integrated Surface
     Database (ISD, see <https://www.ncdc.noaa.gov/isd>).
 License: GPL (>= 2)
-URL: http://github.com/davidcarslaw/worldmet
-BugReports: http://github.com/davidcarslaw/worldmet/issues
+URL: https://github.com/davidcarslaw/worldmet
+BugReports: https://github.com/davidcarslaw/worldmet/issues
 LazyLoad: true
 LazyData: true
 Encoding: UTF-8
