@@ -89,7 +89,7 @@
 ##' @import readr
 ##' @import tidyr
 ##' @import doParallel parallel foreach dplyr
-##' @importFrom purrr map2_dfr
+##' @importFrom purrr pmap_dfr
 ##' @importFrom utils head write.table download.file
 ##' @importFrom leaflet addCircles addMarkers addTiles leaflet
 ##'   markerClusterOptions
@@ -149,7 +149,7 @@ importNOAA <- function(code = "037720-99999", year = 2014,
     stopCluster(cl)
   } else {
     
-    dat <- map2_dfr(site_process$code, site_process$year, ~ getDat(.x, .y, hourly))
+    dat <- pmap_dfr(site_process, getDat, hourly = hourly)
     
   }
 
