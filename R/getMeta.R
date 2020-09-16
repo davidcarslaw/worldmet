@@ -39,6 +39,7 @@
 ##'   are made an approximate distance, \code{dist} in km is also
 ##'   returned.
 ##' @export
+##' @importFrom dplyr `%>%`
 ##' @author David Carslaw
 ##' @examples
 ##'
