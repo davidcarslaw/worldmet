@@ -1,8 +1,9 @@
 # Changes in worldmet 0.9.99
 
 - fix bug when lat and lon provided in `getMeta`
+- fix bug when several years are selected and columns are different lengths when `n.core = 1`
 
-# Changes in worldmet 0.9.0
+# Changes in worldmet 0.9.1
 
 - Significant changes due to NOAA storage formats and different storage locations
 - Remove options for precipitation and present weather in `importNOAA`; just return everything
