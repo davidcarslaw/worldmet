@@ -5,7 +5,7 @@ worldmet - R package for accessing NOAA Integrated Surface Database (ISD) meteor
 
 [![Travis-CI Build Status](https://travis-ci.org/davidcarslaw/worldmet.svg?branch=master)](https://travis-ci.org/davidcarslaw/worldmet)
 
-`worldmet` provides an easy way to access data from the [NOAA Integrated Surface Database](https://www.ncdc.noaa.gov/isd) (ISD). The ISD contains detailed surface meteorological data from around the world for over 35,000 locations. See also the [map](https://gis.ncdc.noaa.gov/map/viewer/#app=cdo&cfg=cdo&theme=hourly&layers=1).
+`worldmet` provides an easy way to access data from the [NOAA Integrated Surface Database](https://www.ncdc.noaa.gov/isd) (ISD). The ISD contains detailed surface meteorological data from around the world for over 35,000 locations. See also the [map](https://gis.ncdc.noaa.gov/maps/ncei).
 
 The package outputs (typically hourly meteorological data) work very well with the [openair](https://github.com/davidcarslaw/openair) package.
 
