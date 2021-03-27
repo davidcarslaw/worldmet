@@ -153,7 +153,7 @@ importNOAA <- function(code = "037720-99999", year = 2014,
     
   }
 
-  if (is.null(dat)) {
+  if (is.null(dat) || nrow(dat) == 0) {
     print("site(s) do not exist.")
     return()
   }
@@ -201,32 +201,40 @@ getDat <- function(code, year, hourly) {
 
   # suppress warnings because some fields might be missing in the list
   # Note that not all available data is returned - just what I think is most useful
-  dat <- suppressWarnings(read_csv(file.name,  
-                  col_types = cols_only(
-                    STATION = col_character(),
-                    DATE = col_datetime(format = ""),
-                    SOURCE = col_double(),
-                    LATITUDE = col_double(),
-                    LONGITUDE = col_double(),
-                    ELEVATION = col_double(),
-                    NAME = col_character(),
-                    REPORT_TYPE = col_character(),
-                    CALL_SIGN = col_double(),
-                    QUALITY_CONTROL = col_character(),
-                    WND = col_character(),
-                    CIG = col_character(),
-                    VIS = col_character(),
-                    TMP = col_character(),
-                    DEW = col_character(),
-                    SLP = col_character(),
-                    AA1 = col_character(),
-                    AW1 = col_character(),
-                    GA1 = col_character(),
-                    GA2 = col_character(),
-                    GA3 = col_character()
-                  )
+  dat <- try(suppressWarnings(read_csv(file.name,  
+                                       col_types = cols_only(
+                                         STATION = col_character(),
+                                         DATE = col_datetime(format = ""),
+                                         SOURCE = col_double(),
+                                         LATITUDE = col_double(),
+                                         LONGITUDE = col_double(),
+                                         ELEVATION = col_double(),
+                                         NAME = col_character(),
+                                         REPORT_TYPE = col_character(),
+                                         CALL_SIGN = col_double(),
+                                         QUALITY_CONTROL = col_character(),
+                                         WND = col_character(),
+                                         CIG = col_character(),
+                                         VIS = col_character(),
+                                         TMP = col_character(),
+                                         DEW = col_character(),
+                                         SLP = col_character(),
+                                         AA1 = col_character(),
+                                         AW1 = col_character(),
+                                         GA1 = col_character(),
+                                         GA2 = col_character(),
+                                         GA3 = col_character()
+                                       )
   )
-  )
+  ), silent = TRUE)
+  
+  if (class(dat)[1] == "try-error") {
+    
+    message(paste0("Missing data for site ", code, " and year ", year))
+    dat <- NULL
+    return()
+    
+  }
 
   dat <- rename(dat,
     code = STATION,

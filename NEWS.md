@@ -1,3 +1,7 @@
+# Changes in worldmet 0.9.3
+
+- Catch missing data error and report missing when importing data using `importNOAA`
+
 # Changes in worldmet 0.9.2
 
 - Exporting `weatherCodes` so that everything works when used by other 
