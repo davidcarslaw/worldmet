@@ -37,7 +37,8 @@ by year and site.}
 Returns a data frame of surface observations. The data frame is
   consistent for use with the \code{openair} package. NOTE! the data are
   returned in GMT (UTC) time zone format. Users may wish to express the data
-  in other time zones e.g. to merge with air pollution data.
+  in other time zones e.g. to merge with air pollution data. The
+  \code{lubridate} package is useful in this respect.
 }
 \description{
 Main function for importing meteorological data
@@ -90,13 +91,11 @@ surface-based obstruction.}
 \item{cl_1_height, ..., cl_3_height}{Height of the cloud base for each later
 in metres.}
 
-\item{precip_12}{12-hour precipitation in mm.}
+\item{precip_12}{12-hour precipitation in mm. The sum of this column should
+give the annual precipitation.}
 
 \item{precip_6}{6-hour precipitation in mm.}
 
-\item{precip}{Based on the 12 hourly and 6 hourly totals, \code{precip}}
-spreads the 6-hourly totals across the previous 6-hours to provide an
-indication of hourly precipitation.
 
 \item{pwc}{The description of the present weather description (if
 available).}
@@ -104,7 +103,7 @@ available).}
 }
 
 The data are returned in GMT (UTC). It may be necessary to adjust the time
-zone when comining with other data. For example, if air quality data were
+zone when combining with other data. For example, if air quality data were
 available for Beijing with time zone set to "Etc/GMT-8" (note the negative
 offset even though Beijing is ahead of GMT. See the \code{openair} package
 and manual for more details), then the time zone of the met data can be

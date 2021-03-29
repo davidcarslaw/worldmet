@@ -47,13 +47,11 @@
 ##' \item{cl_1_height, ..., cl_3_height}{Height of the cloud base for each later
 ##' in metres.}
 ##'
-##' \item{precip_12}{12-hour precipitation in mm.}
+##' \item{precip_12}{12-hour precipitation in mm. The sum of this column should
+##' give the annual precipitation.}
 ##'
 ##' \item{precip_6}{6-hour precipitation in mm.}
 ##'
-##' \item{precip}{Based on the 12 hourly and 6 hourly totals, \code{precip}}
-##' spreads the 6-hourly totals across the previous 6-hours to provide an
-##' indication of hourly precipitation.
 ##'
 ##' \item{pwc}{The description of the present weather description (if
 ##' available).}
@@ -61,7 +59,7 @@
 ##' }
 ##'
 ##' The data are returned in GMT (UTC). It may be necessary to adjust the time
-##' zone when comining with other data. For example, if air quality data were
+##' zone when combining with other data. For example, if air quality data were
 ##' available for Beijing with time zone set to "Etc/GMT-8" (note the negative
 ##' offset even though Beijing is ahead of GMT. See the \code{openair} package
 ##' and manual for more details), then the time zone of the met data can be
@@ -97,7 +95,8 @@
 ##' @return Returns a data frame of surface observations. The data frame is
 ##'   consistent for use with the \code{openair} package. NOTE! the data are
 ##'   returned in GMT (UTC) time zone format. Users may wish to express the data
-##'   in other time zones e.g. to merge with air pollution data.
+##'   in other time zones e.g. to merge with air pollution data. The
+##'   \code{lubridate} package is useful in this respect.
 ##' @seealso \code{\link{getMeta}} to obtain the codes based on various site
 ##'   search approaches.
 ##' @author David Carslaw
@@ -380,7 +379,8 @@ getDat <- function(code, year, hourly) {
 
     dat <- mutate(dat,
       precip = as.numeric(precip),
-      precip = ifelse(precip == 9999, NA, precip)
+      precip = ifelse(precip == 9999, NA, precip),
+      precip = precip / 10
     )
 
     # deal with 6 and 12 hour precip
@@ -405,27 +405,27 @@ getDat <- function(code, year, hourly) {
   ## met data gives 12 hour total and every other 6 hour total
 
   ## only do this if precipitation exists
-  if (all(c("precip_6", "precip_12") %in% names(dat))) {
-
-    ## make new precip variable
-    dat$precip <- NA
-
-    ## id where there is 6 hour data
-    id <- which(!is.na(dat$precip_6))
-    id <- id[id < (nrow(dat) - 6)] ## make sure we don't run off end
-
-    ## calculate new 6 hour based on 12 hr total - 6 hr total
-    dat$precip_6[id + 6] <- dat$precip_12[id + 6] - dat$precip_6[id]
-
-    ## ids for new 6 hr totals
-    id <- which(!is.na(dat$precip_6))
-    id <- id[id > 6]
-
-    ## Divide 6 hour total over each of 6 hours
-    for (i in seq_along(id)) {
-      dat$precip[(id[i] - 5):id[i]] <- dat$precip_6[id[i]] / 6
-    }
-  }
+  # if (all(c("precip_6", "precip_12") %in% names(dat))) {
+  # 
+  #   ## make new precip variable
+  #   dat$precip <- NA
+  # 
+  #   ## id where there is 6 hour data
+  #   id <- which(!is.na(dat$precip_6))
+  #   id <- id[id < (nrow(dat) - 6)] ## make sure we don't run off end
+  # 
+  #   ## calculate new 6 hour based on 12 hr total - 6 hr total
+  #   dat$precip_6[id + 6] <- dat$precip_12[id + 6] - dat$precip_6[id]
+  # 
+  #   ## ids for new 6 hr totals
+  #   id <- which(!is.na(dat$precip_6))
+  #   id <- id[id > 6]
+  # 
+  #   ## Divide 6 hour total over each of 6 hours
+  #   for (i in seq_along(id)) {
+  #     dat$precip[(id[i] - 5):id[i]] <- dat$precip_6[id[i]] / 6
+  #   }
+  # }
 
 
   # weather codes, AW1
@@ -450,7 +450,7 @@ getDat <- function(code, year, hourly) {
     "cl_1", "cl_2", "cl_3", "cl",
     "cl_1_height", "cl_2_height",
     "cl_3_height", "pwc", "precip_12",
-    "precip_6", "precip"
+    "precip_6"
   )))
 
 
