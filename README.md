@@ -84,9 +84,9 @@ years of interest. For example, to download data for Heathrow Airport in
 2010 (code 037720-99999):
 
 ``` r
-dat <- importNOAA(code = "037720-99999", year = 2010)
-head(dat)
-## # A tibble: 6 x 24
+met_london <- importNOAA(code = "037720-99999", year = 2010)
+head(met_london)
+## # A tibble: 6 x 25
 ##   code      station   date                latitude longitude  elev    ws      wd
 ##   <fct>     <fct>     <dttm>                 <dbl>     <dbl> <dbl> <dbl>   <dbl>
 ## 1 037720-9… HEATHROW… 2010-01-01 00:00:00     51.5    -0.461  25.3  3.27  17.4  
@@ -95,8 +95,18 @@ head(dat)
 ## 4 037720-9… HEATHROW… 2010-01-01 03:00:00     51.5    -0.461  25.3  2.93  17.0  
 ## 5 037720-9… HEATHROW… 2010-01-01 04:00:00     51.5    -0.461  25.3  2.77   0.606
 ## 6 037720-9… HEATHROW… 2010-01-01 05:00:00     51.5    -0.461  25.3  2.43 356.   
-## # … with 16 more variables: air_temp <dbl>, atmos_pres <dbl>, visibility <dbl>,
+## # … with 17 more variables: air_temp <dbl>, atmos_pres <dbl>, visibility <dbl>,
 ## #   dew_point <dbl>, RH <dbl>, ceil_hgt <dbl>, cl_1 <dbl>, cl_2 <dbl>,
 ## #   cl_3 <dbl>, cl <dbl>, cl_1_height <dbl>, cl_2_height <dbl>,
-## #   cl_3_height <dbl>, precip_12 <dbl>, precip_6 <dbl>, pwc <chr>
+## #   cl_3_height <dbl>, precip_12 <dbl>, precip_6 <dbl>, precip <dbl>, pwc <chr>
 ```
+
+A wind rose (for example) can easily be plotted using `openair`:
+
+``` r
+# load openair
+library(openair)
+windRose(met_london)
+```
+
+![](README_files/figure-gfm/windRose-1.png)<!-- -->
