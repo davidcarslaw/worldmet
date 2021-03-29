@@ -52,6 +52,9 @@
 ##'
 ##' \item{precip_6}{6-hour precipitation in mm.}
 ##'
+##' \item{precip}{This calue of precipitation spreads the 12-hour total across
+##' the previous 12 hours.}
+##'
 ##'
 ##' \item{pwc}{The description of the present weather description (if
 ##' available).}
@@ -399,34 +402,6 @@ getDat <- function(code, year, hourly) {
     }
   }
 
-  ## add precipitation
-
-  ## spread out precipitation across each hour
-  ## met data gives 12 hour total and every other 6 hour total
-
-  ## only do this if precipitation exists
-  # if (all(c("precip_6", "precip_12") %in% names(dat))) {
-  # 
-  #   ## make new precip variable
-  #   dat$precip <- NA
-  # 
-  #   ## id where there is 6 hour data
-  #   id <- which(!is.na(dat$precip_6))
-  #   id <- id[id < (nrow(dat) - 6)] ## make sure we don't run off end
-  # 
-  #   ## calculate new 6 hour based on 12 hr total - 6 hr total
-  #   dat$precip_6[id + 6] <- dat$precip_12[id + 6] - dat$precip_6[id]
-  # 
-  #   ## ids for new 6 hr totals
-  #   id <- which(!is.na(dat$precip_6))
-  #   id <- id[id > 6]
-  # 
-  #   ## Divide 6 hour total over each of 6 hours
-  #   for (i in seq_along(id)) {
-  #     dat$precip[(id[i] - 5):id[i]] <- dat$precip_6[id[i]] / 6
-  #   }
-  # }
-
 
   # weather codes, AW1
 
@@ -450,7 +425,7 @@ getDat <- function(code, year, hourly) {
     "cl_1", "cl_2", "cl_3", "cl",
     "cl_1_height", "cl_2_height",
     "cl_3_height", "pwc", "precip_12",
-    "precip_6"
+    "precip_6", "precip"
   )))
 
 
@@ -475,7 +450,27 @@ getDat <- function(code, year, hourly) {
     dat <- left_join(dat, pwc, by = "date", all = TRUE)
   }
 
+  ## add precipitation - based on 12 HOUR averages, so work with hourly data
+  
+  ## spread out precipitation across each hour
 
+  ## only do this if precipitation exists
+  if ("precip_12" %in% names(dat)) {
+    
+    ## make new precip variable
+    dat$precip <- NA
+    
+    ## id where there is 12 hour data
+    id <- which(!is.na(dat$precip_12))
+    
+    if (length(id) == 0L) return()
+    
+    id <- id[id > 11] ## make sure we don't run off beginning
+    
+    for (i in seq_along(id)) {
+      dat$precip[(id[i] - 11):id[i]] <- dat$precip_12[id[i]] / 12
+    }
+  }
 
   # replace NaN with NA
   dat[] <- lapply(dat, function(x) {
