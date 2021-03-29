@@ -58,6 +58,13 @@ marker to obtain the code and other basic information.
 ``` r
 ## search for near a specified lat/lon - near Beijing airport
 ## returns 'n' nearest by default
+info <- getMeta(lat = 40, lon = 116.9, plot = TRUE, returnMap = TRUE)
+print(info)
+```
+
+``` r
+## search for near a specified lat/lon - near Beijing airport
+## returns 'n' nearest by default
 info <- getMeta(lat = 40, lon = 116.9)
 ```
 
