@@ -1,3 +1,7 @@
+# Changes in worldmet 0.9.99
+
+- Fix precipitation. The `precip_12` gives the sum of the precipitation over the past 12 hours and the sum of this column should be the annual total in mm. `worldmet` no longer tries to combine 12 and 6 hour totals.
+
 # Changes in worldmet 0.9.3
 
 - Catch missing data error and report missing when importing data using `importNOAA`
