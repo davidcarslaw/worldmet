@@ -451,22 +451,24 @@ getDat <- function(code, year, hourly) {
   }
 
   ## add precipitation - based on 12 HOUR averages, so work with hourly data
-  
+
   ## spread out precipitation across each hour
 
   ## only do this if precipitation exists
   if ("precip_12" %in% names(dat) && hourly) {
-    
+
     ## make new precip variable
     dat$precip <- NA
-    
+
     ## id where there is 12 hour data
     id <- which(!is.na(dat$precip_12))
-    
-    if (length(id) == 0L) return()
-    
+
+    if (length(id) == 0L) {
+      return()
+    }
+
     id <- id[id > 11] ## make sure we don't run off beginning
-    
+
     for (i in seq_along(id)) {
       dat$precip[(id[i] - 11):id[i]] <- dat$precip_12[id[i]] / 12
     }
