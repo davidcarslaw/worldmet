@@ -1,30 +1,40 @@
 
 <!-- Edit the README.Rmd only!!! The README.md is generated automatically from README.Rmd. -->
-worldmet - R package for accessing NOAA Integrated Surface Database (ISD) meteorological observations
-=====================================================================================================
 
-[![Travis-CI Build Status](https://travis-ci.org/davidcarslaw/worldmet.svg?branch=master)](https://travis-ci.org/davidcarslaw/worldmet)
+# worldmet - R package for accessing NOAA Integrated Surface Database (ISD) meteorological observations
 
-`worldmet` provides an easy way to access data from the [NOAA Integrated Surface Database](https://www.ncdc.noaa.gov/isd) (ISD). The ISD contains detailed surface meteorological data from around the world for over 35,000 locations. See also the [map](https://gis.ncdc.noaa.gov/maps/ncei).
+[![R-CMD-check](https://github.com/davidcarslaw/worldmet/workflows/R-CMD-check/badge.svg)](https://github.com/davidcarslaw/worldmet/actions)
+![](http://cranlogs.r-pkg.org/badges/grand-total/worldmet)
 
-The package outputs (typically hourly meteorological data) work very well with the [openair](https://github.com/davidcarslaw/openair) package.
+`worldmet` provides an easy way to access data from the [NOAA Integrated
+Surface Database](https://www.ncdc.noaa.gov/isd) (ISD). The ISD contains
+detailed surface meteorological data from around the world for over
+35,000 locations. See also the
+[map](https://gis.ncdc.noaa.gov/map/viewer/#app=cdo&cfg=cdo&theme=hourly&layers=1).
 
-Installation
-------------
+The package outputs (typically hourly meteorological data) work very
+well with the [openair](https://github.com/davidcarslaw/openair)
+package.
 
-Installation of `worldmet` from GitHub is easy using the `devtools` package.
+## Installation
+
+Installation of `worldmet` from GitHub is easy using the `devtools`
+package.
 
 ``` r
 require(devtools)
 install_github('davidcarslaw/worldmet')
 ```
 
-Brief examples
---------------
+## Brief examples
 
-To search for meteorological sites the user can search by the name or partial name of the site in upper or lower case. The `getMeta` function will return all site names that match the search string. The most important information returned is the `code`, which can then be supplied to the `importNOAA` function that downloads the data.
+To search for meteorological sites the user can search by the name or
+partial name of the site in upper or lower case. The `getMeta` function
+will return all site names that match the search string. The most
+important information returned is the `code`, which can then be supplied
+to the `importNOAA` function that downloads the data.
 
-For example, to search for site "heathrow":
+For example, to search for site “heathrow”:
 
 ``` r
 library(worldmet)
@@ -32,13 +42,18 @@ library(worldmet)
 ## note code to be used in importNOAA
 
 getMeta(site = "heathrow")
-##        USAF  WBAN  STATION CTRY ST CALL latitude longitude ELEV(M)
-## 1669 037720 99999 HEATHROW   UK    EGLL   51.478    -0.461    25.3
-##           BEGIN        END         code dist
-## 1669 1948-12-01 2017-12-15 037720-99999   NA
+## # A tibble: 1 x 13
+##   usaf   wban  station ctry  st    call  latitude longitude `elev(m)` begin     
+##   <chr>  <chr> <chr>   <chr> <chr> <chr>    <dbl>     <dbl>     <dbl> <date>    
+## 1 037720 99999 HEATHR… UK    <NA>  EGLL      51.5    -0.461      25.3 1948-12-01
+## # … with 3 more variables: end <date>, code <chr>, dist <lgl>
 ```
 
-Often we have a latitude / longitude of interest. A search can be made based on supplied decimal coordinates and the top `n` nearest sites are returned. The map shows the location searched by the user (red dot) and markers showing the nearest meteorological stations. Click on a station marker to obtain the code and other basic information.
+Often we have a latitude / longitude of interest. A search can be made
+based on supplied decimal coordinates and the top `n` nearest sites are
+returned. The map shows the location searched by the user (red dot) and
+markers showing the nearest meteorological stations. Click on a station
+marker to obtain the code and other basic information.
 
 ``` r
 ## search for near a specified lat/lon - near Beijing airport
@@ -48,22 +63,24 @@ info <- getMeta(lat = 40, lon = 116.9)
 
 <img src="inst/images/map.PNG" alt="map of Beijing area" width="75%" />
 
-To obtain the data the user must supply a `code` (see above) and year or years of interest. For example, to download data for Heathrow Airport in 2010 (code 037720-99999):
+To obtain the data the user must supply a `code` (see above) and year or
+years of interest. For example, to download data for Heathrow Airport in
+2010 (code 037720-99999):
 
 ``` r
 dat <- importNOAA(code = "037720-99999", year = 2010)
 head(dat)
-## # A tibble: 6 x 23
-##                  date   usaf  wban         code  station    lat   lon
-##                <dttm>  <chr> <int>        <chr>    <chr>  <dbl> <dbl>
-## 1 2010-01-01 00:00:00 037720 99999 037720-99999 HEATHROW 51.483 -0.45
-## 2 2010-01-01 01:00:00 037720 99999 037720-99999 HEATHROW 51.483 -0.45
-## 3 2010-01-01 02:00:00 037720 99999 037720-99999 HEATHROW 51.483 -0.45
-## 4 2010-01-01 03:00:00 037720 99999 037720-99999 HEATHROW 51.483 -0.45
-## 5 2010-01-01 04:00:00 037720 99999 037720-99999 HEATHROW 51.483 -0.45
-## 6 2010-01-01 05:00:00 037720 99999 037720-99999 HEATHROW 51.483 -0.45
-## # ... with 16 more variables: elev <dbl>, wd <dbl>, ws <dbl>,
-## #   ceil_hgt <dbl>, visibility <dbl>, air_temp <dbl>, dew_point <dbl>,
-## #   atmos_pres <dbl>, RH <dbl>, cl_1 <dbl>, cl_1_height <dbl>, cl_2 <dbl>,
-## #   cl_2_height <dbl>, cl_3 <dbl>, cl_3_height <dbl>, cl <dbl>
+## # A tibble: 6 x 24
+##   code      station   date                latitude longitude  elev    ws      wd
+##   <fct>     <fct>     <dttm>                 <dbl>     <dbl> <dbl> <dbl>   <dbl>
+## 1 037720-9… HEATHROW… 2010-01-01 00:00:00     51.5    -0.461  25.3  3.27  17.4  
+## 2 037720-9… HEATHROW… 2010-01-01 01:00:00     51.5    -0.461  25.3  3.1    6.13 
+## 3 037720-9… HEATHROW… 2010-01-01 02:00:00     51.5    -0.461  25.3  3.1   15.6  
+## 4 037720-9… HEATHROW… 2010-01-01 03:00:00     51.5    -0.461  25.3  2.93  17.0  
+## 5 037720-9… HEATHROW… 2010-01-01 04:00:00     51.5    -0.461  25.3  2.77   0.606
+## 6 037720-9… HEATHROW… 2010-01-01 05:00:00     51.5    -0.461  25.3  2.43 356.   
+## # … with 16 more variables: air_temp <dbl>, atmos_pres <dbl>, visibility <dbl>,
+## #   dew_point <dbl>, RH <dbl>, ceil_hgt <dbl>, cl_1 <dbl>, cl_2 <dbl>,
+## #   cl_3 <dbl>, cl <dbl>, cl_1_height <dbl>, cl_2_height <dbl>,
+## #   cl_3_height <dbl>, precip_12 <dbl>, precip_6 <dbl>, pwc <chr>
 ```
