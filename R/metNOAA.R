@@ -376,14 +376,14 @@ getDat <- function(code, year, hourly) {
   # PRECIP AA1
   if ("AA1" %in% names(dat)) {
     dat <- separate(dat, AA1,
-      into = c("precip_code", "precip", "code_1", "code_2"),
+      into = c("precip_code", "precip_raw", "code_1", "code_2"),
       sep = ","
     )
 
     dat <- mutate(dat,
-      precip = as.numeric(precip),
-      precip = ifelse(precip == 9999, NA, precip),
-      precip = precip / 10
+      precip_raw = as.numeric(precip_raw),
+      precip_raw = ifelse(precip_raw == 9999, NA, precip_raw),
+      precip_raw = precip_raw / 10
     )
 
     # deal with 6 and 12 hour precip
@@ -391,14 +391,14 @@ getDat <- function(code, year, hourly) {
 
     if (length(id) > 0) {
       dat$precip_6 <- NA
-      dat$precip_6[id] <- dat$precip[id]
+      dat$precip_6[id] <- dat$precip_raw[id]
     }
 
     id <- which(dat$precip_code == "12")
 
     if (length(id) > 0) {
       dat$precip_12 <- NA
-      dat$precip_12[id] <- dat$precip[id]
+      dat$precip_12[id] <- dat$precip_raw[id]
     }
   }
 
@@ -455,7 +455,7 @@ getDat <- function(code, year, hourly) {
   ## spread out precipitation across each hour
 
   ## only do this if precipitation exists
-  if ("precip_12" %in% names(dat)) {
+  if ("precip_12" %in% names(dat) && hourly) {
     
     ## make new precip variable
     dat$precip <- NA
