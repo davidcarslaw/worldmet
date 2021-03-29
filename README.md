@@ -58,14 +58,23 @@ marker to obtain the code and other basic information.
 ``` r
 ## search for near a specified lat/lon - near Beijing airport
 ## returns 'n' nearest by default
-info <- getMeta(lat = 40, lon = 116.9, plot = TRUE, returnMap = TRUE)
-print(info)
-```
-
-``` r
-## search for near a specified lat/lon - near Beijing airport
-## returns 'n' nearest by default
 info <- getMeta(lat = 40, lon = 116.9)
+info
+## # A tibble: 10 x 15
+##    usaf  wban  station ctry  st    call  latitude longitude `elev(m)` begin     
+##    <chr> <chr> <chr>   <chr> <chr> <chr>    <dbl>     <dbl>     <dbl> <date>    
+##  1 5451… 99999 BEIJIN… CH    <NA>  ZBAA      40.1      117.      35.4 1945-10-31
+##  2 5452… 99999 TIANJIN CH    <NA>  <NA>      39.1      117.       5   1956-08-20
+##  3 5452… 99999 BINHAI  CH    <NA>  ZBTJ      39.1      117.       3   1981-11-25
+##  4 5453… 99999 TANGSH… CH    <NA>  <NA>      39.6      118.      29   1956-08-20
+##  5 5440… 99999 HUAILAI CH    <NA>  <NA>      40.4      116.     538   1956-08-20
+##  6 5430… 99999 FENGNI… CH    <NA>  <NA>      41.2      117.     661   1957-06-01
+##  7 5442… 99999 CHENGDE CH    <NA>  <NA>      41.0      118.     423   1956-08-20
+##  8 5443… 99999 QINGLO… CH    <NA>  <NA>      40.4      119.     228   1957-06-02
+##  9 5453… 99999 LETING  CH    <NA>  <NA>      39.4      119.      12   1957-06-01
+## 10 5460… 99999 BAODING CH    <NA>  <NA>      38.7      115.      17   1956-08-20
+## # … with 5 more variables: end <date>, code <chr>, longr <dbl>, latr <dbl>,
+## #   dist <dbl>
 ```
 
 <img src="inst/images/map.PNG" alt="map of Beijing area" width="75%" />

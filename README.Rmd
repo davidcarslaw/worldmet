@@ -60,19 +60,12 @@ getMeta(site = "heathrow")
 
 Often we have a latitude / longitude of interest. A search can be made based on supplied decimal coordinates and the top `n` nearest sites are returned. The map shows the location searched by the user (red dot) and markers showing the nearest meteorological stations. Click on a station marker to obtain the code and other basic information.
 
-```{r eval=TRUE,echo=TRUE,results='asis'}
-## search for near a specified lat/lon - near Beijing airport
-## returns 'n' nearest by default
-info <- getMeta(lat = 40, lon = 116.9, plot = TRUE, returnMap = TRUE)
-print(info)
-```
-
-```{r eval=TRUE}
+```{r eval=TRUE,echo=TRUE}
 ## search for near a specified lat/lon - near Beijing airport
 ## returns 'n' nearest by default
 info <- getMeta(lat = 40, lon = 116.9)
+info
 ```
-
 
 <img src="inst/images/map.PNG" alt="map of Beijing area" width="75%" />
 
