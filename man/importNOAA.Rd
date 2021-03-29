@@ -96,6 +96,9 @@ give the annual precipitation.}
 
 \item{precip_6}{6-hour precipitation in mm.}
 
+\item{precip}{This calue of precipitation spreads the 12-hour total across
+the previous 12 hours.}
+
 
 \item{pwc}{The description of the present weather description (if
 available).}
