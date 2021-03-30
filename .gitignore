@@ -1,11 +1,4 @@
 .Rproj*
 .Rhistory
-.RData
-src/*.o
-src/*.so
-src/*.dll
-openair.Rproj
-*~
-.Rproj.user
-.travis.yml
+worldmet.Rproj
 README_cache/*
