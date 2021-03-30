@@ -11,8 +11,8 @@
 #'   \code{maxgap} are left as missing.
 #'
 #' @return Writes a text file to a location of the user's choosing.
+#' @importFrom stats approx
 #' @export
-#' @importFrom zoo na.approx
 #' @examples
 #'
 #' \dontrun{
@@ -50,24 +50,44 @@ exportADMS <- function(dat, out = "./ADMS_met.MET", interp = FALSE, maxgap = 2) 
 
   if (interp) {
 
-    ## variables to interpolate
-    ## note need to deal with wd properly
-    dat <- transform(dat, u = sin(pi * wd / 180), v = cos(pi * wd / 180))
-
     varInterp <- c("ws", "u", "v", "air_temp", "RH", "cl", "precip")
-
-    # don't want to try and interpret fields that are all missing
-    ids <- sapply(varInterp, function(x) !all(is.na(dat[[x]])))
-    varInterp <- varInterp[ids]
-
-    dat[varInterp] <- zoo::na.approx(dat[varInterp], maxgap = maxgap, na.rm = FALSE)
-
-    ## now put wd back
-    dat <- transform(dat, wd = as.vector(atan2(u, v) * 360 / 2 / pi))
-
+    
+    # transform wd
+    dat <- mutate(dat, u = sin(pi * wd / 180), 
+                  v = cos(pi * wd / 180))
+    
+    for (variable in varInterp) {
+      
+      # if all missing, then don't interpolate
+      if(all(is.na(dat[[variable]])))
+        return()
+      
+      # first fill with linear interpolation
+      filled <- approx(dat$date, dat[[variable]], xout = dat$date, 
+                       na.rm = TRUE, rule = 2, method = "linear")$y
+      
+      # find out length of missing data
+      is_missing <- rle(is.na(dat[[variable]]))
+      
+      is_missing <- rep(ifelse(is_missing$values, is_missing$lengths, 0),
+                        times = is_missing$lengths)
+      
+      id <- which(is_missing > maxgap)
+      
+      # update data frame
+      dat[[variable]] <- filled
+      dat[[variable]][id] <- NA
+      
+    }
+    
+    dat <- mutate(dat, wd = as.vector(atan2(u, v) * 360 / 2 / pi))
+    
     ## correct for negative wind directions
     ids <- which(dat$wd < 0) ## ids where wd < 0
     dat$wd[ids] <- dat$wd[ids] + 360
+    
+    dat <- select(dat, -v, -u)
+    
   }
 
   ## exports met data to ADMS format file

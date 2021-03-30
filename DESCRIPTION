@@ -18,8 +18,7 @@ Imports:
     dplyr,
     leaflet,
     tidyr,
-    readr,
-    zoo
+    readr
 Maintainer: David Carslaw <david.carslaw@york.ac.uk>
 Description: Functions to import data from more than 30,000 surface
     meteorological sites around the world managed by the National Oceanic and Atmospheric Administration (NOAA) Integrated Surface
