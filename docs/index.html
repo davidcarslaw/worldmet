@@ -118,7 +118,7 @@
 <span class="co">## 10 5460… 99999 BAODING CH    &lt;NA&gt;  &lt;NA&gt;      38.7      115.      17   1956-08-20</span>
 <span class="co">## # … with 5 more variables: end &lt;date&gt;, code &lt;chr&gt;, longr &lt;dbl&gt;, latr &lt;dbl&gt;,</span>
 <span class="co">## #   dist &lt;dbl&gt;</span></code></pre></div>
-<p><img src="inst/images/map.PNG" alt="map of Beijing area" width="75%"></p>
+<p><img src="inst/map.png" alt="map of Beijing area" width="75%"></p>
 <p>To obtain the data the user must supply a <code>code</code> (see above) and year or years of interest. For example, to download data for Heathrow Airport in 2010 (code 037720-99999):</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">met_london</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/importNOAA.html">importNOAA</a></span><span class="op">(</span>code <span class="op">=</span> <span class="st">"037720-99999"</span>, year <span class="op">=</span> <span class="fl">2010</span><span class="op">)</span>
@@ -135,13 +135,13 @@
 <span class="co">## # … with 17 more variables: air_temp &lt;dbl&gt;, atmos_pres &lt;dbl&gt;, visibility &lt;dbl&gt;,</span>
 <span class="co">## #   dew_point &lt;dbl&gt;, RH &lt;dbl&gt;, ceil_hgt &lt;dbl&gt;, cl_1 &lt;dbl&gt;, cl_2 &lt;dbl&gt;,</span>
 <span class="co">## #   cl_3 &lt;dbl&gt;, cl &lt;dbl&gt;, cl_1_height &lt;dbl&gt;, cl_2_height &lt;dbl&gt;,</span>
-<span class="co">## #   cl_3_height &lt;dbl&gt;, precip_12 &lt;dbl&gt;, precip_6 &lt;dbl&gt;, precip &lt;dbl&gt;, pwc &lt;chr&gt;</span></code></pre></div>
+<span class="co">## #   cl_3_height &lt;dbl&gt;, precip_12 &lt;dbl&gt;, precip_6 &lt;dbl&gt;, pwc &lt;chr&gt;, precip &lt;dbl&gt;</span></code></pre></div>
 <p>A wind rose (for example) can easily be plotted using <code>openair</code>:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># load openair</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://davidcarslaw.github.io/openair/">openair</a></span><span class="op">)</span>
 <span class="fu"><a href="https://davidcarslaw.github.io/openair/reference/windRose.html">windRose</a></span><span class="op">(</span><span class="va">met_london</span><span class="op">)</span></code></pre></div>
-<p><img src="README_files/figure-gfm/windRose-1.png"><!-- --></p>
+<p><img src="tools/windRose-1.png"><!-- --></p>
 </div>
 </div>
   </div>

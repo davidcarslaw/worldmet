@@ -77,7 +77,7 @@ info
 ## #   dist <dbl>
 ```
 
-<img src="inst/images/map.PNG" alt="map of Beijing area" width="75%" />
+<img src="inst/map.png" alt="map of Beijing area" width="75%" />
 
 To obtain the data the user must supply a `code` (see above) and year or
 years of interest. For example, to download data for Heathrow Airport in
@@ -98,7 +98,7 @@ head(met_london)
 ## # … with 17 more variables: air_temp <dbl>, atmos_pres <dbl>, visibility <dbl>,
 ## #   dew_point <dbl>, RH <dbl>, ceil_hgt <dbl>, cl_1 <dbl>, cl_2 <dbl>,
 ## #   cl_3 <dbl>, cl <dbl>, cl_1_height <dbl>, cl_2_height <dbl>,
-## #   cl_3_height <dbl>, precip_12 <dbl>, precip_6 <dbl>, precip <dbl>, pwc <chr>
+## #   cl_3_height <dbl>, precip_12 <dbl>, precip_6 <dbl>, pwc <chr>, precip <dbl>
 ```
 
 A wind rose (for example) can easily be plotted using `openair`:
@@ -109,4 +109,4 @@ library(openair)
 windRose(met_london)
 ```
 
-![](README_files/figure-gfm/windRose-1.png)<!-- -->
+![](tools/windRose-1.png)<!-- -->
