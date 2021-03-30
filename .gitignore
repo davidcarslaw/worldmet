@@ -9,3 +9,4 @@ openair.Rproj
 .Rproj.user
 .travis.yml
 README_cache/*
+docs

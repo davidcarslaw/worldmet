@@ -6,3 +6,6 @@ README_files
 README_cache
 ^README\.Rmd$
 ^\.github$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$

@@ -168,7 +168,6 @@ getMeta <- function(site = "heathrow", lat = NA, lon = NA,
 #' @param ... Currently unused.
 #'
 #' @return A tibble with meta data.
-#' @export
 #'
 #' @examples
 #' \dontrun{
