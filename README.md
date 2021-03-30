@@ -3,6 +3,9 @@
 
 # worldmet - R package for accessing NOAA Integrated Surface Database (ISD) meteorological observations
 
+For the main **worldmet** website, see
+<https://davidcarslaw.github.io/worldmet/>.
+
 [![R-CMD-check](https://github.com/davidcarslaw/worldmet/workflows/R-CMD-check/badge.svg)](https://github.com/davidcarslaw/worldmet/actions)
 ![](http://cranlogs.r-pkg.org/badges/grand-total/worldmet)
 
@@ -77,7 +80,7 @@ info
 ## #   dist <dbl>
 ```
 
-<img src="inst/map.png" alt="map of Beijing area" width="75%" />
+<img src="man/figures/map.png" alt="map of Beijing area" width="75%" />
 
 To obtain the data the user must supply a `code` (see above) and year or
 years of interest. For example, to download data for Heathrow Airport in
@@ -109,4 +112,4 @@ library(openair)
 windRose(met_london)
 ```
 
-![](tools/windRose-1.png)<!-- -->
+![](man/figures/windRose-1.png)<!-- -->
