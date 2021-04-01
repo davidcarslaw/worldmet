@@ -26,6 +26,9 @@ Description: Functions to import data from more than 30,000 surface
 License: GPL (>= 2)
 URL: https://davidcarslaw.github.io/worldmet/index.html
 BugReports: https://github.com/davidcarslaw/worldmet/issues
+Suggests: knitr
+Language: en-GB
+VignetteBuilder: knitr
 LazyLoad: true
 LazyData: true
 Encoding: UTF-8
