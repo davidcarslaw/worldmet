@@ -2,7 +2,6 @@
 
 export(exportADMS)
 export(getMeta)
-export(getMetaLive)
 export(importNOAA)
 import(doParallel)
 import(dplyr)

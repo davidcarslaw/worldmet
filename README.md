@@ -21,15 +21,20 @@ package.
 
 ## Installation
 
-Installation of `worldmet` from GitHub is easy using the `devtools`
-package.
+`worldmet` is available on CRAN and can be installed by typing
+`install.packages("worldmet")`.
+
+Installation of the development version of `worldmet` from GitHub is
+easy using the `devtools` package.
 
 ``` r
 require(devtools)
 install_github('davidcarslaw/worldmet')
 ```
 
-## Brief examples
+## Brief overview
+
+See the Articles tab for more information and interactive map examples.
 
 To search for meteorological sites the user can search by the name or
 partial name of the site in upper or lower case. The `getMeta` function

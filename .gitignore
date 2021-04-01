@@ -2,3 +2,5 @@
 .Rhistory
 worldmet.Rproj
 README_cache/*
+.Rproj.user
+vignettes/web_articles

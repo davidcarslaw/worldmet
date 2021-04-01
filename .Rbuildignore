@@ -9,3 +9,4 @@ README_cache
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
+^vignettes/web_articles
