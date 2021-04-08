@@ -28,7 +28,6 @@ URL: https://davidcarslaw.github.io/worldmet/index.html
 BugReports: https://github.com/davidcarslaw/worldmet/issues
 Suggests: knitr
 Language: en-GB
-VignetteBuilder: knitr
 LazyLoad: true
 LazyData: true
 Encoding: UTF-8
