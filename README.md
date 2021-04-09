@@ -13,7 +13,7 @@ For the main **worldmet** website, see
 Surface Database](https://www.ncdc.noaa.gov/isd) (ISD). The ISD contains
 detailed surface meteorological data from around the world for over
 35,000 locations. See also the
-[map](https://gis.ncdc.noaa.gov/map/viewer/#app=cdo&cfg=cdo&theme=hourly&layers=1).
+[map](https://gis.ncdc.noaa.gov/maps/ncei).
 
 The package outputs (typically hourly meteorological data) work very
 well with the [openair](https://github.com/davidcarslaw/openair)
