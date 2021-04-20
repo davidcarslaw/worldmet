@@ -30,7 +30,7 @@ meridian.}
 
 \item{country}{The country code. This is a two letter code. For a
 full listing see
-\url{ftp://ftp.ncdc.noaa.gov/pub/data/noaa/country-list.txt}.}
+\url{https://www1.ncdc.noaa.gov/pub/data/noaa/isd-history.csv}.}
 
 \item{state}{The state code. This is a two letter code.}
 

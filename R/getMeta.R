@@ -19,7 +19,7 @@
 ##'   meridian.
 ##' @param country The country code. This is a two letter code. For a
 ##'   full listing see
-##'   \url{ftp://ftp.ncdc.noaa.gov/pub/data/noaa/country-list.txt}.
+##'   \url{https://www1.ncdc.noaa.gov/pub/data/noaa/isd-history.csv}.
 ##' @param state The state code. This is a two letter code.
 ##' @param n The number of nearest sites to search based on
 ##'   \code{latitude} and \code{longitude}.
@@ -178,21 +178,21 @@ getMetaLive <- function(...) {
 
   ## downloads the whole thing fresh
 
-  url <- "ftp://ftp.ncdc.noaa.gov/pub/data/noaa/isd-history.csv"
-  meta <- suppressMessages(read_csv(url, skip = 21, col_names = FALSE,
-                                    col_types = cols(
-                                      X1 = col_character(),
-                                      X2 = col_character(),
-                                      X3 = col_character(),
-                                      X4 = col_character(),
-                                      X5 = col_character(),
-                                      X6 = col_character(),
-                                      X7 = col_double(),
-                                      X8 = col_double(),
-                                      X9 = col_double(),
-                                      X10 = col_date(format = "%Y%m%d"),
-                                      X11 = col_date(format = "%Y%m%d")
-                                    )))
+  url <- "https://www1.ncdc.noaa.gov/pub/data/noaa/isd-history.csv"
+  meta <- read_csv(url, skip = 21, col_names = FALSE,
+                   col_types = cols(
+                     X1 = col_character(),
+                     X2 = col_character(),
+                     X3 = col_character(),
+                     X4 = col_character(),
+                     X5 = col_character(),
+                     X6 = col_character(),
+                     X7 = col_double(),
+                     X8 = col_double(),
+                     X9 = col_double(),
+                     X10 = col_date(format = "%Y%m%d"),
+                     X11 = col_date(format = "%Y%m%d")
+                   ))
 
   # if not available e.g. due to US Government shutdown, flag and exit
   # some header data may still be read, so check column number
