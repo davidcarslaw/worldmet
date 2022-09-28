@@ -50,7 +50,7 @@ exportADMS <- function(dat, out = "./ADMS_met.MET", interp = FALSE, maxgap = 2) 
 
   if (interp) {
 
-    varInterp <- c("ws", "u", "v", "air_temp", "RH", "cl", "precip")
+    varInterp <- c("ws", "u", "v", "air_temp", "RH", "cl")
     
     # transform wd
     dat <- mutate(dat, u = sin(pi * wd / 180), 
