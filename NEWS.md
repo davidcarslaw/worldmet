@@ -1,5 +1,7 @@
 # worldmet 0.9.5
 
+- do not add precip to ADMS export
+
 - Do not use ftp for site information.
 
 # worldmet 0.9.4
