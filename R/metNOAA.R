@@ -3,7 +3,7 @@
 ##' This is the main function to import data from the NOAA Integrated Surface
 ##' Database (ISD). The ISD contains detailed surface meteorological data from
 ##' around the world for over 30,000 locations. For general information of the
-##' ISD see \url{https://www.ncdc.noaa.gov/isd} and the map here
+##' ISD see \url{https://www.ncei.noaa.gov/products/land-based-station/integrated-surface-database} and the map here
 ##' \url{https://gis.ncdc.noaa.gov/maps/ncei}.
 ##'
 ##' Note the following units for the main variables:
@@ -201,7 +201,7 @@ getDat <- function(code, year, hourly) {
 
   # suppress warnings because some fields might be missing in the list
   # Note that not all available data is returned - just what I think is most useful
-  dat <- try(suppressWarnings(read_csv(file.name,
+  met_data <- try(suppressWarnings(read_csv(file.name,
     col_types = cols_only(
       STATION = col_character(),
       DATE = col_datetime(format = ""),
@@ -227,13 +227,13 @@ getDat <- function(code, year, hourly) {
     )
   )), silent = TRUE)
 
-  if (class(dat)[1] == "try-error") {
+  if (class(met_data)[1] == "try-error") {
     message(paste0("Missing data for site ", code, " and year ", year))
-    dat <- NULL
+    met_data <- NULL
     return()
   }
 
-  dat <- rename(dat,
+  met_data <- rename(met_data,
     code = STATION,
     station = NAME,
     date = DATE,
@@ -242,14 +242,14 @@ getDat <- function(code, year, hourly) {
     elev = ELEVATION
   )
 
-  dat$code <- code
+  met_data$code <- code
 
   # separate WND column
 
-  if ("WND" %in% names(dat)) {
-    dat <- separate(dat, WND, into = c("wd", "x", "y", "ws", "z"))
+  if ("WND" %in% names(met_data)) {
+    met_data <- separate(met_data, WND, into = c("wd", "x", "y", "ws", "z"))
 
-    dat <- mutate(dat,
+    met_data <- mutate(met_data,
       wd = as.numeric(wd),
       wd = ifelse(wd == 999, NA, wd),
       ws = as.numeric(ws),
@@ -259,10 +259,10 @@ getDat <- function(code, year, hourly) {
   }
 
   # separate TMP column
-  if ("TMP" %in% names(dat)) {
-    dat <- separate(dat, TMP, into = c("air_temp", "flag_temp"), sep = ",")
+  if ("TMP" %in% names(met_data)) {
+    met_data <- separate(met_data, TMP, into = c("air_temp", "flag_temp"), sep = ",")
 
-    dat <- mutate(dat,
+    met_data <- mutate(met_data,
       air_temp = as.numeric(air_temp),
       air_temp = ifelse(air_temp == 9999, NA, air_temp),
       air_temp = air_temp / 10
@@ -270,36 +270,36 @@ getDat <- function(code, year, hourly) {
   }
 
   # separate VIS column
-  if ("VIS" %in% names(dat)) {
-    dat <- separate(dat, VIS,
+  if ("VIS" %in% names(met_data)) {
+    met_data <- separate(met_data, VIS,
       into = c("visibility", "flag_vis1", "flag_vis2", "flag_vis3"),
       sep = ",", fill = "right"
     )
 
-    dat <- mutate(dat,
+    met_data <- mutate(met_data,
       visibility = as.numeric(visibility),
       visibility = ifelse(visibility %in% c(9999, 999999), NA, visibility)
     )
   }
 
   # separate DEW column
-  if ("DEW" %in% names(dat)) {
-    dat <- separate(dat, DEW, into = c("dew_point", "flag_dew"), sep = ",")
+  if ("DEW" %in% names(met_data)) {
+    met_data <- separate(met_data, DEW, into = c("dew_point", "flag_dew"), sep = ",")
 
-    dat <- mutate(dat,
+    met_data <- mutate(met_data,
       dew_point = as.numeric(dew_point),
       dew_point = ifelse(dew_point == 9999, NA, dew_point),
       dew_point = dew_point / 10
     )
   }
   # separate SLP column
-  if ("SLP" %in% names(dat)) {
-    dat <- separate(dat, SLP,
+  if ("SLP" %in% names(met_data)) {
+    met_data <- separate(met_data, SLP,
       into = c("atmos_pres", "flag_pres"), sep = ",",
       fill = "right"
     )
 
-    dat <- mutate(dat,
+    met_data <- mutate(met_data,
       atmos_pres = as.numeric(atmos_pres),
       atmos_pres = ifelse(atmos_pres %in% c(99999, 999999), NA, atmos_pres),
       atmos_pres = atmos_pres / 10
@@ -307,13 +307,13 @@ getDat <- function(code, year, hourly) {
   }
 
   # separate CIG (sky condition) column
-  if ("CIG" %in% names(dat)) {
-    dat <- separate(dat, CIG,
+  if ("CIG" %in% names(met_data)) {
+    met_data <- separate(met_data, CIG,
       into = c("ceil_hgt", "flag_sky1", "flag_sky2", "flag_sky3"),
       sep = ",", fill = "right"
     )
 
-    dat <- mutate(dat,
+    met_data <- mutate(met_data,
       ceil_hgt = as.numeric(ceil_hgt),
       ceil_hgt = ifelse(ceil_hgt == 99999, NA, ceil_hgt)
     )
@@ -321,18 +321,18 @@ getDat <- function(code, year, hourly) {
 
 
   ## relative humidity - general formula based on T and dew point
-  dat$RH <- 100 * ((112 - 0.1 * dat$air_temp + dat$dew_point) /
-    (112 + 0.9 * dat$air_temp))^8
+  met_data$RH <- 100 * ((112 - 0.1 * met_data$air_temp + met_data$dew_point) /
+    (112 + 0.9 * met_data$air_temp))^8
 
-  if ("GA1" %in% names(dat)) {
+  if ("GA1" %in% names(met_data)) {
 
     # separate GA1 (cloud layer 1 height, amount) column
-    dat <- separate(dat, GA1,
+    met_data <- separate(met_data, GA1,
       into = c("cl_1", "code_1", "cl_1_height", "code_2", "cl_1_type", "code_3"),
       sep = ","
     )
 
-    dat <- mutate(dat,
+    met_data <- mutate(met_data,
       cl_1 = as.numeric(cl_1),
       cl_1 = ifelse((is.na(cl_1) & ceil_hgt == 22000), 0, cl_1),
       cl_1 = ifelse(cl_1 == 99, NA, cl_1),
@@ -341,13 +341,13 @@ getDat <- function(code, year, hourly) {
     )
   }
 
-  if ("GA2" %in% names(dat)) {
-    dat <- separate(dat, GA2,
+  if ("GA2" %in% names(met_data)) {
+    met_data <- separate(met_data, GA2,
       into = c("cl_2", "code_1", "cl_2_height", "code_2", "cl_2_type", "code_3"),
       sep = ","
     )
 
-    dat <- mutate(dat,
+    met_data <- mutate(met_data,
       cl_2 = as.numeric(cl_2),
       cl_2 = ifelse(cl_2 == 99, NA, cl_2),
       cl_2_height = as.numeric(cl_2_height),
@@ -355,13 +355,13 @@ getDat <- function(code, year, hourly) {
     )
   }
 
-  if ("GA3" %in% names(dat)) {
-    dat <- separate(dat, GA3,
+  if ("GA3" %in% names(met_data)) {
+    met_data <- separate(met_data, GA3,
       into = c("cl_3", "code_1", "cl_3_height", "code_2", "cl_3_type", "code_3"),
       sep = ","
     )
 
-    dat <- mutate(dat,
+    met_data <- mutate(met_data,
       cl_3 = as.numeric(cl_3),
       cl_3 = ifelse(cl_3 == 99, NA, cl_3),
       cl_3_height = as.numeric(cl_3_height),
@@ -370,55 +370,55 @@ getDat <- function(code, year, hourly) {
   }
 
   ## for cloud cover, make new 'cl' max of 3 cloud layers
-  if ("cl_3" %in% names(dat)) {
-    dat$cl <- pmax(dat$cl_1, dat$cl_2, dat$cl_3, na.rm = TRUE)
+  if ("cl_3" %in% names(met_data)) {
+    met_data$cl <- pmax(met_data$cl_1, met_data$cl_2, met_data$cl_3, na.rm = TRUE)
   }
 
   # PRECIP AA1
-  if ("AA1" %in% names(dat)) {
-    dat <- separate(dat, AA1,
+  if ("AA1" %in% names(met_data)) {
+    met_data <- separate(met_data, AA1,
       into = c("precip_code", "precip_raw", "code_1", "code_2"),
       sep = ","
     )
 
-    dat <- mutate(dat,
+    met_data <- mutate(met_data,
       precip_raw = as.numeric(precip_raw),
       precip_raw = ifelse(precip_raw == 9999, NA, precip_raw),
       precip_raw = precip_raw / 10
     )
 
     # deal with 6 and 12 hour precip
-    id <- which(dat$precip_code == "06")
+    id <- which(met_data$precip_code == "06")
 
     if (length(id) > 0) {
-      dat$precip_6 <- NA
-      dat$precip_6[id] <- dat$precip_raw[id]
+      met_data$precip_6 <- NA
+      met_data$precip_6[id] <- met_data$precip_raw[id]
     }
 
-    id <- which(dat$precip_code == "12")
+    id <- which(met_data$precip_code == "12")
 
     if (length(id) > 0) {
-      dat$precip_12 <- NA
-      dat$precip_12[id] <- dat$precip_raw[id]
+      met_data$precip_12 <- NA
+      met_data$precip_12[id] <- met_data$precip_raw[id]
     }
   }
 
 
   # weather codes, AW1
 
-  if ("AW1" %in% names(dat)) {
-    dat <- separate(dat, AW1,
+  if ("AW1" %in% names(met_data)) {
+    met_data <- separate(met_data, AW1,
       into = c("pwc", "code_1"),
       sep = ",", fill = "right"
     )
 
-    dat <- left_join(dat, worldmet::weatherCodes, by = "pwc")
-    dat <- select(dat, -pwc) %>%
+    met_data <- left_join(met_data, worldmet::weatherCodes, by = "pwc")
+    met_data <- select(met_data, -pwc) %>%
       rename(pwc = description)
   }
 
   ## select the variables we want
-  dat <- select(dat, any_of(c(
+  met_data <- select(met_data, any_of(c(
     "date", "code", "station", "latitude", "longitude", "elev",
     "ws", "wd", "air_temp", "atmos_pres",
     "visibility", "dew_point", "RH",
@@ -431,8 +431,8 @@ getDat <- function(code, year, hourly) {
 
 
   ## present weather is character and cannot be averaged, take first
-  if ("pwc" %in% names(dat) && hourly) {
-    pwc <- dat[c("date", "pwc")]
+  if ("pwc" %in% names(met_data) && hourly) {
+    pwc <- met_data[c("date", "pwc")]
     pwc$date2 <- format(pwc$date, "%Y-%m-%d %H") ## nearest hour
     tmp <- pwc[which(!duplicated(pwc$date2)), ]
     dates <- as.POSIXct(paste0(unique(pwc$date2), ":00:00"), tz = "GMT")
@@ -443,12 +443,12 @@ getDat <- function(code, year, hourly) {
 
   ## average to hourly
   if (hourly) {
-    dat <- openair::timeAverage(dat, avg.time = "hour", type = c("code", "station"))
+    met_data <- openair::timeAverage(met_data, avg.time = "hour", type = c("code", "station"))
   }
 
   ## add pwc back in
   if (exists("pwc")) {
-    dat <- left_join(dat, pwc, by = "date", all = TRUE)
+    met_data <- left_join(met_data, pwc, by = "date", all = TRUE)
   }
 
   ## add precipitation - based on 12 HOUR averages, so work with hourly data
@@ -456,13 +456,13 @@ getDat <- function(code, year, hourly) {
   ## spread out precipitation across each hour
 
   ## only do this if precipitation exists
-  if ("precip_12" %in% names(dat) && hourly) {
+  if ("precip_12" %in% names(met_data) && hourly) {
 
     ## make new precip variable
-    dat$precip <- NA
+    met_data$precip <- NA
 
     ## id where there is 12 hour data
-    id <- which(!is.na(dat$precip_12))
+    id <- which(!is.na(met_data$precip_12))
 
     if (length(id) == 0L) {
       return()
@@ -471,15 +471,15 @@ getDat <- function(code, year, hourly) {
     id <- id[id > 11] ## make sure we don't run off beginning
 
     for (i in seq_along(id)) {
-      dat$precip[(id[i] - 11):id[i]] <- dat$precip_12[id[i]] / 12
+      met_data$precip[(id[i] - 11):id[i]] <- met_data$precip_12[id[i]] / 12
     }
   }
 
   # replace NaN with NA
-  dat[] <- lapply(dat, function(x) {
+  met_data[] <- lapply(met_data, function(x) {
     replace(x, is.nan(x), NA)
   })
 
 
-  return(as_tibble(dat))
+  return(as_tibble(met_data))
 }
