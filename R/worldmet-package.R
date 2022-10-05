@@ -15,7 +15,7 @@
 ##' @author David Carslaw
 ##'
 ##' @references For general information of the ISD see
-##' \url{https://www.ncdc.noaa.gov/isd} and the map here
+##' \url{https://www.ncei.noaa.gov/products/land-based-station/integrated-surface-database} and the map here
 ##' \url{https://gis.ncdc.noaa.gov/maps/ncei}.
 ##' @keywords methods
 ##'

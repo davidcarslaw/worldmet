@@ -22,7 +22,7 @@ Imports:
 Maintainer: David Carslaw <david.carslaw@york.ac.uk>
 Description: Functions to import data from more than 30,000 surface
     meteorological sites around the world managed by the National Oceanic and Atmospheric Administration (NOAA) Integrated Surface
-    Database (ISD, see <https://www.ncdc.noaa.gov/isd>).
+    Database (ISD, see <https://www.ncei.noaa.gov/products/land-based-station/integrated-surface-database>).
 License: GPL (>= 2)
 URL: https://davidcarslaw.github.io/worldmet/index.html
 BugReports: https://github.com/davidcarslaw/worldmet/issues
@@ -31,4 +31,4 @@ Language: en-GB
 LazyLoad: true
 LazyData: true
 Encoding: UTF-8
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.1
