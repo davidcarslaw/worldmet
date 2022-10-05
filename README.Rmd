@@ -29,7 +29,7 @@ knitr::opts_chunk$set(
 ![](http://cranlogs.r-pkg.org/badges/grand-total/worldmet)
 
 `worldmet` provides an easy way to access data from the [NOAA Integrated
-Surface Database](https://www.ncdc.noaa.gov/isd) (ISD). The ISD contains detailed surface
+Surface Database](https://www.ncei.noaa.gov/products/land-based-station/integrated-surface-database) (ISD). The ISD contains detailed surface
 meteorological data from around the world for over 35,000
 locations. See also the
 [map](https://gis.ncdc.noaa.gov/maps/ncei).
