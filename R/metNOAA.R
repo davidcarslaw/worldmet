@@ -113,7 +113,7 @@ importNOAA <- function(code = "037720-99999", year = 2014,
                        hourly = TRUE,
                        n.cores = 1, quiet = FALSE, path = NA) {
 
-  ## main web site https://www.ncdc.noaa.gov/isd
+  ## main web site https://www.ncei.noaa.gov/products/land-based-station/integrated-surface-database
 
   ## formats document https://www.ncei.noaa.gov/data/global-hourly/doc/isd-format-document.pdf
 
