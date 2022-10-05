@@ -334,6 +334,7 @@ getDat <- function(code, year, hourly) {
 
     dat <- mutate(dat,
       cl_1 = as.numeric(cl_1),
+      cl_1 = ifelse((is.na(cl_1) & ceil_hgt == 22000), 0, cl_1),
       cl_1 = ifelse(cl_1 == 99, NA, cl_1),
       cl_1_height = as.numeric(cl_1_height),
       cl_1_height = ifelse(cl_1_height == 99999, NA, cl_1_height)

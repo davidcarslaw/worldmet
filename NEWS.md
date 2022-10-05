@@ -2,6 +2,8 @@
 
 - do not add precip to ADMS export
 
+- Cloud cover data mostly spans 1 to 8 Oktas and no zero (clear sky); use `ceil_hgt = 220000` (unlimited) to indicate clear sky when cloud cover is reported as missing.
+
 - Do not use ftp for site information.
 
 # worldmet 0.9.4
