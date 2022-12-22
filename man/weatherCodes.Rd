@@ -5,14 +5,11 @@
 \alias{weatherCodes}
 \title{Codes for weather types}
 \description{
-This data frame consists of the weather description codes used in the ISD. It is not of general use to most users.
+This data frame consists of the weather description codes used in the ISD. It
+is not of general use to most users.
 }
 \examples{
-
-
 ## basic structure
 head(weatherCodes)
-
-
 }
 \keyword{datasets}

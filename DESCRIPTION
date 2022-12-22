@@ -14,11 +14,12 @@ Imports:
     doParallel,
     parallel,
     foreach,
-    purrr,
+    purrr (>= 1.0.0),
     dplyr,
     leaflet,
     tidyr,
-    readr
+    readr,
+    magrittr
 Maintainer: David Carslaw <david.carslaw@york.ac.uk>
 Description: Functions to import data from more than 30,000 surface
     meteorological sites around the world managed by the National Oceanic and Atmospheric Administration (NOAA) Integrated Surface
@@ -31,4 +32,5 @@ Language: en-GB
 LazyLoad: true
 LazyData: true
 Encoding: UTF-8
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3
+Roxygen: list(markdown = TRUE)
