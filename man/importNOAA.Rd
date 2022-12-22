@@ -2,7 +2,7 @@
 % Please edit documentation in R/metNOAA.R
 \name{importNOAA}
 \alias{importNOAA}
-\title{Import meteorological data}
+\title{Import Meteorological data from the NOAA Integrated Surface Database (ISD)}
 \usage{
 importNOAA(
   code = "037720-99999",
@@ -41,9 +41,6 @@ data. The \link[lubridate:lubridate-package]{lubridate} package is useful in
 this respect.
 }
 \description{
-Main function for importing meteorological data
-}
-\details{
 This is the main function to import data from the NOAA Integrated Surface
 Database (ISD). The ISD contains detailed surface meteorological data from
 around the world for over 30,000 locations. For general information of the
@@ -51,7 +48,8 @@ ISD see
 \url{https://www.ncei.noaa.gov/products/land-based-station/integrated-surface-database}
 and the map here
 \url{https://gis.ncdc.noaa.gov/maps/ncei}.
-
+}
+\details{
 Note the following units for the main variables:
 
 \describe{
@@ -111,8 +109,9 @@ zone when combining with other data. For example, if air quality data were
 available for Beijing with time zone set to "Etc/GMT-8" (note the negative
 offset even though Beijing is ahead of GMT. See the \code{openair} package and
 manual for more details), then the time zone of the met data can be changed
-to be the same. One way of doing this would be \code{attr(met$date, "tzone") <- "Etc/GMT-8"} for a meteorological data frame called \code{met}. The two data sets
-could then be merged based on \code{date}.
+to be the same. One way of doing this would be
+\code{attr(met$date, "tzone") <- "Etc/GMT-8"} for a meteorological data frame
+called \code{met}. The two data sets could then be merged based on \code{date}.
 }
 \examples{
 
