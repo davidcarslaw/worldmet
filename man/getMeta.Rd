@@ -66,7 +66,7 @@ Get information on meteorological sites
 This function is primarily used to find a site code that can be used to
 access data using \code{\link[=importNOAA]{importNOAA()}}. Sites searches of approximately 30,000
 sites can be carried out based on the site name and based on the nearest
-locations based on user-supplied latitude and logitude.
+locations based on user-supplied latitude and longitude.
 
 See also \code{\link[=getMetaLive]{getMetaLive()}} to download the all meta data to allow re-use and
 direct querying.

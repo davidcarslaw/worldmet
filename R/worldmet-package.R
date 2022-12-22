@@ -1,8 +1,8 @@
 #' @keywords internal
 #'
-#' @details This package contains functions to import surface meteorolgical data
-#'   from over 30,000 sites around the world. These data are curated by NOAA as
-#'   part of the Integrated Surface Database (ISD).
+#' @details This package contains functions to import surface meteorological
+#'   data from over 30,000 sites around the world. These data are curated by
+#'   NOAA as part of the Integrated Surface Database (ISD).
 #'
 #'   If you access these data using the `worldmet` package please give full
 #'   acknowledgement to NOAA ISD. Users should also take a note of the usage
@@ -13,7 +13,7 @@
 #'
 #' @references For general information of the ISD see
 #'   <https://www.ncei.noaa.gov/products/land-based-station/integrated-surface-database>
-#'   and the map here <https://gis.ncdc.noaa.gov/maps/ncei>.
+#'    and the map here <https://gis.ncdc.noaa.gov/maps/ncei>.
 #'
 #' @seealso See <https://github.com/davidcarslaw/openair> for information on the
 #'   related `openair` package.
