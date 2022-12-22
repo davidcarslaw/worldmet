@@ -86,10 +86,7 @@
 #'   the chosen location e.g.  `path = "C:/Users/David"`. Files are saved by
 #'   year and site.
 #' @export
-#' @import openair
-#' @import readr
-#' @import tidyr
-#' @import doParallel parallel foreach dplyr
+#' @import readr tidyr dplyr
 #' @return Returns a data frame of surface observations. The data frame is
 #'   consistent for use with the [openair][openair::openair-package] package.
 #'   NOTE! the data are returned in GMT (UTC) time zone format. Users may wish
@@ -129,10 +126,10 @@ importNOAA <- function(code = "037720-99999", year = 2014,
   )
   
   if (n.cores > 1) {
-    cl <- makeCluster(n.cores)
-    registerDoParallel(cl)
+    cl <- parallel::makeCluster(n.cores)
+    doParallel::registerDoParallel(cl)
     
-    dat <- foreach(
+    dat <- foreach::foreach(
       i = 1:nrow(site_process),
       .combine = "bind_rows",
       .export = "getDat",
@@ -144,7 +141,7 @@ importNOAA <- function(code = "037720-99999", year = 2014,
         hourly = hourly
       )
     
-    stopCluster(cl)
+    parallel::stopCluster(cl)
   } else {
     dat <-
       purrr::pmap(site_process, getDat,
