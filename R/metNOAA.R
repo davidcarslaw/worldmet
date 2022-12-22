@@ -96,7 +96,6 @@
 #' @importFrom utils head write.table download.file
 #' @importFrom leaflet addCircles addMarkers addTiles leaflet
 #'   markerClusterOptions
-#' @importFrom dplyr `%>%`
 #' @return Returns a data frame of surface observations. The data frame is
 #'   consistent for use with the [openair][openair::openair-package] package.
 #'   NOTE! the data are returned in GMT (UTC) time zone format. Users may wish
