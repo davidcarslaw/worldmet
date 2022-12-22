@@ -21,7 +21,7 @@
 #' \item{longitude}{Longitude in decimal degrees (-180 to 180). Negative numbers
 #' are west of the Greenwich Meridian.}
 #'
-#' \item{elevation}{Elevention of site in metres.}
+#' \item{elevation}{Elevation of site in metres.}
 #'
 #' \item{wd}{Wind direction in degrees. 90 is from the east.}
 #'
@@ -54,7 +54,7 @@
 #'
 #' \item{precip_6}{6-hour precipitation in mm.}
 #'
-#' \item{precip}{This calue of precipitation spreads the 12-hour total across
+#' \item{precip}{This value of precipitation spreads the 12-hour total across
 #' the previous 12 hours.}
 #'
 #'
