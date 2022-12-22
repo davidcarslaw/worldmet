@@ -34,7 +34,6 @@
 #'   [importNOAA()]. If latitude and longitude searches are made an
 #'   approximate distance, `dist` in km is also returned.
 #' @export
-#' @importFrom dplyr `%>%`
 #' @author David Carslaw
 #' @examples
 #'
