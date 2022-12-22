@@ -12,14 +12,14 @@ getMeta(
   state = NA,
   n = 10,
   end.year = "current",
+  provider = c("OpenStreetMap", "Esri.WorldImagery"),
   plot = TRUE,
   returnMap = FALSE
 )
 }
 \arguments{
-\item{site}{A site name search string e.g. \code{site = "heathrow"}. The
-search strings and be partial and can be upper or lower case e.g.
-\code{site = "HEATHR"}.}
+\item{site}{A site name search string e.g. \code{site = "heathrow"}. The search
+strings and be partial and can be upper or lower case e.g. \code{site = "HEATHR"}.}
 
 \item{lat}{A latitude in decimal degrees to search. Takes the values -90 to
 90.}
@@ -36,10 +36,17 @@ listing see \url{https://www1.ncdc.noaa.gov/pub/data/noaa/isd-history.csv}.}
 \code{longitude}.}
 
 \item{end.year}{To help filter sites based on how recent the available data
-are. \code{end.year} can be "current", "any" or a numeric year such as
-2016, or a range of years e.g. 1990:2016 (which would select any site that
-had an end date in that range. \strong{By default only sites that have some
-data for the current year are returned}.}
+are. \code{end.year} can be "current", "any" or a numeric year such as 2016, or
+a range of years e.g. 1990:2016 (which would select any site that had an
+end date in that range. \strong{By default only sites that have some data for the
+current year are returned}.}
+
+\item{provider}{By default a map will be created in which readers may toggle
+between a vector base map and a satellite/aerial image. \code{provider} allows
+users to override this default; see
+\url{http://leaflet-extras.github.io/leaflet-providers/preview/} for a list
+of all base maps that can be used. If multiple base maps are provided, they
+can be toggled between using a "layer control" interface.}
 
 \item{plot}{If \code{TRUE} will plot sites on an interactive leaflet map.}
 
@@ -48,21 +55,21 @@ Default is \code{FALSE}.}
 }
 \value{
 A data frame is returned with all available meta data, mostly
-importantly including a \code{code} that can be supplied to
-\code{\link[=importNOAA]{importNOAA()}}. If latitude and longitude searches are made an
-approximate distance, \code{dist} in km is also returned.
+importantly including a \code{code} that can be supplied to \code{\link[=importNOAA]{importNOAA()}}. If
+latitude and longitude searches are made an approximate distance, \code{dist} in
+km is also returned.
 }
 \description{
 Get information on meteorological sites
 }
 \details{
 This function is primarily used to find a site code that can be used to
-access data using \code{\link[=importNOAA]{importNOAA()}}. Sites searches of approximately
-30,000 sites can be carried out based on the site name and based on the
-nearest locations based on user-supplied latitude and logitude.
+access data using \code{\link[=importNOAA]{importNOAA()}}. Sites searches of approximately 30,000
+sites can be carried out based on the site name and based on the nearest
+locations based on user-supplied latitude and logitude.
 
-See also \code{\link[=getMetaLive]{getMetaLive()}} to download the all meta data to allow
-re-use and direct querying.
+See also \code{\link[=getMetaLive]{getMetaLive()}} to download the all meta data to allow re-use and
+direct querying.
 }
 \examples{
 
