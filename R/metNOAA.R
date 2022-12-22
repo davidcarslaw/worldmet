@@ -1,4 +1,4 @@
-#' Main function for importing meteorological data
+#' Import Meteorological data from the NOAA Integrated Surface Database (ISD)
 #'
 #' This is the main function to import data from the NOAA Integrated Surface
 #' Database (ISD). The ISD contains detailed surface meteorological data from
@@ -68,11 +68,9 @@
 #' available for Beijing with time zone set to "Etc/GMT-8" (note the negative
 #' offset even though Beijing is ahead of GMT. See the `openair` package and
 #' manual for more details), then the time zone of the met data can be changed
-#' to be the same. One way of doing this would be `attr(met$date, "tzone") <-
-#' "Etc/GMT-8"` for a meteorological data frame called `met`. The two data sets
-#' could then be merged based on `date`.
-#'
-#' @title Import meteorological data
+#' to be the same. One way of doing this would be 
+#' `attr(met$date, "tzone") <- "Etc/GMT-8"` for a meteorological data frame 
+#' called `met`. The two data sets could then be merged based on `date`.
 #'
 #' @param code The identifying code as a character string. The code is a
 #'   combination of the USAF and the WBAN unique identifiers. The codes are
@@ -92,8 +90,6 @@
 #' @import readr
 #' @import tidyr
 #' @import doParallel parallel foreach dplyr
-#' @importFrom purrr pmap_dfr
-#' @importFrom utils head write.table download.file
 #' @return Returns a data frame of surface observations. The data frame is
 #'   consistent for use with the [openair][openair::openair-package] package.
 #'   NOTE! the data are returned in GMT (UTC) time zone format. Users may wish
@@ -150,7 +146,10 @@ importNOAA <- function(code = "037720-99999", year = 2014,
     
     stopCluster(cl)
   } else {
-    dat <- pmap_dfr(site_process, getDat, hourly = hourly)
+    dat <-
+      purrr::pmap(site_process, getDat,
+                  hourly = hourly, .progress = "Importing NOAA Data") %>%
+      purrr::list_rbind()
   }
   
   if (is.null(dat) || nrow(dat) == 0) {
@@ -193,6 +192,14 @@ importNOAA <- function(code = "037720-99999", year = 2014,
 
 getDat <- function(code, year, hourly) {
   
+  # function to supress timeAverage printing
+  # (can't see option to turn it off)
+  quiet <- function(x) { 
+    sink(tempfile()) 
+    on.exit(sink()) 
+    invisible(force(x)) 
+  } 
+  
   ## location of data
   file.name <- paste0(
     "https://www.ncei.noaa.gov/data/global-hourly/access/",
@@ -201,31 +208,34 @@ getDat <- function(code, year, hourly) {
   
   # suppress warnings because some fields might be missing in the list
   # Note that not all available data is returned - just what I think is most useful
-  met_data <- try(suppressWarnings(read_csv(file.name,
-                                            col_types = cols_only(
-                                              STATION = col_character(),
-                                              DATE = col_datetime(format = ""),
-                                              SOURCE = col_double(),
-                                              LATITUDE = col_double(),
-                                              LONGITUDE = col_double(),
-                                              ELEVATION = col_double(),
-                                              NAME = col_character(),
-                                              REPORT_TYPE = col_character(),
-                                              CALL_SIGN = col_double(),
-                                              QUALITY_CONTROL = col_character(),
-                                              WND = col_character(),
-                                              CIG = col_character(),
-                                              VIS = col_character(),
-                                              TMP = col_character(),
-                                              DEW = col_character(),
-                                              SLP = col_character(),
-                                              AA1 = col_character(),
-                                              AW1 = col_character(),
-                                              GA1 = col_character(),
-                                              GA2 = col_character(),
-                                              GA3 = col_character()
-                                            )
-  )), silent = TRUE)
+  met_data <- try(suppressWarnings(read_csv(
+    file.name,
+    col_types = cols_only(
+      STATION = col_character(),
+      DATE = col_datetime(format = ""),
+      SOURCE = col_double(),
+      LATITUDE = col_double(),
+      LONGITUDE = col_double(),
+      ELEVATION = col_double(),
+      NAME = col_character(),
+      REPORT_TYPE = col_character(),
+      CALL_SIGN = col_double(),
+      QUALITY_CONTROL = col_character(),
+      WND = col_character(),
+      CIG = col_character(),
+      VIS = col_character(),
+      TMP = col_character(),
+      DEW = col_character(),
+      SLP = col_character(),
+      AA1 = col_character(),
+      AW1 = col_character(),
+      GA1 = col_character(),
+      GA2 = col_character(),
+      GA3 = col_character()
+    ),
+    progress = FALSE
+  )), silent = TRUE
+  )
   
   if (class(met_data)[1] == "try-error") {
     message(paste0("Missing data for site ", code, " and year ", year))
@@ -443,7 +453,12 @@ getDat <- function(code, year, hourly) {
   
   ## average to hourly
   if (hourly) {
-    met_data <- openair::timeAverage(met_data, avg.time = "hour", type = c("code", "station"))
+    met_data <-
+      quiet(openair::timeAverage(
+        met_data,
+        avg.time = "hour",
+        type = c("code", "station")
+      ))
   }
   
   ## add pwc back in
@@ -483,3 +498,4 @@ getDat <- function(code, year, hourly) {
   
   return(as_tibble(met_data))
 }
+

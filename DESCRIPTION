@@ -14,7 +14,7 @@ Imports:
     doParallel,
     parallel,
     foreach,
-    purrr,
+    purrr (>= 1.0.0),
     dplyr,
     leaflet,
     tidyr,

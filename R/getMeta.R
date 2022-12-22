@@ -130,7 +130,7 @@ getMeta <- function(site = "heathrow",
                         cos(meta$latR) * cos(meta$longR - LON)) * r
     
     ## sort and retrun top n nearest
-    meta <- head(openair:::sortDataFrame(meta, key = "dist"), n)
+    meta <- utils::head(openair:::sortDataFrame(meta, key = "dist"), n)
   }
   
   dat <- rename(meta, latitude = LAT, longitude = LON)
@@ -153,7 +153,7 @@ getMeta <- function(site = "heathrow",
         sep = "<br/>"
       )
     }
-
+    
     m <- leaflet::leaflet(dat)
     
     for (i in provider) {
