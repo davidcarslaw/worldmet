@@ -17,56 +17,51 @@ getMeta(
 )
 }
 \arguments{
-\item{site}{A site name search string e.g. \code{site =
-"heathrow"}. The search strings and be partial and can be upper
-or lower case e.g. \code{site = "HEATHR"}.}
+\item{site}{A site name search string e.g. \code{site = "heathrow"}. The
+search strings and be partial and can be upper or lower case e.g.
+\code{site = "HEATHR"}.}
 
-\item{lat}{A latitude in decimal degrees to search. Takes the
-values -90 to 90.}
+\item{lat}{A latitude in decimal degrees to search. Takes the values -90 to
+90.}
 
-\item{lon}{A longitude in decimal degrees to search. Takes values
--180 to 180. Negative numbers are west of the Greenwich
-meridian.}
+\item{lon}{A longitude in decimal degrees to search. Takes values -180 to
+180. Negative numbers are west of the Greenwich meridian.}
 
-\item{country}{The country code. This is a two letter code. For a
-full listing see
-\url{https://www1.ncdc.noaa.gov/pub/data/noaa/isd-history.csv}.}
+\item{country}{The country code. This is a two letter code. For a full
+listing see \url{https://www1.ncdc.noaa.gov/pub/data/noaa/isd-history.csv}.}
 
 \item{state}{The state code. This is a two letter code.}
 
-\item{n}{The number of nearest sites to search based on
-\code{latitude} and \code{longitude}.}
+\item{n}{The number of nearest sites to search based on \code{latitude} and
+\code{longitude}.}
 
-\item{end.year}{To help filter sites based on how recent the
-available data are. \code{end.year} can be "current", "any" or a
-numeric year such as 2016, or a range of years e.g. 1990:2016
-(which would select any site that had an end date in that range.
-\strong{By default only sites that have some data for the
-current year are returned}.}
+\item{end.year}{To help filter sites based on how recent the available data
+are. \code{end.year} can be "current", "any" or a numeric year such as
+2016, or a range of years e.g. 1990:2016 (which would select any site that
+had an end date in that range. \strong{By default only sites that have some
+data for the current year are returned}.}
 
-\item{plot}{If \code{TRUE} will plot sites on an interactive
-leaflet map.}
+\item{plot}{If \code{TRUE} will plot sites on an interactive leaflet map.}
 
-\item{returnMap}{Should the leaflet map be returned instead of the
-meta data? Default is \code{FALSE}.}
+\item{returnMap}{Should the leaflet map be returned instead of the meta data?
+Default is \code{FALSE}.}
 }
 \value{
-A data frame is returned with all available meta data,
-  mostly importantly including a \code{code} that can be supplied
-  to \code{\link{importNOAA}}. If latitude and longitude searches
-  are made an approximate distance, \code{dist} in km is also
-  returned.
+A data frame is returned with all available meta data, mostly
+importantly including a \code{code} that can be supplied to
+\code{\link[=importNOAA]{importNOAA()}}. If latitude and longitude searches are made an
+approximate distance, \code{dist} in km is also returned.
 }
 \description{
 Get information on meteorological sites
 }
 \details{
 This function is primarily used to find a site code that can be used to
-access data using \code{\link{importNOAA}}. Sites searches of approximately
+access data using \code{\link[=importNOAA]{importNOAA()}}. Sites searches of approximately
 30,000 sites can be carried out based on the site name and based on the
 nearest locations based on user-supplied latitude and logitude.
 
-See also \code{\link{getMetaLive}} to download the all meta data to allow
+See also \code{\link[=getMetaLive]{getMetaLive()}} to download the all meta data to allow
 re-use and direct querying.
 }
 \examples{

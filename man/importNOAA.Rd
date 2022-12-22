@@ -18,11 +18,10 @@ importNOAA(
 combination of the USAF and the WBAN unique identifiers. The codes are
 separated by a \dQuote{-} e.g. \code{code = "037720-99999"}.}
 
-\item{year}{The year to import. This can be a vector of years e.g.
-\code{year = 2000:2005}.}
+\item{year}{The year to import. This can be a vector of years e.g. \code{year = 2000:2005}.}
 
-\item{hourly}{Should hourly means be calculated? The default is \code{TRUE}.
-If \code{FALSE} then the raw data are returned.}
+\item{hourly}{Should hourly means be calculated? The default is \code{TRUE}. If
+\code{FALSE} then the raw data are returned.}
 
 \item{n.cores}{Number of cores to use for parallel processing. Default is 1
 and hence no parallelism.}
@@ -30,15 +29,16 @@ and hence no parallelism.}
 \item{quiet}{If FALSE, print missing sites / years to the screen.}
 
 \item{path}{If a file path is provided, the data are saved as an rds file at
-the chosen location e.g.  \code{path = "C:/Users/David"}. Files are saved
-by year and site.}
+the chosen location e.g.  \code{path = "C:/Users/David"}. Files are saved by
+year and site.}
 }
 \value{
 Returns a data frame of surface observations. The data frame is
-  consistent for use with the \code{openair} package. NOTE! the data are
-  returned in GMT (UTC) time zone format. Users may wish to express the data
-  in other time zones e.g. to merge with air pollution data. The
-  \code{lubridate} package is useful in this respect.
+consistent for use with the \link[openair:openair-package]{openair} package.
+NOTE! the data are returned in GMT (UTC) time zone format. Users may wish
+to express the data in other time zones, e.g., to merge with air pollution
+data. The \link[lubridate:lubridate-package]{lubridate} package is useful in
+this respect.
 }
 \description{
 Main function for importing meteorological data
@@ -47,21 +47,23 @@ Main function for importing meteorological data
 This is the main function to import data from the NOAA Integrated Surface
 Database (ISD). The ISD contains detailed surface meteorological data from
 around the world for over 30,000 locations. For general information of the
-ISD see \url{https://www.ncei.noaa.gov/products/land-based-station/integrated-surface-database} and the map here
+ISD see
+\url{https://www.ncei.noaa.gov/products/land-based-station/integrated-surface-database}
+and the map here
 \url{https://gis.ncdc.noaa.gov/maps/ncei}.
 
 Note the following units for the main variables:
 
 \describe{
 
-\item{date}{Date/time in POSIXct format. \strong{Note the time zone is GMT
-(UTC) and may need to be adjusted to merge with other local data. See
-details below.}}
+\item{date}{Date/time in POSIXct format. \strong{Note the time zone is GMT (UTC)
+and may need to be adjusted to merge with other local data. See details
+below.}}
 
 \item{latitude}{Latitude in decimal degrees (-90 to 90).}
 
-\item{longitude}{Longitude in decimal degrees (-180 to 180). Negative
-numbers are west of the Greenwich Meridian.}
+\item{longitude}{Longitude in decimal degrees (-180 to 180). Negative numbers
+are west of the Greenwich Meridian.}
 
 \item{elevation}{Elevention of site in metres.}
 
@@ -99,7 +101,6 @@ give the annual precipitation.}
 \item{precip}{This calue of precipitation spreads the 12-hour total across
 the previous 12 hours.}
 
-
 \item{pwc}{The description of the present weather description (if
 available).}
 
@@ -108,11 +109,10 @@ available).}
 The data are returned in GMT (UTC). It may be necessary to adjust the time
 zone when combining with other data. For example, if air quality data were
 available for Beijing with time zone set to "Etc/GMT-8" (note the negative
-offset even though Beijing is ahead of GMT. See the \code{openair} package
-and manual for more details), then the time zone of the met data can be
-changed to be the same. One way of doing this would be \code{attr(met$date,
-"tzone") <- "Etc/GMT-8"} for a meteorological data frame called \code{met}.
-The two data sets could then be merged based on \code{date}.
+offset even though Beijing is ahead of GMT. See the \code{openair} package and
+manual for more details), then the time zone of the met data can be changed
+to be the same. One way of doing this would be \code{attr(met$date, "tzone") <- "Etc/GMT-8"} for a meteorological data frame called \code{met}. The two data sets
+could then be merged based on \code{date}.
 }
 \examples{
 
@@ -122,8 +122,8 @@ dat <- importNOAA(code = "545110-99999", year = 2010:2011)
 }
 }
 \seealso{
-\code{\link{getMeta}} to obtain the codes based on various site
-  search approaches.
+\code{\link[=getMeta]{getMeta()}} to obtain the codes based on various site search
+approaches.
 }
 \author{
 David Carslaw

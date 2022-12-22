@@ -1,58 +1,53 @@
-##' Get information on meteorological sites
-##'
-##' This function is primarily used to find a site code that can be used to
-##' access data using \code{\link{importNOAA}}. Sites searches of approximately
-##' 30,000 sites can be carried out based on the site name and based on the
-##' nearest locations based on user-supplied latitude and logitude.
-##'
-##' See also \code{\link{getMetaLive}} to download the all meta data to allow
-##' re-use and direct querying.
-##' 
-##' @title Find a ISD site code and other meta data
-##' @param site A site name search string e.g. \code{site =
-##'   "heathrow"}. The search strings and be partial and can be upper
-##'   or lower case e.g. \code{site = "HEATHR"}.
-##' @param lat A latitude in decimal degrees to search. Takes the
-##'   values -90 to 90.
-##' @param lon A longitude in decimal degrees to search. Takes values
-##'   -180 to 180. Negative numbers are west of the Greenwich
-##'   meridian.
-##' @param country The country code. This is a two letter code. For a
-##'   full listing see
-##'   \url{https://www1.ncdc.noaa.gov/pub/data/noaa/isd-history.csv}.
-##' @param state The state code. This is a two letter code.
-##' @param n The number of nearest sites to search based on
-##'   \code{latitude} and \code{longitude}.
-##' @param end.year To help filter sites based on how recent the
-##'   available data are. \code{end.year} can be "current", "any" or a
-##'   numeric year such as 2016, or a range of years e.g. 1990:2016
-##'   (which would select any site that had an end date in that range.
-##'   \strong{By default only sites that have some data for the
-##'   current year are returned}.
-##' @param plot If \code{TRUE} will plot sites on an interactive
-##'   leaflet map.
-##' @param returnMap Should the leaflet map be returned instead of the
-##'   meta data? Default is \code{FALSE}.
-##' @return A data frame is returned with all available meta data,
-##'   mostly importantly including a \code{code} that can be supplied
-##'   to \code{\link{importNOAA}}. If latitude and longitude searches
-##'   are made an approximate distance, \code{dist} in km is also
-##'   returned.
-##' @export
-##' @importFrom dplyr `%>%`
-##' @author David Carslaw
-##' @examples
-##'
-##' \dontrun{
-##' ## search for sites with name beijing
-##' getMeta(site = "beijing")
-##' }
-##'
-##' \dontrun{
-##' ## search for near a specified lat/lon - near Beijing airport
-##' ## returns 'n' nearest by default
-##' getMeta(lat = 40, lon = 116.9)
-##' }
+#' Get information on meteorological sites
+#'
+#' This function is primarily used to find a site code that can be used to
+#' access data using [importNOAA()]. Sites searches of approximately
+#' 30,000 sites can be carried out based on the site name and based on the
+#' nearest locations based on user-supplied latitude and logitude.
+#'
+#' See also [getMetaLive()] to download the all meta data to allow
+#' re-use and direct querying.
+#'
+#' @title Find a ISD site code and other meta data
+#' @param site A site name search string e.g. `site = "heathrow"`. The
+#'   search strings and be partial and can be upper or lower case e.g.
+#'   `site = "HEATHR"`.
+#' @param lat A latitude in decimal degrees to search. Takes the values -90 to
+#'   90.
+#' @param lon A longitude in decimal degrees to search. Takes values -180 to
+#'   180. Negative numbers are west of the Greenwich meridian.
+#' @param country The country code. This is a two letter code. For a full
+#'   listing see <https://www1.ncdc.noaa.gov/pub/data/noaa/isd-history.csv>.
+#' @param state The state code. This is a two letter code.
+#' @param n The number of nearest sites to search based on `latitude` and
+#'   `longitude`.
+#' @param end.year To help filter sites based on how recent the available data
+#'   are. `end.year` can be "current", "any" or a numeric year such as
+#'   2016, or a range of years e.g. 1990:2016 (which would select any site that
+#'   had an end date in that range. **By default only sites that have some
+#'   data for the current year are returned**.
+#' @param plot If `TRUE` will plot sites on an interactive leaflet map.
+#' @param returnMap Should the leaflet map be returned instead of the meta data?
+#'   Default is `FALSE`.
+#' @return A data frame is returned with all available meta data, mostly
+#'   importantly including a `code` that can be supplied to
+#'   [importNOAA()]. If latitude and longitude searches are made an
+#'   approximate distance, `dist` in km is also returned.
+#' @export
+#' @importFrom dplyr `%>%`
+#' @author David Carslaw
+#' @examples
+#'
+#' \dontrun{
+#' ## search for sites with name beijing
+#' getMeta(site = "beijing")
+#' }
+#'
+#' \dontrun{
+#' ## search for near a specified lat/lon - near Beijing airport
+#' ## returns 'n' nearest by default
+#' getMeta(lat = 40, lon = 116.9)
+#' }
 getMeta <- function(site = "heathrow", lat = NA, lon = NA,
                     country = NA, state = NA, n = 10, end.year = "current",
                     plot = TRUE, returnMap = FALSE) {
