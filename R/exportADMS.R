@@ -1,5 +1,8 @@
 #' Export a meteorological data frame in ADMS format
 #'
+#' Writes a text file in the ADMS format to a location of the user's choosing,
+#' with optional interpolation of missing values.
+#'
 #' @param dat A data frame imported by [importNOAA()].
 #' @param out A file name for the ADMS file. The file is written to the working
 #'   directory by default.
@@ -10,16 +13,18 @@
 #'   there are missing data when `interp = TRUE.` Data with gaps more than
 #'   `maxgap` are left as missing.
 #'
-#' @return Writes a text file to a location of the user's choosing.
+#' @return `exportADMS()` returns the input `dat` invisibly.
 #' @export
 #' @examples
-#'
 #' \dontrun{
 #' ## import some data then export it
 #' dat <- importNOAA(year = 2012)
-#' exportADMS(dat, file = "~/temp/adms_met.MET")
+#' exportADMS(dat, out = "~/adms_met.MET")
 #' }
 exportADMS <- function(dat, out = "./ADMS_met.MET", interp = FALSE, maxgap = 2) {
+  
+  # save input for later
+  input <- dat
   
   # keep R check quiet
   wd <- u <- v <- NULL
@@ -141,4 +146,7 @@ exportADMS <- function(dat, out = "./ADMS_met.MET", interp = FALSE, maxgap = 2) 
     Lines
   ), con = fConn)
   close(fConn)
+  
+  # return input invisibly
+  invisible(input)
 }
