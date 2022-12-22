@@ -1,32 +1,26 @@
 ---
-always_allow_html: yes
-output: 
-  github_document: 
-    toc: FALSE
+output: github_document
 ---
 
-<!-- Edit the README.Rmd only!!! The README.md is generated automatically from README.Rmd. -->
+<!-- README.md is generated from README.Rmd. Please edit that file -->
 
-worldmet - R package for accessing NOAA Integrated Surface Database (ISD) meteorological observations
-========================================================
-
-For the main **worldmet** website, see <https://davidcarslaw.github.io/worldmet/>.
-
-```{r echo=FALSE}
+```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   warning = FALSE,
   message = FALSE,
-  eval = FALSE
-)
-knitr::opts_chunk$set(
-  fig.path = "man/figures/"
+  eval = FALSE,
+  comment = "#>",
+  fig.path = "man/figures/README-"
 )
 ```
 
+# worldmet - R package for accessing NOAA Integrated Surface Database (ISD) meteorological observations
 
+<!-- badges: start -->
 [![R-CMD-check](https://github.com/davidcarslaw/worldmet/workflows/R-CMD-check/badge.svg)](https://github.com/davidcarslaw/worldmet/actions)
 ![](http://cranlogs.r-pkg.org/badges/grand-total/worldmet)
+<!-- badges: end -->
 
 `worldmet` provides an easy way to access data from the [NOAA Integrated
 Surface Database](https://www.ncei.noaa.gov/products/land-based-station/integrated-surface-database) (ISD). The ISD contains detailed surface
@@ -39,21 +33,23 @@ well with the [openair](https://github.com/davidcarslaw/openair) package.
 
 ## Installation
 
-`worldmet` is available on CRAN and can be installed by typing `install.packages("worldmet")`.
+Installation can be done in the normal way:
 
-Installation of the development version of `worldmet` from GitHub is easy using the `devtools`
-package. 
-
-```{r}
-require(devtools)
-install_github('davidcarslaw/worldmet')
+```{r eval=FALSE}
+install.packages("worldmet")
 ```
 
-## Brief overview
+The development version can be installed from GitHub. Installation of
+`worldmet` from GitHub is easy using the `devtools` package.
 
-See the Articles tab for more information and interactive map examples.
+``` r
+# install.packages("devtools")
+devtools::install_github("davidcarslaw/worldmet")
+```
 
-To search for meteorological sites the user can search by the name or partial name of the site in upper or lower case. The `getMeta` function will return all site names that match the search string. The most important information returned is the `code`, which can then be supplied to the `importNOAA` function that downloads the data.
+## Example
+
+To search for meteorological sites the user can search by the name or partial name of the site in upper or lower case. The `getMeta()` function will return all site names that match the search string. The most important information returned is the `code`, which can then be supplied to the `importNOAA()` function that downloads the data.
 
 For example, to search for site "heathrow":
 
@@ -74,7 +70,7 @@ info <- getMeta(lat = 40, lon = 116.9)
 info
 ```
 
-<img src="man/figures/map.png" alt="map of Beijing area" width="75%" />
+<img src="man/figures/README-map.png" alt="map of Beijing area" width="75%" />
 
 To obtain the data the user must supply a `code` (see above) and year or years of interest. For example, to download data for Heathrow Airport in 2010 (code 037720-99999):
 
@@ -90,3 +86,5 @@ A wind rose (for example) can easily be plotted using `openair`:
 library(openair)
 windRose(met_london)
 ```
+
+For the main **worldmet** website, see <https://davidcarslaw.github.io/worldmet/>.
