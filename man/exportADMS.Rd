@@ -21,16 +21,16 @@ there are missing data when \code{interp = TRUE.} Data with gaps more than
 \code{maxgap} are left as missing.}
 }
 \value{
-Writes a text file to a location of the user's choosing.
+\code{exportADMS()} returns the input \code{dat} invisibly.
 }
 \description{
-Export a meteorological data frame in ADMS format
+Writes a text file in the ADMS format to a location of the user's choosing,
+with optional interpolation of missing values.
 }
 \examples{
-
 \dontrun{
 ## import some data then export it
 dat <- importNOAA(year = 2012)
-exportADMS(dat, file = "~/temp/adms_met.MET")
+exportADMS(dat, out = "~/adms_met.MET")
 }
 }
