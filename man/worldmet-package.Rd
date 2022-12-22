@@ -9,9 +9,9 @@
 Functions to import data from more than 30,000 surface meteorological sites around the world managed by the National Oceanic and Atmospheric Administration (NOAA) Integrated Surface Database (ISD, see \url{https://www.ncei.noaa.gov/products/land-based-station/integrated-surface-database}).
 }
 \details{
-This package contains functions to import surface meteorolgical data
-from over 30,000 sites around the world. These data are curated by NOAA as
-part of the Integrated Surface Database (ISD).
+This package contains functions to import surface meteorological
+data from over 30,000 sites around the world. These data are curated by
+NOAA as part of the Integrated Surface Database (ISD).
 
 If you access these data using the \code{worldmet} package please give full
 acknowledgement to NOAA ISD. Users should also take a note of the usage
