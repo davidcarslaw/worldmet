@@ -1,7 +1,7 @@
+url: http://davidcarslaw.github.io/worldmet/
 template:
   params:
     bootswatch: flatly
-    
 navbar:
   title: worldmet
   type: default
@@ -12,8 +12,9 @@ navbar:
     href: news/index.html
   - text: Articles
     menu:
-      - text: Find sites
-        href: articles/web_articles/find-sites.html
+    - text: Find sites
+      href: articles/web_articles/find-sites.html
   right:
   - icon: fa-github fa-lg
     href: https://github.com/davidcarslaw/worldmet
+
