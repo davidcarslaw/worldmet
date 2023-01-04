@@ -25,7 +25,8 @@ Description: Functions to import data from more than 30,000 surface
     meteorological sites around the world managed by the National Oceanic and Atmospheric Administration (NOAA) Integrated Surface
     Database (ISD, see <https://www.ncei.noaa.gov/products/land-based-station/integrated-surface-database>).
 License: GPL (>= 2)
-URL: https://davidcarslaw.github.io/worldmet/index.html
+URL: https://davidcarslaw.github.io/worldmet/index.html,
+    http://davidcarslaw.github.io/worldmet/
 BugReports: https://github.com/davidcarslaw/worldmet/issues
 Suggests: knitr
 Language: en-GB
