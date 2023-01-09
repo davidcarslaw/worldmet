@@ -2,8 +2,7 @@ Package: worldmet
 Type: Package
 Title: Import Surface Meteorological Data from NOAA Integrated Surface Database
     (ISD)
-Version: 0.9.6
-Date: 2022-10-05
+Version: 0.9.6.9000
 Authors@R: c(person("David", "Carslaw", role = c("aut", "cre"), email =
     "david.carslaw@york.ac.uk"))
 ByteCompile: true
@@ -19,7 +18,8 @@ Imports:
     leaflet,
     tidyr,
     readr,
-    magrittr
+    magrittr,
+    tibble
 Maintainer: David Carslaw <david.carslaw@york.ac.uk>
 Description: Functions to import data from more than 30,000 surface
     meteorological sites around the world managed by the National Oceanic and Atmospheric Administration (NOAA) Integrated Surface
