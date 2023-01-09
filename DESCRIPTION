@@ -28,10 +28,13 @@ License: GPL (>= 2)
 URL: https://davidcarslaw.github.io/worldmet/index.html,
     http://davidcarslaw.github.io/worldmet/
 BugReports: https://github.com/davidcarslaw/worldmet/issues
-Suggests: knitr
+Suggests: 
+    knitr,
+    rmarkdown
 Language: en-GB
 LazyLoad: true
 LazyData: true
 Encoding: UTF-8
 RoxygenNote: 7.2.3
 Roxygen: list(markdown = TRUE)
+VignetteBuilder: knitr
