@@ -5,3 +5,4 @@ README_cache/*
 .Rproj.user
 docs
 inst/doc
+.DS_Store
