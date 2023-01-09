@@ -2,9 +2,11 @@
 
 export(exportADMS)
 export(getMeta)
+export(getMetaLive)
 export(importNOAA)
 import(dplyr)
 import(readr)
 import(tidyr)
 importFrom(foreach,"%dopar%")
 importFrom(magrittr,"%>%")
+importFrom(tibble,tibble)
