@@ -10,10 +10,10 @@ getMetaLive(...)
 \item{...}{Currently unused.}
 }
 \value{
-A tibble with meta data.
+a \link[tibble:tibble-package]{tibble}
 }
 \description{
-Obtain site meta data from NOAA server
+Download all NOAA meta data, allowing for re-use and direct querying.
 }
 \examples{
 \dontrun{
