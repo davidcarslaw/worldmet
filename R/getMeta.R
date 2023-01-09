@@ -5,9 +5,6 @@
 #' sites can be carried out based on the site name and based on the nearest
 #' locations based on user-supplied latitude and longitude.
 #'
-#' See also [getMetaLive()] to download the all meta data to allow re-use and
-#' direct querying.
-#'
 #' @title Find a ISD site code and other meta data
 #' @param site A site name search string e.g. `site = "heathrow"`. The search
 #'   strings and be partial and can be upper or lower case e.g. `site =
@@ -28,7 +25,7 @@
 #'   current year are returned**.
 #' @param provider By default a map will be created in which readers may toggle
 #'   between a vector base map and a satellite/aerial image. `provider` allows
-#'   users to override this default; see 
+#'   users to override this default; see
 #'   \url{http://leaflet-extras.github.io/leaflet-providers/preview/} for a list
 #'   of all base maps that can be used. If multiple base maps are provided, they
 #'   can be toggled between using a "layer control" interface.
@@ -40,6 +37,8 @@
 #'   latitude and longitude searches are made an approximate distance, `dist` in
 #'   km is also returned.
 #' @export
+#' @seealso [getMetaLive()] to download the all meta data to allow re-use and
+#'   direct querying.
 #' @author David Carslaw
 #' @examples
 #'
@@ -191,7 +190,8 @@ getMeta <- function(site = "heathrow",
       m <- 
         leaflet::addLayersControl(
           map = m,
-          baseGroups = provider
+          baseGroups = provider, 
+          options = leaflet::layersControlOptions(collapsed = FALSE, autoZIndex = FALSE)
         )
     }
     
@@ -208,15 +208,18 @@ getMeta <- function(site = "heathrow",
 
 #' Obtain site meta data from NOAA server
 #'
+#' Download all NOAA meta data, allowing for re-use and direct querying.
+#'
 #' @param ... Currently unused.
 #'
-#' @return A tibble with meta data.
+#' @return a [tibble][tibble::tibble-package]
 #'
 #' @examples
 #' \dontrun{
 #' meta <- getMetaLive()
 #' head(meta)
 #' }
+#' @export
 getMetaLive <- function(...) {
   ## downloads the whole thing fresh
   
