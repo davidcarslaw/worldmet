@@ -1,17 +1,27 @@
 url: http://davidcarslaw.github.io/worldmet/
+template:
+  bootstrap: 5
+  
 navbar:
   title: worldmet
-  type: default
-  left:
-  - text: Functions
-    href: reference/index.html
-  - text: News
-    href: news/index.html
-  - text: Book
-    href: https://bookdown.org/david_carslaw/openair/access-met-data.html
-  right:
-  - icon: fa-github fa-lg
-    href: https://github.com/davidcarslaw/worldmet
+  structure:
+    left:  [intro, reference, news, articles, tutorials, book]
+    right: [search, github]
+  components:
+    reference:
+      text: Functions
+      href: reference/index.html
+    news:
+      text: News
+      href: news/index.html
+    articles:
+      text: Articles
+      menu:
+      - text: Find Sites
+        href: articles/find-sites.html
+    book:
+      text: Book (External)
+      href: https://bookdown.org/david_carslaw/openair/access-met-data.html
 
 reference:
 - title: Obtain Met Data
