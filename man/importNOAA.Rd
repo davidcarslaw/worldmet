@@ -34,11 +34,11 @@ year and site.}
 }
 \value{
 Returns a data frame of surface observations. The data frame is
-consistent for use with the \link[openair:openair-package]{openair} package.
-NOTE! the data are returned in GMT (UTC) time zone format. Users may wish
-to express the data in other time zones, e.g., to merge with air pollution
-data. The \link[lubridate:lubridate-package]{lubridate} package is useful in
-this respect.
+consistent for use with the \code{openair} package. Note that the data are
+returned in GMT (UTC) time zone format. Users may wish to express the data
+in other time zones, e.g., to merge with air pollution data. The
+\link[lubridate:lubridate-package]{lubridate} package is useful in this
+respect.
 }
 \description{
 This is the main function to import data from the NOAA Integrated Surface
@@ -109,9 +109,8 @@ zone when combining with other data. For example, if air quality data were
 available for Beijing with time zone set to "Etc/GMT-8" (note the negative
 offset even though Beijing is ahead of GMT. See the \code{openair} package and
 manual for more details), then the time zone of the met data can be changed
-to be the same. One way of doing this would be
-\code{attr(met$date, "tzone") <- "Etc/GMT-8"} for a meteorological data frame
-called \code{met}. The two data sets could then be merged based on \code{date}.
+to be the same. One way of doing this would be \code{attr(met$date, "tzone") <- "Etc/GMT-8"} for a meteorological data frame called \code{met}. The two data sets
+could then be merged based on \code{date}.
 }
 \examples{
 
