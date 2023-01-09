@@ -1,7 +1,4 @@
 url: http://davidcarslaw.github.io/worldmet/
-template:
-  params:
-    bootswatch: flatly
 navbar:
   title: worldmet
   type: default
@@ -10,11 +7,26 @@ navbar:
     href: reference/index.html
   - text: News
     href: news/index.html
-  - text: Articles
-    menu:
-    - text: Find sites
-      href: articles/web_articles/find-sites.html
+  - text: Book
+    href: https://bookdown.org/david_carslaw/openair/access-met-data.html
   right:
   - icon: fa-github fa-lg
     href: https://github.com/davidcarslaw/worldmet
 
+reference:
+- title: Obtain Met Data
+- subtitle: View Metadata
+  desc: Read and visualise meta data relating to meteorological measurement sites.
+  contents:
+  - getMeta
+  - getMetaLive
+  - weatherCodes
+- subtitle: Import Met Data
+  desc: Directly import NOAA meteorological data.
+  contents:
+  - importNOAA
+
+- title: ADMS
+  desc: Functions relating to the Atmospheric Dispersion Modelling System.
+  contents:
+  - exportADMS
