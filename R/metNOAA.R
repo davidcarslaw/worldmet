@@ -68,9 +68,9 @@
 #' available for Beijing with time zone set to "Etc/GMT-8" (note the negative
 #' offset even though Beijing is ahead of GMT. See the `openair` package and
 #' manual for more details), then the time zone of the met data can be changed
-#' to be the same. One way of doing this would be 
-#' `attr(met$date, "tzone") <- "Etc/GMT-8"` for a meteorological data frame 
-#' called `met`. The two data sets could then be merged based on `date`.
+#' to be the same. One way of doing this would be `attr(met$date, "tzone") <-
+#' "Etc/GMT-8"` for a meteorological data frame called `met`. The two data sets
+#' could then be merged based on `date`.
 #'
 #' @param code The identifying code as a character string. The code is a
 #'   combination of the USAF and the WBAN unique identifiers. The codes are
@@ -88,11 +88,11 @@
 #' @export
 #' @import readr tidyr dplyr
 #' @return Returns a data frame of surface observations. The data frame is
-#'   consistent for use with the [openair][openair::openair-package] package.
-#'   NOTE! the data are returned in GMT (UTC) time zone format. Users may wish
-#'   to express the data in other time zones, e.g., to merge with air pollution
-#'   data. The [lubridate][lubridate::lubridate-package] package is useful in
-#'   this respect.
+#'   consistent for use with the `openair` package. Note that the data are
+#'   returned in GMT (UTC) time zone format. Users may wish to express the data
+#'   in other time zones, e.g., to merge with air pollution data. The
+#'   [lubridate][lubridate::lubridate-package] package is useful in this
+#'   respect.
 #' @seealso [getMeta()] to obtain the codes based on various site search
 #'   approaches.
 #' @author David Carslaw

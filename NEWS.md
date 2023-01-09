@@ -1,3 +1,13 @@
+# worldmet (development version)
+
+- `importNOAA()` will now display a progress bar when multiple years of met data are to be imported.
+
+- Improved the formatting of the popups in `getMeta()` in line with `openairmaps::networkMap()`.
+
+- Added the `provider` argument to `getMeta()`, allowing for users to define one or more `leaflet` basemaps. Uses the same default as `openairmaps::networkMap()`.
+
+- `exportADMS()` now invisibly returns the input data, in line with, e.g., `readr::write_csv()`.
+
 # worldmet 0.9.5
 
 - do not add precip to ADMS export
