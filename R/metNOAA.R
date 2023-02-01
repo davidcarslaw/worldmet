@@ -460,7 +460,7 @@ getDat <- function(code, year, hourly) {
   
   ## add pwc back in
   if (exists("pwc")) {
-    met_data <- left_join(met_data, pwc, by = "date", all = TRUE)
+    met_data <- left_join(met_data, pwc, by = "date")
   }
   
   ## add precipitation - based on 12 HOUR averages, so work with hourly data
