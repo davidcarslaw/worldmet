@@ -1,5 +1,9 @@
 # worldmet (development version)
 
+- fix join problem due to `dplyr` updates.
+
+# worldmet 0.9.6
+
 - `importNOAA()` will now display a progress bar when multiple years of met data are to be imported.
 
 - Improved the formatting of the popups in `getMeta()` in line with `openairmaps::networkMap()`.
