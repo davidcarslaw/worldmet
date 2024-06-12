@@ -17,6 +17,8 @@ deprecate_isd <- function(){
 #' - `getMetaLive()` (obtains the "raw" form of the ISD metadata)
 #' - `importNOAA()` (imports hourly meteorological data)
 #' 
+#' @author David Carslaw
+#' 
 #' @rdname deprecated-isd
 #' @param site A site name search string e.g. `site = "heathrow"`. The search
 #'   strings and be partial and can be upper or lower case e.g. `site =

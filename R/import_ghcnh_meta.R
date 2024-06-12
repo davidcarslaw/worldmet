@@ -28,6 +28,8 @@
 #'
 #' @return Varies (see the `return` parameter).
 #'
+#' @author Jack Davison
+#'
 #' @export
 import_ghcnh_stations <- function(lat = NULL,
                                   lng = NULL,
@@ -135,6 +137,8 @@ import_ghcnh_stations <- function(lat = NULL,
 #'   or state codes wish to be returned by the function.
 #'   
 #' @return a [tibble][tibble::tibble-package]
+#'
+#' @author Jack Davison
 #'
 #' @export
 import_ghcnh_codes <- function(table = c("countries", "states")) {
