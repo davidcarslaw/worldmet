@@ -96,6 +96,11 @@ The following three functions relate to the ISD, but have been superseded.
 \item \code{importNOAA()} (imports hourly meteorological data)
 }
 }
+\seealso{
+Other deprecated objects (ISD): 
+\code{\link{weatherCodes}}
+}
 \author{
 David Carslaw
 }
+\concept{deprecated objects (ISD)}

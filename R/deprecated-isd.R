@@ -20,6 +20,7 @@ deprecate_isd <- function(){
 #' @author David Carslaw
 #' 
 #' @rdname deprecated-isd
+#' @family deprecated objects (ISD)
 #' @param site A site name search string e.g. `site = "heathrow"`. The search
 #'   strings and be partial and can be upper or lower case e.g. `site =
 #'   "HEATHR"`.
