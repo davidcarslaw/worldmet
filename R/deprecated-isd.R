@@ -1,76 +1,275 @@
-#' Import Meteorological data from the NOAA Integrated Surface Database (ISD)
+#' note that the ISD has been deprecated
+#' @noRd
+deprecate_isd <- function(){
+  warning(
+    "The Integrated Surface Database (ISD) has been deprecated by NOAA in favour of the Global Historical Climatology Network hourly (GHCNh). Please use `importGHCNh()`."
+  )
+}
+
+#' Deprecated ISD import functions
+#' 
+#' @description
+#' Up until 2024, NOAA supported the Integrated Surface Database (ISD). This has
+#' been superseded by the Global Historical Climatology Network hourly (GHCNh).
+#' The following three functions relate to the ISD, but have been superseded.
+#' 
+#' - `getMeta()` (obtains ISD metadata)
+#' - `getMetaLive()` (obtains the "raw" form of the ISD metadata)
+#' - `importNOAA()` (imports hourly meteorological data)
+#' 
+#' @rdname deprecated-isd
+#' @param site A site name search string e.g. `site = "heathrow"`. The search
+#'   strings and be partial and can be upper or lower case e.g. `site =
+#'   "HEATHR"`.
+#' @param lat A latitude in decimal degrees to search. Takes the values -90 to
+#'   90.
+#' @param lon A longitude in decimal degrees to search. Takes values -180 to
+#'   180. Negative numbers are west of the Greenwich meridian.
+#' @param country The country code. This is a two letter code. For a full
+#'   listing see <https://www1.ncdc.noaa.gov/pub/data/noaa/isd-history.csv>.
+#' @param state The state code. This is a two letter code.
+#' @param n The number of nearest sites to search based on `latitude` and
+#'   `longitude`.
+#' @param end.year To help filter sites based on how recent the available data
+#'   are. `end.year` can be "current", "any" or a numeric year such as 2016, or
+#'   a range of years e.g. 1990:2016 (which would select any site that had an
+#'   end date in that range. **By default only sites that have some data for the
+#'   current year are returned**.
+#' @param provider By default a map will be created in which readers may toggle
+#'   between a vector base map and a satellite/aerial image. `provider` allows
+#'   users to override this default; see
+#'   \url{http://leaflet-extras.github.io/leaflet-providers/preview/} for a list
+#'   of all base maps that can be used. If multiple base maps are provided, they
+#'   can be toggled between using a "layer control" interface.
+#' @param plot If `TRUE` will plot sites on an interactive leaflet map.
+#' @param returnMap Should the leaflet map be returned instead of the meta data?
+#'   Default is `FALSE`.
+#' @export
+getMeta <- function(site = "heathrow",
+                    lat = NA,
+                    lon = NA,
+                    country = NA,
+                    state = NA,
+                    n = 10,
+                    end.year = "current",
+                    provider = c("OpenStreetMap", "Esri.WorldImagery"),
+                    plot = TRUE,
+                    returnMap = FALSE) {
+  ## read the meta data
+  
+  ## download the file, else use the package version
+  meta <- getMetaLive()
+  
+  # check year
+  if (!any(end.year %in% c("current", "all"))) {
+    if (!is.numeric(end.year)) {
+      stop("end.year should be one of 'current', 'all' or a numeric 4-digit year such as 2016.")
+    }
+  }
+  
+  # we base the current year as the max available in the meta data
+  if ("current" %in% end.year)
+    end.year <-
+      max(as.numeric(format(meta$END, "%Y")), na.rm = TRUE)
+  if ("all" %in% end.year)
+    end.year <- 1900:2100
+  
+  
+  
+  ## search based on name of site
+  if (!missing(site)) {
+    ## search for station
+    meta <- meta[grep(site, meta$STATION, ignore.case = TRUE),]
+  }
+  
+  ## search based on country codes
+  if (!missing(country) && !is.na(country)) {
+    ## search for country
+    id <- which(meta$CTRY %in% toupper(country))
+    meta <- meta[id,]
+  }
+  
+  ## search based on state codes
+  if (!missing(state)) {
+    ## search for state
+    id <- which(meta$ST %in% toupper(state))
+    meta <- meta[id,]
+  }
+  
+  # make sure no missing lat / lon
+  id <- which(is.na(meta$LON))
+  if (length(id) > 0)
+    meta <- meta[-id,]
+  
+  id <- which(is.na(meta$LAT))
+  if (length(id) > 0)
+    meta <- meta[-id,]
+  
+  # filter by end year
+  id <- which(format(meta$END, "%Y") %in% end.year)
+  meta <- meta[id,]
+  
+  ## approximate distance to site
+  if (!missing(lat) && !missing(lon)) {
+    r <- 6371 # radius of the Earth
+    
+    ## Coordinates need to be in radians
+    meta$longR <- meta$LON * pi / 180
+    meta$latR <- meta$LAT * pi / 180
+    LON <- lon * pi / 180
+    LAT <- lat * pi / 180
+    meta$dist <- acos(sin(LAT) * sin(meta$latR) + cos(LAT) *
+                        cos(meta$latR) * cos(meta$longR - LON)) * r
+    
+    ## sort and retrun top n nearest
+    meta <- utils::head(openair:::sortDataFrame(meta, key = "dist"), n)
+  }
+  
+  dat <- rename(meta, latitude = LAT, longitude = LON)
+  
+  names(dat) <- tolower(names(dat))
+  
+  if (plot) {
+    content <- paste(
+      paste0("<b>", dat$station, "</b>"),
+      paste("<hr><b>Code:</b>", dat$code),
+      paste("<b>Start:</b>", dat$begin),
+      paste("<b>End:</b>", dat$end),
+      sep = "<br/>"
+    )
+    
+    if ("dist" %in% names(dat)) {
+      content <- paste(
+        content,
+        paste("<b>Distance:</b>", round(dat$dist, 1), "km"),
+        sep = "<br/>"
+      )
+    }
+    
+    m <- leaflet::leaflet(dat)
+    
+    for (i in provider) {
+      m <- leaflet::addProviderTiles(map = m, provider = i, group = i)
+    }
+    
+    m <-
+      leaflet::addMarkers(
+        map = m,
+        ~ longitude,
+        ~ latitude,
+        popup = content,
+        clusterOptions = leaflet::markerClusterOptions()
+      )
+    
+    if (!is.na(lat) && !is.na(lon)) {
+      m <- leaflet::addCircles(
+        map = m,
+        lng = lon,
+        lat = lat,
+        weight = 20,
+        radius = 200,
+        stroke = TRUE,
+        color = "red",
+        popup = paste(
+          "Search location",
+          paste("Lat =", dat$latitude),
+          paste("Lon =", dat$longitude),
+          sep = "<br/>"
+        )
+      )
+    }
+    
+    if (length(provider) > 1) {
+      m <- 
+        leaflet::addLayersControl(
+          map = m,
+          baseGroups = provider, 
+          options = leaflet::layersControlOptions(collapsed = FALSE, autoZIndex = FALSE)
+        )
+    }
+    
+    print(m)
+  }
+  
+  
+  if (returnMap)
+    return(m)
+  else
+    return(dat)
+}
+
+
+#' @rdname deprecated-isd
+#' 
+#' @param ... Currently unused.
 #'
-#' This is the main function to import data from the NOAA Integrated Surface
-#' Database (ISD). The ISD contains detailed surface meteorological data from
-#' around the world for over 30,000 locations. For general information of the
-#' ISD see
-#' [https://www.ncei.noaa.gov/products/land-based-station/integrated-surface-database](https://www.ncei.noaa.gov/products/land-based-station/integrated-surface-database)
-#' and the map here
-#' [https://gis.ncdc.noaa.gov/maps/ncei](https://gis.ncdc.noaa.gov/maps/ncei).
-#'
-#' Note the following units for the main variables:
-#'
-#' \describe{
-#'
-#' \item{date}{Date/time in POSIXct format. **Note the time zone is GMT (UTC)
-#' and may need to be adjusted to merge with other local data. See details
-#' below.**}
-#'
-#' \item{latitude}{Latitude in decimal degrees (-90 to 90).}
-#'
-#' \item{longitude}{Longitude in decimal degrees (-180 to 180). Negative numbers
-#' are west of the Greenwich Meridian.}
-#'
-#' \item{elevation}{Elevation of site in metres.}
-#'
-#' \item{wd}{Wind direction in degrees. 90 is from the east.}
-#'
-#' \item{ws}{Wind speed in m/s.}
-#'
-#' \item{ceil_hgt}{The height above ground level (AGL) of the lowest cloud or
-#' obscuring phenomena layer aloft with 5/8 or more summation total sky cover,
-#' which may be predominantly opaque, or the vertical visibility into a
-#' surface-based obstruction.}
-#'
-#' \item{visibility}{The visibility in metres.}
-#'
-#' \item{air_temp}{Air temperature in degrees Celcius.}
-#'
-#' \item{dew_point}{The dew point temperature in degrees Celcius.}
-#'
-#' \item{atmos_pres}{The sea level pressure in millibars.}
-#'
-#' \item{RH}{The relative humidity (%).}
-#'
-#' \item{cl_1,  ...,  cl_3}{Cloud cover for different layers in Oktas (1-8).}
-#'
-#' \item{cl}{Maximum of cl_1 to cl_3 cloud cover in Oktas (1-8).}
-#'
-#' \item{cl_1_height, ..., cl_3_height}{Height of the cloud base for each later
-#' in metres.}
-#'
-#' \item{precip_12}{12-hour precipitation in mm. The sum of this column should
-#' give the annual precipitation.}
-#'
-#' \item{precip_6}{6-hour precipitation in mm.}
-#'
-#' \item{precip}{This value of precipitation spreads the 12-hour total across
-#' the previous 12 hours.}
-#'
-#'
-#' \item{pwc}{The description of the present weather description (if
-#' available).}
-#'
-#' }
-#'
-#' The data are returned in GMT (UTC). It may be necessary to adjust the time
-#' zone when combining with other data. For example, if air quality data were
-#' available for Beijing with time zone set to "Etc/GMT-8" (note the negative
-#' offset even though Beijing is ahead of GMT. See the `openair` package and
-#' manual for more details), then the time zone of the met data can be changed
-#' to be the same. One way of doing this would be `attr(met$date, "tzone") <-
-#' "Etc/GMT-8"` for a meteorological data frame called `met`. The two data sets
-#' could then be merged based on `date`.
+#' @export
+getMetaLive <- function(...) {
+  ## downloads the whole thing fresh
+  deprecate_isd()
+  url <- "https://www1.ncdc.noaa.gov/pub/data/noaa/isd-history.csv"
+  meta <- read_csv(
+    url,
+    skip = 21,
+    col_names = FALSE,
+    col_types = cols(
+      X1 = col_character(),
+      X2 = col_character(),
+      X3 = col_character(),
+      X4 = col_character(),
+      X5 = col_character(),
+      X6 = col_character(),
+      X7 = col_double(),
+      X8 = col_double(),
+      X9 = col_double(),
+      X10 = col_date(format = "%Y%m%d"),
+      X11 = col_date(format = "%Y%m%d")
+    ), 
+    progress = FALSE
+  )
+  
+  # if not available e.g. due to US Government shutdown, flag and exit
+  # some header data may still be read, so check column number
+  if (ncol(meta) == 1L)
+    stop(
+      "File not available, check \nhttps://www1.ncdc.noaa.gov/pub/data/noaa/ for potential server problems.",
+      call. = FALSE
+    )
+  
+  ## names in the meta file
+  names(meta) <- c(
+    "USAF",
+    "WBAN",
+    "STATION",
+    "CTRY",
+    "ST",
+    "CALL",
+    "LAT",
+    "LON",
+    "ELEV(M)",
+    "BEGIN",
+    "END"
+  )
+  
+  ## full character string of site id
+  meta$USAF <-
+    formatC(meta$USAF,
+            width = 6,
+            format = "d",
+            flag = "0")
+  
+  ## code used to query data
+  meta$code <- paste0(meta$USAF, "-", meta$WBAN)
+  
+  return(meta)
+}
+
+# how to update meta data
+# meta <- getMeta(end.year = "all")
+# usethis::use_data(meta, overwrite = TRUE, internal = TRUE)
+# usethis::use_data(meta, overwrite = TRUE)
+
+#' @rdname deprecated-isd
 #'
 #' @param code The identifying code as a character string. The code is a
 #'   combination of the USAF and the WBAN unique identifiers. The codes are
@@ -87,25 +286,10 @@
 #'   year and site.
 #' @export
 #' @import readr tidyr dplyr
-#' @return Returns a data frame of surface observations. The data frame is
-#'   consistent for use with the `openair` package. Note that the data are
-#'   returned in GMT (UTC) time zone format. Users may wish to express the data
-#'   in other time zones, e.g., to merge with air pollution data. The
-#'   [lubridate][lubridate::lubridate-package] package is useful in this
-#'   respect.
-#' @seealso [getMeta()] to obtain the codes based on various site search
-#'   approaches.
-#' @author David Carslaw
-#' @examples
-#'
-#' \dontrun{
-#' ## use Beijing airport code (see getMeta example)
-#' dat <- importNOAA(code = "545110-99999", year = 2010:2011)
-#' }
 importNOAA <- function(code = "037720-99999", year = 2014,
                        hourly = TRUE,
                        n.cores = 1, quiet = FALSE, path = NA) {
-  
+  deprecate_isd()
   ## main web site https://www.ncei.noaa.gov/products/land-based-station/integrated-surface-database
   
   ## formats document https://www.ncei.noaa.gov/data/global-hourly/doc/isd-format-document.pdf
