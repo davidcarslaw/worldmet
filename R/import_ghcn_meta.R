@@ -5,7 +5,7 @@
 #'
 #' @param lat,lng Values representing a decimal latitude and longitude (or other
 #'   Y/X coordinate if using a different `crs`). If provided,
-#'   `import_ghcnh_stations()` will locate `n` stations near to this global
+#'   `import_ghcn_stations()` will locate `n` stations near to this global
 #'   coordinate.
 #' @param crs The coordinate reference system (CRS) of `lat` and `lng`, passed
 #'   to `sf::st_crs()`. By default this is [EPSG:4326](https://epsg.io/4326),
@@ -31,15 +31,14 @@
 #' @author Jack Davison
 #'
 #' @export
-import_ghcnh_stations <- function(lat = NULL,
-                                  lng = NULL,
-                                  n = 10,
-                                  crs = 4326,
-                                  station = NULL,
-                                  country = NULL,
-                                  state = NULL,
-                                  return = c("map", "table", "sf")
-) {
+import_ghcn_stations <- function(lat = NULL,
+                                 lng = NULL,
+                                 n = 10,
+                                 crs = 4326,
+                                 station = NULL,
+                                 country = NULL,
+                                 state = NULL,
+                                 return = c("map", "table", "sf")) {
   # check for valid "return" strings
   return <- match.arg(return, c("map", "table", "sf"))
   
@@ -65,13 +64,13 @@ import_ghcnh_stations <- function(lat = NULL,
   
   2# filter by station, country, and state
   if (!is.null(station)) {
-    meta <- meta[grepl(station, meta$name, ignore.case = TRUE),]
+    meta <- meta[grepl(station, meta$name, ignore.case = TRUE), ]
   }
   if (!is.null(country)) {
-    meta <- meta[substr(meta$id, 1, 2) %in% country,]
+    meta <- meta[substr(meta$id, 1, 2) %in% country, ]
   }
   if (!is.null(state)) {
-    meta <- meta[meta$state %in% state,]
+    meta <- meta[meta$state %in% state, ]
   }
   
   # convert to spatial dataframe
@@ -88,21 +87,61 @@ import_ghcnh_stations <- function(lat = NULL,
     # get target SF object
     target <-
       dplyr::tibble(latitude = lat, longitude = lng) %>%
-      sf::st_as_sf(
-        coords = c("longitude", "latitude"),
-        crs = crs
-      ) %>%
+      sf::st_as_sf(coords = c("longitude", "latitude"),
+                   crs = crs) %>%
       sf::st_transform(crs = 4326)
     
-    meta_sf$dist <- as.vector(sf::st_distance(target, meta_sf)) / 1000
+    dists <- as.vector(sf::st_distance(target, meta_sf)) / 1000
     
-    meta_sf <- 
+    meta_sf$dist <- dists
+    meta$dist <- dists
+    
+    meta_sf <-
       meta_sf %>%
       dplyr::arrange(dist) %>%
       head(n = n)
     
-    meta <- 
+    meta <-
       dplyr::filter(meta, .data$id %in% meta_sf$id)
+    
+    map_popup <- 
+      paste0(
+        "<b>",
+        meta_sf$name,
+        "</b><br>",
+        meta_sf$id,
+        "<hr>",
+        "<b>Country:</b> ",
+        substr(meta_sf$id, 1, 2),
+        "<br>",
+        "<b>State:</b> ",
+        meta_sf$state,
+        "<br>",
+        "<b>Elevation:</b> ",
+        meta_sf$elevation,
+        " m <br>",
+        "<b>Distance:</b> ",
+        round(meta_sf$dist, 1),
+        " km"
+      )
+  } else {
+    map_popup <-
+      paste0(
+        "<b>",
+        meta_sf$name,
+        "</b><br>",
+        meta_sf$id,
+        "<hr>",
+        "<b>Country:</b> ",
+        substr(meta_sf$id, 1, 2),
+        "<br>",
+        "<b>State:</b> ",
+        meta_sf$state,
+        "<br>",
+        "<b>Elevation:</b> ",
+        meta_sf$elevation,
+        " m <br>"
+      )
   }
   
   # return data
@@ -111,16 +150,30 @@ import_ghcnh_stations <- function(lat = NULL,
       leaflet::leaflet(meta_sf) %>%
       leaflet::addTiles(group = "Default") %>%
       leaflet::addProviderTiles(leaflet::providers$Esri.WorldImagery, group = "Satellite") %>%
-      leaflet::addMarkers(clusterOptions = leaflet::markerClusterOptions(),
-                          popup = paste0("<b>", meta_sf$name, "</b><br>",
-                                         meta_sf$id, "<hr>",
-                                         "<b>Country:</b> ", substr(meta_sf$id, 1, 2), "<br>",
-                                         "<b>State:</b> ", meta_sf$state, "<br>",
-                                         "<b>Elevation:</b> ", meta_sf$elevation, "m <br>")) %>%
+      leaflet::addMarkers(
+        clusterOptions = leaflet::markerClusterOptions(),
+        label = paste0(meta_sf$name, " (", meta_sf$id, ")"),
+        popup = map_popup
+      ) %>%
       leaflet::addLayersControl(
         baseGroups = c("Default", "Satellite"),
         options = leaflet::layersControlOptions(FALSE, TRUE)
       )
+    
+    if (!is.null(lat) & !is.null(lng)) {
+      map <-
+        leaflet::addAwesomeMarkers(
+          map = map,
+          data = target,
+          label = paste(lat, lng, sep = ", "),
+          icon = leaflet::makeAwesomeIcon(
+            library = "fa",
+            icon = "circle",
+            iconColor = "#FFFFFF",
+            markerColor = "red"
+          )
+        )
+    }
     
     return(map)
   } else if (return == "table") {
@@ -135,13 +188,13 @@ import_ghcnh_stations <- function(lat = NULL,
 #'
 #' @param table One of `"countries"` or `"states"`, specifying whether country
 #'   or state codes wish to be returned by the function.
-#'   
+#'
 #' @return a [tibble][tibble::tibble-package]
 #'
 #' @author Jack Davison
 #'
 #' @export
-import_ghcnh_codes <- function(table = c("countries", "states")) {
+import_ghcn_codes <- function(table = c("countries", "states")) {
   table <- match.arg(table, c("countries", "states"))
   
   if (table == "countries") {
@@ -157,11 +210,9 @@ import_ghcnh_codes <- function(table = c("countries", "states")) {
       ".txt"
     )
   )) %>%
-    tidyr::separate_wider_delim(
-      dummy,
-      delim = " ",
-      too_many = "merge",
-      names = thenames
-    ) %>%
+    tidyr::separate_wider_delim(dummy,
+                                delim = " ",
+                                too_many = "merge",
+                                names = thenames) %>%
     dplyr::mutate(dplyr::across(dplyr::where(is.character), trimws))
 }

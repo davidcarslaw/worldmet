@@ -14,22 +14,15 @@
 #' @author Jack Davison
 #'
 #' @return a [tibble][tibble::tibble-package]
-#' 
-#' @export
 import_ghcn_hourly <- function(code, year, all = FALSE) {
+  psv_addr <-
+    "https://www.ncei.noaa.gov/oa/global-historical-climatology-network/hourly/access/by-year/"
+  
   urls <-
     purrr::pmap(
       expand.grid(code = code, year = year),
-      ~ paste0(
-        "https://www.ncei.noaa.gov/oa/global-historical-climatology-network/hourly/access/by-year/",
-        ..2,
-        "/psv/GHCNh_",
-        ..1,
-        "_",
-        ..2,
-        ".psv"
-      )
-    ) %>% 
+      ~ paste0(psv_addr, ..2, "/psv/GHCNh_", ..1, "_", ..2, ".psv")
+    ) %>%
     purrr::list_c()
   
   raw <-

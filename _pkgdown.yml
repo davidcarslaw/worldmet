@@ -1,6 +1,8 @@
-url: http://davidcarslaw.github.io/worldmet/
+url: https://davidcarslaw.github.io/worldmet/
 template:
   bootstrap: 5
+  bootswatch: lumen
+  pkgdown-nav-height: 100px
   
 navbar:
   title: worldmet
@@ -26,17 +28,21 @@ navbar:
 reference:
 - title: Obtain Met Data
 - subtitle: View Metadata
-  desc: Read and visualise meta data relating to meteorological measurement sites.
+  desc: Read and visualise meta data relating to meteorological measurement stations.
   contents:
-  - getMeta
-  - getMetaLive
-  - weatherCodes
+  - import_ghcn_stations
+  - import_ghcn_codes
 - subtitle: Import Met Data
-  desc: Directly import NOAA meteorological data.
+  desc: Directly import NOAA GHNCh meteorological data.
   contents:
-  - importNOAA
+  - import_ghcn_hourly
 
 - title: ADMS
   desc: Functions relating to the Atmospheric Dispersion Modelling System.
   contents:
   - exportADMS
+
+- title: Integrated Surface Database
+  desc: The below functions are superseded owing to the development of the GHCNh, which replaced the ISD. These are provided purely for back-compatibility while the ISD is still accessible.
+  contents:
+  - has_concept("deprecated objects (ISD)")

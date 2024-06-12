@@ -12,4 +12,9 @@ is not of general use to most users.
 ## basic structure
 head(weatherCodes)
 }
+\seealso{
+Other deprecated objects (ISD): 
+\code{\link{getMeta}()}
+}
+\concept{deprecated objects (ISD)}
 \keyword{datasets}

@@ -6,6 +6,7 @@
 #' @name weatherCodes
 #' @docType data
 #' @keywords datasets
+#' @family deprecated objects (ISD)
 #' @examples
 #' ## basic structure
 #' head(weatherCodes)
