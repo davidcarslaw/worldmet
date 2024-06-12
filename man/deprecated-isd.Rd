@@ -96,3 +96,6 @@ The following three functions relate to the ISD, but have been superseded.
 \item \code{importNOAA()} (imports hourly meteorological data)
 }
 }
+\author{
+David Carslaw
+}
