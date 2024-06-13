@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 # worldmet - R package for accessing NOAA Integrated Surface Database (ISD) meteorological observations
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/davidcarslaw/worldmet/workflows/R-CMD-check/badge.svg)](https://github.com/davidcarslaw/worldmet/actions)
+[![R-CMD-check](https://github.com/davidcarslaw/worldmet/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/davidcarslaw/worldmet/actions/workflows/R-CMD-check.yaml)
 ![](http://cranlogs.r-pkg.org/badges/grand-total/worldmet)
 <!-- badges: end -->
 
