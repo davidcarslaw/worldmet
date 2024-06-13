@@ -81,7 +81,8 @@
 #'   `FALSE` then the raw data are returned.
 #' @param n.cores Number of cores to use for parallel processing. Default is 1
 #'   and hence no parallelism.
-#' @param quiet If FALSE, print missing sites / years to the screen.
+#' @param quiet If `FALSE`, print missing sites / years to the screen, and show a
+#'   progress bar if multiple sites are imported.
 #' @param path If a file path is provided, the data are saved as an rds file at
 #'   the chosen location e.g.  `path = "C:/Users/David"`. Files are saved by
 #'   year and site.
@@ -102,9 +103,13 @@
 #' ## use Beijing airport code (see getMeta example)
 #' dat <- importNOAA(code = "545110-99999", year = 2010:2011)
 #' }
-importNOAA <- function(code = "037720-99999", year = 2014,
+importNOAA <- function(code = "037720-99999",
+                       year = 2014,
                        hourly = TRUE,
-                       n.cores = 1, quiet = FALSE, path = NA) {
+                       n.cores = 1,
+                       quiet = FALSE,
+                       path = NA
+) {
   
   ## main web site https://www.ncei.noaa.gov/products/land-based-station/integrated-surface-database
   
@@ -145,7 +150,7 @@ importNOAA <- function(code = "037720-99999", year = 2014,
   } else {
     dat <-
       purrr::pmap(site_process, getDat,
-                  hourly = hourly, .progress = "Importing NOAA Data") %>%
+                  hourly = hourly, .progress = !quiet) %>%
       purrr::list_rbind()
   }
   
