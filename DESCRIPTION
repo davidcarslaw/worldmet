@@ -1,41 +1,46 @@
-Package: worldmet
 Type: Package
-Title: Import Surface Meteorological Data from NOAA Integrated Surface Database
-    (ISD)
-Version: 0.9.7
-Date: 2023-02-01
-Authors@R: c(person("David", "Carslaw", role = c("aut", "cre"), email =
-    "david.carslaw@york.ac.uk"))
-ByteCompile: true
-Depends:
-    R (>= 3.2.0)
-Imports:
-    openair,
-    doParallel,
-    parallel,
-    foreach,
-    purrr (>= 1.0.0),
-    dplyr,
-    leaflet,
-    tidyr,
-    readr,
-    magrittr,
-    tibble
+Package: worldmet
+Title: Import Surface Meteorological Data from NOAA Integrated Surface
+    Database (ISD)
+Version: 0.9.7.9000
+Authors@R: c(
+    person("David", "Carslaw", , "david.carslaw@york.ac.uk", role = c("aut", "cre")),
+    person("Jack", "Davison", , "jack.davison@ricardo.com", role = "aut")
+  )
 Maintainer: David Carslaw <david.carslaw@york.ac.uk>
 Description: Functions to import data from more than 30,000 surface
-    meteorological sites around the world managed by the National Oceanic and Atmospheric Administration (NOAA) Integrated Surface
-    Database (ISD, see <https://www.ncei.noaa.gov/products/land-based-station/integrated-surface-database>).
+    meteorological sites around the world managed by the National Oceanic
+    and Atmospheric Administration (NOAA) Global Historical Climatology Network.
 License: GPL (>= 2)
 URL: https://davidcarslaw.github.io/worldmet/index.html,
     http://davidcarslaw.github.io/worldmet/
 BugReports: https://github.com/davidcarslaw/worldmet/issues
+Depends:
+    R (>= 3.2.0)
+Imports:
+    doParallel,
+    dplyr,
+    foreach,
+    leaflet,
+    lubridate,
+    magrittr,
+    openair,
+    parallel,
+    purrr (>= 1.0.0),
+    readr,
+    rlang,
+    sf,
+    tibble,
+    tidyr
 Suggests: 
     knitr,
     rmarkdown
-Language: en-GB
-LazyLoad: true
-LazyData: true
+VignetteBuilder: 
+    knitr
+ByteCompile: true
 Encoding: UTF-8
-RoxygenNote: 7.2.3
+Language: en-GB
+LazyData: true
+LazyLoad: true
 Roxygen: list(markdown = TRUE)
-VignetteBuilder: knitr
+RoxygenNote: 7.3.1
