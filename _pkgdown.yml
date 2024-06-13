@@ -36,6 +36,7 @@ reference:
   desc: Directly import NOAA GHNCh meteorological data.
   contents:
   - import_ghcn_hourly
+  - import_ghcn_daily
 
 - title: ADMS
   desc: Functions relating to the Atmospheric Dispersion Modelling System.

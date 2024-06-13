@@ -6,15 +6,15 @@
 #' @param code The specific station code(s) of interest, identified using
 #'   [import_ghcn_stations()].
 #' @param year The specific year(s) to import.
-#' @param all GHCNh data comes bundled with various extra columns, such as
-#'   measurement codes, quality codes, report types, and source codes. By
-#'   default, these are removed. Setting `all = TRUE` will retain these in the
-#'   returned table.
+#' @param all GHCN data comes bundled with various extra columns, such as
+#'   measurement codes, quality codes, report types, source codes, attributes,
+#'   and so on. By default, these are removed. Setting `all = TRUE` will retain
+#'   these in the returned table.
 #'
 #' @author Jack Davison
 #'
 #' @return a [tibble][tibble::tibble-package]
-#' 
+#'
 #' @export
 import_ghcn_hourly <- function(code, year, all = FALSE) {
   urls <-
@@ -65,3 +65,62 @@ import_ghcn_hourly <- function(code, year, all = FALSE) {
   
   return(out)
 }
+
+#' Import Global Historical Climatology Network daily (GHCNd) Data
+#'
+#' This function imports daily data from the GHCNd.
+#'
+#' @inheritParams import_ghcn_hourly
+#'
+#' @author Jack Davison
+#'
+#' @return a [tibble][tibble::tibble-package]
+#' 
+#' @export
+import_ghcn_daily <- function(code, year, all = FALSE) {
+  # import data
+  out <-
+    purrr::map_vec(
+      .x = code,
+      .f = ~ paste0(
+        "https://www.ncei.noaa.gov/data/global-historical-climatology-network-daily/access/",
+        .x,
+        ".csv"
+      )
+    ) %>%
+    purrr::map(purrr::possibly(~ readr::read_csv(
+      .x,
+      show_col_types = FALSE,
+      progress = TRUE,
+      name_repair = tolower
+    ))) %>%
+    purrr::list_rbind()
+  
+  if (nrow(out) == 0L) {
+    message("No data returned.")
+    return(NULL)
+  }
+  
+  # select specified years
+  id <- as.numeric(format(out$date, "%Y")) %in% year
+  out <- out[id,]
+  
+  if (nrow(out) == 0L) {
+    message("No data returned.")
+    return(NULL)
+  }
+  
+  # include all?
+  if (!all) {
+    id <-
+      !grepl(
+        "_attributes",
+        names(out)
+      )
+    out <- out[id]
+  }
+  
+  # return
+  return(out)
+}
+

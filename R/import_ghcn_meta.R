@@ -1,8 +1,11 @@
-#' Import Global Historical Climatology Network hourly (GHCNh) Metadata
+#' Import Global Historical Climatology Network (GHCN) Metadata
 #'
 #' This function imports a table of metadata outlining the available sites in
-#' the GHCNh.
+#' the GHCN.
 #'
+#' @param source The GHCN contains several different datasets, including
+#'   "hourly" and "daily" measurements. `source` will return the metadata for
+#'   sites included in each of these data sources, defaulting to `"hourly"`.
 #' @param lat,lng Values representing a decimal latitude and longitude (or other
 #'   Y/X coordinate if using a different `crs`). If provided,
 #'   `import_ghcn_stations()` will locate `n` stations near to this global
@@ -31,7 +34,8 @@
 #' @author Jack Davison
 #'
 #' @export
-import_ghcn_stations <- function(lat = NULL,
+import_ghcn_stations <- function(source = c("hourly", "daily"), 
+                                 lat = NULL,
                                  lng = NULL,
                                  n = 10,
                                  crs = 4326,
@@ -41,36 +45,28 @@ import_ghcn_stations <- function(lat = NULL,
                                  return = c("map", "table", "sf")) {
   # check for valid "return" strings
   return <- match.arg(return, c("map", "table", "sf"))
+  source <- match.arg(source, c("hourly", "daily"))
   
   # import metadata
-  meta <-
-    readr::read_csv(
-      "https://www.ncei.noaa.gov/oa/global-historical-climatology-network/hourly/doc/ghcnh-station-list.csv",
-      col_names = c(
-        "id",
-        "latitude",
-        "longitude",
-        "elevation",
-        "state",
-        "name",
-        "gsn_flag",
-        "hcn_crn_flag",
-        "wmo_id"
-      ),
-      na = c("", "-999.9"),
-      show_col_types = FALSE,
-      progress = FALSE
-    )
+  if (source == "hourly") {
+    meta <- getHourlyMeta()
+  } else {
+    meta <- getDailyMeta()
+  }
   
-  2# filter by station, country, and state
+  # filter by station, country, and state
   if (!is.null(station)) {
     meta <- meta[grepl(station, meta$name, ignore.case = TRUE), ]
   }
   if (!is.null(country)) {
     meta <- meta[substr(meta$id, 1, 2) %in% country, ]
   }
-  if (!is.null(state)) {
+  if (!is.null(state) && "state" %in% names(meta)) {
     meta <- meta[meta$state %in% state, ]
+  }
+  
+  if (!"state" %in% names(meta)) {
+    meta$state <- NA
   }
   
   # convert to spatial dataframe
@@ -215,4 +211,53 @@ import_ghcn_codes <- function(table = c("countries", "states")) {
                                 too_many = "merge",
                                 names = thenames) %>%
     dplyr::mutate(dplyr::across(dplyr::where(is.character), trimws))
+}
+
+
+#' Internal function to import daily stations
+#' @noRd
+getDailyMeta <- function() {
+  t <- tempfile()
+  
+  download.file(
+    "http://www1.ncdc.noaa.gov/pub/data/ghcn/daily/ghcnd-stations.txt",
+    destfile = t,
+    quiet = TRUE
+  )
+  
+  readr::read_fwf(t) %>%
+    setNames(c(
+      "id",
+      "latitude",
+      "longitude",
+      "elevation",
+      "X1",
+      "name",
+      "X2",
+      "X3"
+    )) %>%
+    dplyr::select(-dplyr::starts_with("X"))
+}
+
+#' Internal function to import hourly stations
+#' @noRd
+getHourlyMeta <- function(){
+  readr::read_csv(
+    "https://www.ncei.noaa.gov/oa/global-historical-climatology-network/hourly/doc/ghcnh-station-list.csv",
+    col_names = c(
+      "id",
+      "latitude",
+      "longitude",
+      "elevation",
+      "state",
+      "name",
+      "gsn_flag",
+      "hcn_crn_flag",
+      "wmo_id"
+    ),
+    na = c("", "-999.9"),
+    show_col_types = FALSE,
+    progress = FALSE
+  )
+  
 }
