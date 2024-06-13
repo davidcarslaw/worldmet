@@ -1,5 +1,3 @@
-
-
 #' Import Global Historical Climatology Network hourly (GHCNh) Data
 #'
 #' This function imports hourly data from the GHCNh.
@@ -38,7 +36,7 @@ import_ghcn_hourly <-
         )
       ) %>%
       purrr::list_c()
-    
+
     raw <-
       purrr::map(urls, purrr::possibly(
         ~ readr::read_delim(
@@ -50,23 +48,24 @@ import_ghcn_hourly <-
         )
       ), .progress = TRUE) %>%
       purrr::list_rbind()
-    
+
     if (nrow(raw) == 0L) {
       message("No data returned.")
       return(NULL)
     }
-    
+
     out <-
       raw %>%
       tidyr::unite(date,
-                   .data$year,
-                   .data$month,
-                   .data$day,
-                   .data$hour,
-                   .data$minute,
-                   sep = " ") %>%
+        .data$year,
+        .data$month,
+        .data$day,
+        .data$hour,
+        .data$minute,
+        sep = " "
+      ) %>%
       dplyr::mutate(date = lubridate::ymd_hm(.data$date))
-    
+
     if (!all) {
       id <-
         !grepl(
@@ -75,14 +74,15 @@ import_ghcn_hourly <-
         )
       out <- out[id]
     }
-    
+
     if (hourly) {
       out <-
         openair::timeAverage(out,
-                             avg.time = "hour",
-                             type = c("station_id", "station_name"))
+          avg.time = "hour",
+          type = c("station_id", "station_name")
+        )
     }
-    
+
     return(out)
   }
 
@@ -117,29 +117,31 @@ import_ghcn_daily <- function(code, year, all = FALSE) {
       )
     )) %>%
     purrr::list_rbind()
-  
+
   if (nrow(out) == 0L) {
     message("No data returned.")
     return(NULL)
   }
-  
+
   # select specified years
   id <- as.numeric(format(out$date, "%Y")) %in% year
   out <- out[id, ]
-  
+
   if (nrow(out) == 0L) {
     message("No data returned.")
     return(NULL)
   }
-  
+
   # include all?
   if (!all) {
     id <-
-      !grepl("_attributes",
-             names(out))
+      !grepl(
+        "_attributes",
+        names(out)
+      )
     out <- out[id]
   }
-  
+
   # return
   return(out)
 }
