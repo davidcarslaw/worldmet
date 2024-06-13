@@ -6,25 +6,24 @@
 \alias{worldmet-package}
 \title{worldmet: Import Surface Meteorological Data from NOAA Integrated Surface Database (ISD)}
 \description{
-\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
-
-Functions to import data from more than 30,000 surface meteorological sites around the world managed by the National Oceanic and Atmospheric Administration (NOAA) Global Historical Climatology Network.
+Functions to import data from more than 30,000 surface meteorological sites around the world managed by the National Oceanic and Atmospheric Administration (NOAA) Integrated Surface Database (ISD, see \url{https://www.ncei.noaa.gov/products/land-based-station/integrated-surface-database}).
 }
 \details{
 This package contains functions to import surface meteorological
 data from over 30,000 sites around the world. These data are curated by
-NOAA as part of the Global Historical Climatology Network (GHCN).
+NOAA as part of the Integrated Surface Database (ISD).
 
-If you access these data using the \code{{worldmet}} package please give full
-acknowledgement to NOAA. Users should also take a note of the usage
+If you access these data using the \code{worldmet} package please give full
+acknowledgement to NOAA ISD. Users should also take a note of the usage
 restrictions.
 
-These data work well with the \code{{openair}} package that has been developed to
+These data work well with the \code{openair} package that has been developed to
 analyse air pollution data.
 }
 \references{
-For general information of the GHCN see
-\url{https://www.ncei.noaa.gov/products/global-historical-climatology-network-hourly}
+For general information of the ISD see
+\url{https://www.ncei.noaa.gov/products/land-based-station/integrated-surface-database}
+and the map here \url{https://gis.ncdc.noaa.gov/maps/ncei}.
 }
 \seealso{
 See \url{https://github.com/davidcarslaw/openair} for information on the
@@ -32,11 +31,6 @@ related \code{openair} package.
 }
 \author{
 \strong{Maintainer}: David Carslaw \email{david.carslaw@york.ac.uk}
-
-Authors:
-\itemize{
-  \item Jack Davison \email{jack.davison@ricardo.com}
-}
 
 }
 \keyword{internal}
