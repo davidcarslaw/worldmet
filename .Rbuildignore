@@ -10,3 +10,4 @@ README_cache
 ^docs$
 ^pkgdown$
 ^vignettes/web_articles
+^LICENSE\.md$
