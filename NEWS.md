@@ -59,7 +59,7 @@ without having to `library(worldmet)`.
 - query live meta data when using `getMeta`
 - fix bug when data not available for a year when using parallel processing
 - parallel processing for sites and years
-- use `readr::read_csv` for meta data (read.csv seems very slow in R 3.4.3)
+- use `read_csv` for meta data (read.csv seems very slow in R 3.4.3)
 
 # worldmet 0.8.0
 
