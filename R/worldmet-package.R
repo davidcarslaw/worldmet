@@ -19,6 +19,7 @@
 "_PACKAGE"
 ## usethis namespace: start
 #' @importFrom foreach %dopar%
+#' @importFrom lubridate ymd_hm
 #' @importFrom magrittr %>%
 #' @importFrom tibble tibble
 ## usethis namespace: end

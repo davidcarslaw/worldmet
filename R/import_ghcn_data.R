@@ -58,8 +58,14 @@ import_ghcn_hourly <-
     
     out <-
       raw %>%
-      tidyr::unite(date, year, month, day, hour, minute, sep = " ") %>%
-      dplyr::mutate(date = lubridate::ymd_hm(date))
+      tidyr::unite(date,
+                   .data$year,
+                   .data$month,
+                   .data$day,
+                   .data$hour,
+                   .data$minute,
+                   sep = " ") %>%
+      dplyr::mutate(date = lubridate::ymd_hm(.data$date))
     
     if (!all) {
       id <-

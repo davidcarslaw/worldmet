@@ -23,7 +23,7 @@
 #'   e.g. `site = "HEATHR"`.
 #' @param country,state One or more two-letter 'country' or 'state' codes with
 #'   which to filter the metadata. These can be obtained with
-#'   [import_ghcng_codes()].
+#'   [import_ghcn_codes()].
 #' @param return The form in which to return the data. One of:
 #' - `"map"` (the default), to return an interactive `leaflet` map.
 #' - `"table"`, to return a [tibble][tibble::tibble-package]
@@ -94,8 +94,8 @@ import_ghcn_stations <- function(source = c("hourly", "daily"),
     
     meta_sf <-
       meta_sf %>%
-      dplyr::arrange(dist) %>%
-      head(n = n)
+      dplyr::arrange(.data$dist) %>%
+      utils::head(n = n)
     
     meta <-
       dplyr::filter(meta, .data$id %in% meta_sf$id)
@@ -206,7 +206,7 @@ import_ghcn_codes <- function(table = c("countries", "states")) {
       ".txt"
     )
   )) %>%
-    tidyr::separate_wider_delim(dummy,
+    tidyr::separate_wider_delim(.data$dummy,
                                 delim = " ",
                                 too_many = "merge",
                                 names = thenames) %>%
@@ -219,14 +219,14 @@ import_ghcn_codes <- function(table = c("countries", "states")) {
 getDailyMeta <- function() {
   t <- tempfile()
   
-  download.file(
+  utils::download.file(
     "http://www1.ncdc.noaa.gov/pub/data/ghcn/daily/ghcnd-stations.txt",
     destfile = t,
     quiet = TRUE
   )
   
   readr::read_fwf(t) %>%
-    setNames(c(
+    stats::setNames(c(
       "id",
       "latitude",
       "longitude",
