@@ -9,82 +9,58 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   warning = FALSE,
   message = FALSE,
-  eval = FALSE,
+  eval = TRUE,
   comment = "#>",
   fig.path = "man/figures/README-"
 )
 ```
 
-# worldmet - R package for accessing NOAA Integrated Surface Database (ISD) meteorological observations
+# worldmet - Accessing NOAA Global Historical Climatology Network (GHCN) meteorological observations <img src="man/figures/logo.png" align="right" height="200"/>
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/davidcarslaw/worldmet/workflows/R-CMD-check/badge.svg)](https://github.com/davidcarslaw/worldmet/actions)
 ![](http://cranlogs.r-pkg.org/badges/grand-total/worldmet)
 <!-- badges: end -->
 
-`worldmet` provides an easy way to access data from the [NOAA Integrated
-Surface Database](https://www.ncei.noaa.gov/products/land-based-station/integrated-surface-database) (ISD). The ISD contains detailed surface
-meteorological data from around the world for over 35,000
-locations. See also the
-[map](https://gis.ncdc.noaa.gov/maps/ncei).
+`worldmet` provides an easy way to access hourly data from the [Global Historical Climatology Network](https://www.ncei.noaa.gov/products/global-historical-climatology-network-hourly) (GHCNh). The GHCN contains detailed surface
+meteorological data from around the world.
 
-The package outputs (typically hourly meteorological data) work very
-well with the [openair](https://github.com/davidcarslaw/openair) package.
+The package outputs work very well with the [openair](https://github.com/davidcarslaw/openair) package.
 
 ## Installation
 
-Installation can be done in the normal way:
+You can install the release version of `{worldmet}` from CRAN with:
 
-```{r eval=FALSE}
+``` r
 install.packages("worldmet")
 ```
 
-The development version can be installed from GitHub. Installation of
-`worldmet` from GitHub is easy using the `devtools` package.
+You can install the development version of `{worldmet}` from GitHub with:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("davidcarslaw/worldmet")
+# install.packages("pak")
+pak::pak("davidcarslaw/worldmet")
 ```
 
-## Example
+## Documentation
 
-To search for meteorological sites the user can search by the name or partial name of the site in upper or lower case. The `getMeta()` function will return all site names that match the search string. The most important information returned is the `code`, which can then be supplied to the `importNOAA()` function that downloads the data.
+All functions in `{worldmet}` are thoroughly documented. The [worldmet website](https://davidcarslaw.github.io/worldmet/) contains all documentation and a change log of new features. There are also many examples of `{worldmet}` functionality the [openair book](https://bookdown.org/david_carslaw/openair/index.html), which goes into great detail about its various functions.
 
-For example, to search for site "heathrow":
-
-```{r eval=TRUE}
+```{r import}
 library(worldmet)
-## user getMeta function to search for sites
-## note code to be used in importNOAA
 
-getMeta(site = "heathrow")
+import_ghcn_stations(country = "FR", return = "table")
+
+import_ghcn_hourly("FRW00034048", 2021)
 ```
 
-Often we have a latitude / longitude of interest. A search can be made based on supplied decimal coordinates and the top `n` nearest sites are returned. The map shows the location searched by the user (red dot) and markers showing the nearest meteorological stations. Click on a station marker to obtain the code and other basic information.
 
-```{r eval=TRUE,echo=TRUE}
-## search for near a specified lat/lon - near Beijing airport
-## returns 'n' nearest by default
-info <- getMeta(lat = 40, lon = 116.9)
-info
-```
+## The `{openair}` toolkit
 
-<img src="man/figures/README-map.png" alt="map of Beijing area" width="75%" />
+-   [`{openair}`](https://davidcarslaw.github.io/openair/): Import, analyse, and visualise air quality and atmospheric composition data.
 
-To obtain the data the user must supply a `code` (see above) and year or years of interest. For example, to download data for Heathrow Airport in 2010 (code 037720-99999):
+-   [`{worldmet}`](https://davidcarslaw.github.io/worldmet/): Access world meteorological data from NOAA's Integrated Surface Database.
 
-```{r eval=TRUE}
-met_london <- importNOAA(code = "037720-99999", year = 2010)
-head(met_london)
-```
+-   [`{openairmaps}`](https://davidcarslaw.github.io/openairmaps/): Visualise air quality data on interactive and static maps.
 
-A wind rose (for example) can easily be plotted using `openair`:
-
-```{r windRose, eval=TRUE,echo=TRUE,fig.width=5,fig.height=4.5}
-# load openair
-library(openair)
-windRose(met_london)
-```
-
-For the main **worldmet** website, see <https://davidcarslaw.github.io/worldmet/>.
+-   [`{deweather}`](https://davidcarslaw.github.io/deweather/): Use machine learning to remove the effects of meteorology on air quality time series.
