@@ -42,7 +42,7 @@ e.g. \code{site = "HEATHR"}.}
 
 \item{country, state}{One or more two-letter 'country' or 'state' codes with
 which to filter the metadata. These can be obtained with
-\code{\link[=import_ghcng_codes]{import_ghcng_codes()}}.}
+\code{\link[=import_ghcn_codes]{import_ghcn_codes()}}.}
 
 \item{return}{The form in which to return the data. One of:
 \itemize{
