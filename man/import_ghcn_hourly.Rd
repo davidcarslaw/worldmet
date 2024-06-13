@@ -4,13 +4,16 @@
 \alias{import_ghcn_hourly}
 \title{Import Global Historical Climatology Network hourly (GHCNh) Data}
 \usage{
-import_ghcn_hourly(code, year, all = FALSE)
+import_ghcn_hourly(code, year, hourly = TRUE, all = FALSE)
 }
 \arguments{
 \item{code}{The specific station code(s) of interest, identified using
 \code{\link[=import_ghcn_stations]{import_ghcn_stations()}}.}
 
 \item{year}{The specific year(s) to import.}
+
+\item{hourly}{Should hourly means be calculated? The default is \code{TRUE}. If
+\code{FALSE} then the raw data are returned.}
 
 \item{all}{GHCN data comes bundled with various extra columns, such as
 measurement codes, quality codes, report types, source codes, attributes,
