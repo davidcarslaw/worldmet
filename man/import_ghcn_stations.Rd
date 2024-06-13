@@ -2,9 +2,10 @@
 % Please edit documentation in R/import_ghcn_meta.R
 \name{import_ghcn_stations}
 \alias{import_ghcn_stations}
-\title{Import Global Historical Climatology Network hourly (GHCNh) Metadata}
+\title{Import Global Historical Climatology Network (GHCN) Metadata}
 \usage{
 import_ghcn_stations(
+  source = c("hourly", "daily"),
   lat = NULL,
   lng = NULL,
   n = 10,
@@ -16,6 +17,10 @@ import_ghcn_stations(
 )
 }
 \arguments{
+\item{source}{The GHCN contains several different datasets, including
+"hourly" and "daily" measurements. \code{source} will return the metadata for
+sites included in each of these data sources, defaulting to \code{"hourly"}.}
+
 \item{lat, lng}{Values representing a decimal latitude and longitude (or other
 Y/X coordinate if using a different \code{crs}). If provided,
 \code{import_ghcn_stations()} will locate \code{n} stations near to this global
@@ -51,7 +56,7 @@ Varies (see the \code{return} parameter).
 }
 \description{
 This function imports a table of metadata outlining the available sites in
-the GHCNh.
+the GHCN.
 }
 \author{
 Jack Davison
