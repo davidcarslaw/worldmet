@@ -34,7 +34,7 @@
 #' @author Jack Davison
 #'
 #' @export
-import_ghcn_stations <- function(source = c("hourly", "daily"), 
+import_ghcn_stations <- function(source = c("hourly", "daily"),
                                  lat = NULL,
                                  lng = NULL,
                                  n = 10,
@@ -46,14 +46,14 @@ import_ghcn_stations <- function(source = c("hourly", "daily"),
   # check for valid "return" strings
   return <- match.arg(return, c("map", "table", "sf"))
   source <- match.arg(source, c("hourly", "daily"))
-  
+
   # import metadata
   if (source == "hourly") {
     meta <- getHourlyMeta()
   } else {
     meta <- getDailyMeta()
   }
-  
+
   # filter by station, country, and state
   if (!is.null(station)) {
     meta <- meta[grepl(station, meta$name, ignore.case = TRUE), ]
@@ -64,11 +64,11 @@ import_ghcn_stations <- function(source = c("hourly", "daily"),
   if (!is.null(state) && "state" %in% names(meta)) {
     meta <- meta[meta$state %in% state, ]
   }
-  
+
   if (!"state" %in% names(meta)) {
     meta$state <- NA
   }
-  
+
   # convert to spatial dataframe
   meta_sf <-
     sf::st_as_sf(
@@ -77,30 +77,32 @@ import_ghcn_stations <- function(source = c("hourly", "daily"),
       remove = FALSE,
       crs = 4326
     )
-  
+
   # filter by lat/lng/n, if provided
   if (!is.null(lat) & !is.null(lng)) {
     # get target SF object
     target <-
       dplyr::tibble(latitude = lat, longitude = lng) %>%
-      sf::st_as_sf(coords = c("longitude", "latitude"),
-                   crs = crs) %>%
+      sf::st_as_sf(
+        coords = c("longitude", "latitude"),
+        crs = crs
+      ) %>%
       sf::st_transform(crs = 4326)
-    
+
     dists <- as.vector(sf::st_distance(target, meta_sf)) / 1000
-    
+
     meta_sf$dist <- dists
     meta$dist <- dists
-    
+
     meta_sf <-
       meta_sf %>%
       dplyr::arrange(.data$dist) %>%
       utils::head(n = n)
-    
+
     meta <-
       dplyr::filter(meta, .data$id %in% meta_sf$id)
-    
-    map_popup <- 
+
+    map_popup <-
       paste0(
         "<b>",
         meta_sf$name,
@@ -139,7 +141,7 @@ import_ghcn_stations <- function(source = c("hourly", "daily"),
         " m <br>"
       )
   }
-  
+
   # return data
   if (return == "map") {
     map <-
@@ -155,7 +157,7 @@ import_ghcn_stations <- function(source = c("hourly", "daily"),
         baseGroups = c("Default", "Satellite"),
         options = leaflet::layersControlOptions(FALSE, TRUE)
       )
-    
+
     if (!is.null(lat) & !is.null(lng)) {
       map <-
         leaflet::addAwesomeMarkers(
@@ -170,7 +172,7 @@ import_ghcn_stations <- function(source = c("hourly", "daily"),
           )
         )
     }
-    
+
     return(map)
   } else if (return == "table") {
     return(meta)
@@ -192,13 +194,13 @@ import_ghcn_stations <- function(source = c("hourly", "daily"),
 #' @export
 import_ghcn_codes <- function(table = c("countries", "states")) {
   table <- match.arg(table, c("countries", "states"))
-  
+
   if (table == "countries") {
     thenames <- c("country_code", "country")
   } else {
     thenames <- c("state_code", "state")
   }
-  
+
   dplyr::tibble(dummy = readr::read_lines(
     paste0(
       "https://www.ncei.noaa.gov/oa/global-historical-climatology-network/hourly/doc/ghcn-",
@@ -207,9 +209,10 @@ import_ghcn_codes <- function(table = c("countries", "states")) {
     )
   )) %>%
     tidyr::separate_wider_delim(.data$dummy,
-                                delim = " ",
-                                too_many = "merge",
-                                names = thenames) %>%
+      delim = " ",
+      too_many = "merge",
+      names = thenames
+    ) %>%
     dplyr::mutate(dplyr::across(dplyr::where(is.character), trimws))
 }
 
@@ -218,13 +221,13 @@ import_ghcn_codes <- function(table = c("countries", "states")) {
 #' @noRd
 getDailyMeta <- function() {
   t <- tempfile()
-  
+
   utils::download.file(
     "http://www1.ncdc.noaa.gov/pub/data/ghcn/daily/ghcnd-stations.txt",
     destfile = t,
     quiet = TRUE
   )
-  
+
   readr::read_fwf(t) %>%
     stats::setNames(c(
       "id",
@@ -241,7 +244,7 @@ getDailyMeta <- function() {
 
 #' Internal function to import hourly stations
 #' @noRd
-getHourlyMeta <- function(){
+getHourlyMeta <- function() {
   readr::read_csv(
     "https://www.ncei.noaa.gov/oa/global-historical-climatology-network/hourly/doc/ghcnh-station-list.csv",
     col_names = c(
@@ -259,5 +262,4 @@ getHourlyMeta <- function(){
     show_col_types = FALSE,
     progress = FALSE
   )
-  
 }
