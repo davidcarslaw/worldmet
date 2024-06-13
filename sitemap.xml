@@ -1,51 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://davidcarslaw.github.io/worldmet/404.html</loc>
+    <loc>http://davidcarslaw.github.io/worldmet/404.html</loc>
   </url>
   <url>
-    <loc>https://davidcarslaw.github.io/worldmet/articles/find-sites.html</loc>
+    <loc>http://davidcarslaw.github.io/worldmet/articles/find-sites.html</loc>
   </url>
   <url>
-    <loc>https://davidcarslaw.github.io/worldmet/articles/index.html</loc>
+    <loc>http://davidcarslaw.github.io/worldmet/articles/index.html</loc>
   </url>
   <url>
-    <loc>https://davidcarslaw.github.io/worldmet/articles/web_articles/find-sites.html</loc>
+    <loc>http://davidcarslaw.github.io/worldmet/articles/web_articles/find-sites.html</loc>
   </url>
   <url>
-    <loc>https://davidcarslaw.github.io/worldmet/authors.html</loc>
+    <loc>http://davidcarslaw.github.io/worldmet/authors.html</loc>
   </url>
   <url>
-    <loc>https://davidcarslaw.github.io/worldmet/index.html</loc>
+    <loc>http://davidcarslaw.github.io/worldmet/index.html</loc>
   </url>
   <url>
-    <loc>https://davidcarslaw.github.io/worldmet/news/index.html</loc>
+    <loc>http://davidcarslaw.github.io/worldmet/news/index.html</loc>
   </url>
   <url>
-    <loc>https://davidcarslaw.github.io/worldmet/reference/deprecated-isd.html</loc>
+    <loc>http://davidcarslaw.github.io/worldmet/reference/exportADMS.html</loc>
   </url>
   <url>
-    <loc>https://davidcarslaw.github.io/worldmet/reference/exportADMS.html</loc>
+    <loc>http://davidcarslaw.github.io/worldmet/reference/getMeta.html</loc>
   </url>
   <url>
-    <loc>https://davidcarslaw.github.io/worldmet/reference/import_ghcn_codes.html</loc>
+    <loc>http://davidcarslaw.github.io/worldmet/reference/getMetaLive.html</loc>
   </url>
   <url>
-    <loc>https://davidcarslaw.github.io/worldmet/reference/import_ghcn_daily.html</loc>
+    <loc>http://davidcarslaw.github.io/worldmet/reference/importNOAA.html</loc>
   </url>
   <url>
-    <loc>https://davidcarslaw.github.io/worldmet/reference/import_ghcn_hourly.html</loc>
+    <loc>http://davidcarslaw.github.io/worldmet/reference/index.html</loc>
   </url>
   <url>
-    <loc>https://davidcarslaw.github.io/worldmet/reference/import_ghcn_stations.html</loc>
+    <loc>http://davidcarslaw.github.io/worldmet/reference/weatherCodes.html</loc>
   </url>
   <url>
-    <loc>https://davidcarslaw.github.io/worldmet/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://davidcarslaw.github.io/worldmet/reference/weatherCodes.html</loc>
-  </url>
-  <url>
-    <loc>https://davidcarslaw.github.io/worldmet/reference/worldmet-package.html</loc>
+    <loc>http://davidcarslaw.github.io/worldmet/reference/worldmet-package.html</loc>
   </url>
 </urlset>
