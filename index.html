@@ -98,12 +98,11 @@
 <span><span class="co">## note code to be used in importNOAA</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/getMeta.html">getMeta</a></span><span class="op">(</span>site <span class="op">=</span> <span class="st">"heathrow"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 1 × 13</span></span>
-<span><span class="co">#&gt;   usaf   wban  station  ctry  st    call  latitude longitude elev(m…¹ begin     </span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;date&gt;    </span></span>
-<span><span class="co">#&gt; 1 037720 99999 HEATHROW UK    &lt;NA&gt;  EGLL      51.5    -0.461     25.3 1948-12-01</span></span>
-<span><span class="co">#&gt; # … with 3 more variables: end &lt;date&gt;, code &lt;chr&gt;, dist &lt;lgl&gt;, and abbreviated</span></span>
-<span><span class="co">#&gt; #   variable name ¹​`elev(m)`</span></span></code></pre></div>
+<span><span class="co">#&gt; # A tibble: 1 × 12</span></span>
+<span><span class="co">#&gt;   usaf   wban  station ctry  st    call  latitude longitude `elev(m)` begin     </span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt; &lt;date&gt;    </span></span>
+<span><span class="co">#&gt; 1 037720 99999 HEATHR… UK    &lt;NA&gt;  EGLL      51.5    -0.461      25.3 1948-12-01</span></span>
+<span><span class="co">#&gt; # ℹ 2 more variables: end &lt;date&gt;, code &lt;chr&gt;</span></span></code></pre></div>
 <p>Often we have a latitude / longitude of interest. A search can be made based on supplied decimal coordinates and the top <code>n</code> nearest sites are returned. The map shows the location searched by the user (red dot) and markers showing the nearest meteorological stations. Click on a station marker to obtain the code and other basic information.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## search for near a specified lat/lon - near Beijing airport</span></span>
@@ -111,41 +110,38 @@
 <span><span class="va">info</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/getMeta.html">getMeta</a></span><span class="op">(</span>lat <span class="op">=</span> <span class="fl">40</span>, lon <span class="op">=</span> <span class="fl">116.9</span><span class="op">)</span></span>
 <span><span class="va">info</span></span>
 <span><span class="co">#&gt; # A tibble: 10 × 15</span></span>
-<span><span class="co">#&gt;    usaf   wban  station     ctry  st    call  latit…¹ longi…² elev(…³ begin     </span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;date&gt;    </span></span>
-<span><span class="co">#&gt;  1 545110 99999 BEIJING - … CH    &lt;NA&gt;  ZBAA     40.1    117.    35.4 1945-10-31</span></span>
-<span><span class="co">#&gt;  2 545270 99999 TIANJIN     CH    &lt;NA&gt;  &lt;NA&gt;     39.1    117.     5   1956-08-20</span></span>
-<span><span class="co">#&gt;  3 545273 99999 BINHAI      CH    &lt;NA&gt;  ZBTJ     39.1    117.     3   1981-11-25</span></span>
-<span><span class="co">#&gt;  4 545340 99999 TANGSHAN    CH    &lt;NA&gt;  &lt;NA&gt;     39.6    118.    29   1956-08-20</span></span>
-<span><span class="co">#&gt;  5 544050 99999 HUAILAI     CH    &lt;NA&gt;  &lt;NA&gt;     40.4    116.   538   1956-08-20</span></span>
-<span><span class="co">#&gt;  6 543080 99999 FENGNING    CH    &lt;NA&gt;  &lt;NA&gt;     41.2    117.   661   1957-06-01</span></span>
-<span><span class="co">#&gt;  7 544230 99999 CHENGDE     CH    &lt;NA&gt;  &lt;NA&gt;     41.0    118.   423   1956-08-20</span></span>
-<span><span class="co">#&gt;  8 544360 99999 QINGLONG    CH    &lt;NA&gt;  &lt;NA&gt;     40.4    119.   228   1957-06-02</span></span>
-<span><span class="co">#&gt;  9 545390 99999 LETING      CH    &lt;NA&gt;  &lt;NA&gt;     39.4    119.    12   1957-06-01</span></span>
-<span><span class="co">#&gt; 10 546020 99999 BAODING     CH    &lt;NA&gt;  &lt;NA&gt;     38.7    115.    17   1956-08-20</span></span>
-<span><span class="co">#&gt; # … with 5 more variables: end &lt;date&gt;, code &lt;chr&gt;, longr &lt;dbl&gt;, latr &lt;dbl&gt;,</span></span>
-<span><span class="co">#&gt; #   dist &lt;dbl&gt;, and abbreviated variable names ¹​latitude, ²​longitude,</span></span>
-<span><span class="co">#&gt; #   ³​`elev(m)`</span></span></code></pre></div>
+<span><span class="co">#&gt;    usaf  wban  station ctry  st    call  latitude longitude `elev(m)` begin     </span></span>
+<span><span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt; &lt;date&gt;    </span></span>
+<span><span class="co">#&gt;  1 5451… 99999 BEIJIN… CH    &lt;NA&gt;  ZBAA      40.1      117.      35.4 1945-10-31</span></span>
+<span><span class="co">#&gt;  2 5452… 99999 TIANJIN CH    &lt;NA&gt;  &lt;NA&gt;      39.1      117.       5   1956-08-20</span></span>
+<span><span class="co">#&gt;  3 5452… 99999 BINHAI  CH    &lt;NA&gt;  ZBTJ      39.1      117.       3   1981-11-25</span></span>
+<span><span class="co">#&gt;  4 5453… 99999 TANGSH… CH    &lt;NA&gt;  &lt;NA&gt;      39.6      118.      29   1956-08-20</span></span>
+<span><span class="co">#&gt;  5 5440… 99999 HUAILAI CH    &lt;NA&gt;  &lt;NA&gt;      40.4      116.     538   1956-08-20</span></span>
+<span><span class="co">#&gt;  6 5430… 99999 FENGNI… CH    &lt;NA&gt;  &lt;NA&gt;      41.2      117.     661   1957-06-01</span></span>
+<span><span class="co">#&gt;  7 5442… 99999 CHENGDE CH    &lt;NA&gt;  &lt;NA&gt;      41.0      118.     423   1956-08-20</span></span>
+<span><span class="co">#&gt;  8 5443… 99999 QINGLO… CH    &lt;NA&gt;  &lt;NA&gt;      40.4      119.     228   1957-06-02</span></span>
+<span><span class="co">#&gt;  9 5453… 99999 LETING  CH    &lt;NA&gt;  &lt;NA&gt;      39.4      119.      12   1957-06-01</span></span>
+<span><span class="co">#&gt; 10 5460… 99999 BAODING CH    &lt;NA&gt;  &lt;NA&gt;      38.7      115.      17   1956-08-20</span></span>
+<span><span class="co">#&gt; # ℹ 5 more variables: end &lt;date&gt;, code &lt;chr&gt;, longr &lt;dbl&gt;, latr &lt;dbl&gt;,</span></span>
+<span><span class="co">#&gt; #   dist &lt;dbl&gt;</span></span></code></pre></div>
 <p><img src="reference/figures/README-map.png" alt="map of Beijing area" width="75%"></p>
 <p>To obtain the data the user must supply a <code>code</code> (see above) and year or years of interest. For example, to download data for Heathrow Airport in 2010 (code 037720-99999):</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">met_london</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/importNOAA.html">importNOAA</a></span><span class="op">(</span>code <span class="op">=</span> <span class="st">"037720-99999"</span>, year <span class="op">=</span> <span class="fl">2010</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">met_london</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 6 × 25</span></span>
-<span><span class="co">#&gt;   code   station date                latit…¹ longi…²  elev    ws      wd air_t…³</span></span>
-<span><span class="co">#&gt;   &lt;fct&gt;  &lt;fct&gt;   &lt;dttm&gt;                &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt; 1 03772… HEATHR… 2010-01-01 00:00:00    51.5  -0.461  25.3  3.27  17.4    1.03  </span></span>
-<span><span class="co">#&gt; 2 03772… HEATHR… 2010-01-01 01:00:00    51.5  -0.461  25.3  3.1    6.13   0.967 </span></span>
-<span><span class="co">#&gt; 3 03772… HEATHR… 2010-01-01 02:00:00    51.5  -0.461  25.3  3.1   15.6    1.03  </span></span>
-<span><span class="co">#&gt; 4 03772… HEATHR… 2010-01-01 03:00:00    51.5  -0.461  25.3  2.93  17.0    1     </span></span>
-<span><span class="co">#&gt; 5 03772… HEATHR… 2010-01-01 04:00:00    51.5  -0.461  25.3  2.77   0.606  0.267 </span></span>
-<span><span class="co">#&gt; 6 03772… HEATHR… 2010-01-01 05:00:00    51.5  -0.461  25.3  2.43 356.     0.0667</span></span>
-<span><span class="co">#&gt; # … with 16 more variables: atmos_pres &lt;dbl&gt;, visibility &lt;dbl&gt;,</span></span>
+<span><span class="co">#&gt;   code        station date                latitude longitude  elev    ws      wd</span></span>
+<span><span class="co">#&gt;   &lt;fct&gt;       &lt;fct&gt;   &lt;dttm&gt;                 &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 037720-999… HEATHR… 2010-01-01 00:00:00     51.5    -0.461  25.3  3.27  17.4  </span></span>
+<span><span class="co">#&gt; 2 037720-999… HEATHR… 2010-01-01 01:00:00     51.5    -0.461  25.3  3.1    6.13 </span></span>
+<span><span class="co">#&gt; 3 037720-999… HEATHR… 2010-01-01 02:00:00     51.5    -0.461  25.3  3.1   15.6  </span></span>
+<span><span class="co">#&gt; 4 037720-999… HEATHR… 2010-01-01 03:00:00     51.5    -0.461  25.3  2.93  17.0  </span></span>
+<span><span class="co">#&gt; 5 037720-999… HEATHR… 2010-01-01 04:00:00     51.5    -0.461  25.3  2.77   0.606</span></span>
+<span><span class="co">#&gt; 6 037720-999… HEATHR… 2010-01-01 05:00:00     51.5    -0.461  25.3  2.43 356.   </span></span>
+<span><span class="co">#&gt; # ℹ 17 more variables: air_temp &lt;dbl&gt;, atmos_pres &lt;dbl&gt;, visibility &lt;dbl&gt;,</span></span>
 <span><span class="co">#&gt; #   dew_point &lt;dbl&gt;, RH &lt;dbl&gt;, ceil_hgt &lt;dbl&gt;, cl_1 &lt;dbl&gt;, cl_2 &lt;dbl&gt;,</span></span>
 <span><span class="co">#&gt; #   cl_3 &lt;dbl&gt;, cl &lt;dbl&gt;, cl_1_height &lt;dbl&gt;, cl_2_height &lt;dbl&gt;,</span></span>
-<span><span class="co">#&gt; #   cl_3_height &lt;dbl&gt;, precip_12 &lt;dbl&gt;, precip_6 &lt;dbl&gt;, pwc &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   precip &lt;dbl&gt;, and abbreviated variable names ¹​latitude, ²​longitude,</span></span>
-<span><span class="co">#&gt; #   ³​air_temp</span></span></code></pre></div>
+<span><span class="co">#&gt; #   cl_3_height &lt;dbl&gt;, precip_12 &lt;dbl&gt;, precip_6 &lt;dbl&gt;, pwc &lt;chr&gt;, precip &lt;dbl&gt;</span></span></code></pre></div>
 <p>A wind rose (for example) can easily be plotted using <code>openair</code>:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># load openair</span></span>
@@ -189,7 +185,7 @@
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/davidcarslaw/worldmet/actions" class="external-link"><img src="https://github.com/davidcarslaw/worldmet/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://github.com/davidcarslaw/worldmet/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/davidcarslaw/worldmet/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
 </ul>
 </div>
 

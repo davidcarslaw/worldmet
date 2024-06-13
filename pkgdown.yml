@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   find-sites: find-sites.html
   find-sites: web_articles/find-sites.html
-last_built: 2024-06-13T10:10Z
+last_built: 2024-06-13T10:50Z
 urls:
   reference: http://davidcarslaw.github.io/worldmet/reference
   article: http://davidcarslaw.github.io/worldmet/articles
