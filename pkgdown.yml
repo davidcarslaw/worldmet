@@ -1,11 +1,11 @@
-pandoc: 2.19.2
-pkgdown: 2.0.7
+pandoc: 3.1.11
+pkgdown: 2.0.9
 pkgdown_sha: ~
 articles:
   find-sites: find-sites.html
   find-sites: web_articles/find-sites.html
-last_built: 2023-02-21T19:47Z
+last_built: 2024-06-13T09:47Z
 urls:
-  reference: http://davidcarslaw.github.io/worldmet/reference
-  article: http://davidcarslaw.github.io/worldmet/articles
+  reference: https://davidcarslaw.github.io/worldmet/reference
+  article: https://davidcarslaw.github.io/worldmet/articles
 
