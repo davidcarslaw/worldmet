@@ -1,6 +1,8 @@
 url: http://davidcarslaw.github.io/worldmet/
 template:
   bootstrap: 5
+  bootswatch: lumen
+  pkgdown-nav-height: 100px
   
 navbar:
   title: worldmet
