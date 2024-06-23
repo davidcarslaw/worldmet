@@ -220,7 +220,7 @@ getMeta <- function(site = "heathrow",
 #' @export
 getMetaLive <- function(...) {
   ## downloads the whole thing fresh
-  deprecate_isd("import_ghcn_stations")
+  deprecate_isd("importGHCNstations")
   url <- "https://www1.ncdc.noaa.gov/pub/data/noaa/isd-history.csv"
   meta <- readr::read_csv(
     url,
@@ -307,7 +307,7 @@ importNOAA <- function(code = "037720-99999",
                        n.cores = 1,
                        quiet = FALSE,
                        path = NA) {
-  deprecate_isd("import_ghcn_hourly")
+  deprecate_isd("importGHCNhourly")
   ## main web site https://www.ncei.noaa.gov/products/land-based-station/integrated-surface-database
 
   ## formats document https://www.ncei.noaa.gov/data/global-hourly/doc/isd-format-document.pdf

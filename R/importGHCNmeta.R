@@ -8,7 +8,7 @@
 #'   sites included in each of these data sources, defaulting to `"hourly"`.
 #' @param lat,lng Values representing a decimal latitude and longitude (or other
 #'   Y/X coordinate if using a different `crs`). If provided,
-#'   `import_ghcn_stations()` will locate `n` stations near to this global
+#'   `importGHCNstations()` will locate `n` stations near to this global
 #'   coordinate.
 #' @param crs The coordinate reference system (CRS) of `lat` and `lng`, passed
 #'   to `sf::st_crs()`. By default this is [EPSG:4326](https://epsg.io/4326),
@@ -23,7 +23,7 @@
 #'   e.g. `site = "HEATHR"`.
 #' @param country,state One or more two-letter 'country' or 'state' codes with
 #'   which to filter the metadata. These can be obtained with
-#'   [import_ghcn_codes()].
+#'   [importGHCNcodes()].
 #' @param return The form in which to return the data. One of:
 #' - `"map"` (the default), to return an interactive `leaflet` map.
 #' - `"table"`, to return a [tibble][tibble::tibble-package]
@@ -34,7 +34,7 @@
 #' @author Jack Davison
 #'
 #' @export
-import_ghcn_stations <- function(source = c("hourly", "daily"),
+importGHCNstations <- function(source = c("hourly", "daily"),
                                  lat = NULL,
                                  lng = NULL,
                                  n = 10,
@@ -192,7 +192,7 @@ import_ghcn_stations <- function(source = c("hourly", "daily"),
 #' @author Jack Davison
 #'
 #' @export
-import_ghcn_codes <- function(table = c("countries", "states")) {
+importGHCNcodes <- function(table = c("countries", "states")) {
   table <- match.arg(table, c("countries", "states"))
 
   if (table == "countries") {

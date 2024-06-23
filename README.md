@@ -46,7 +46,7 @@ into great detail about its various functions.
 ``` r
 library(worldmet)
 
-import_ghcn_stations(country = "FR", return = "table")
+importGHCNstations(country = "FR", return = "table")
 #> # A tibble: 10 × 9
 #>    id      latitude longitude elevation state name  gsn_flag hcn_crn_flag wmo_id
 #>    <chr>      <dbl>     <dbl>     <dbl> <chr> <chr> <lgl>    <lgl>        <chr> 
@@ -61,7 +61,7 @@ import_ghcn_stations(country = "FR", return = "table")
 #>  9 FRW000…     48.8      4.18     179.  <NA>  BRIE… NA       NA           <NA>  
 #> 10 FRW000…     49.1      5.47     372.  AK    VERD… NA       NA           <NA>
 
-import_ghcn_hourly("FRW00034048", 2021)
+importGHCNhourly("FRW00034048", 2021)
 #> # A tibble: 17,345 × 36
 #>    station_id  station_name date                latitude longitude elevation
 #>    <chr>       <chr>        <dttm>                 <dbl>     <dbl>     <dbl>

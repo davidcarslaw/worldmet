@@ -49,9 +49,9 @@ All functions in `{worldmet}` are thoroughly documented. The [worldmet website](
 ```{r import}
 library(worldmet)
 
-import_ghcn_stations(country = "FR", return = "table")
+importGHCNstations(country = "FR", return = "table")
 
-import_ghcn_hourly("FRW00034048", 2021)
+importGHCNhourly("FRW00034048", 2021)
 ```
 
 

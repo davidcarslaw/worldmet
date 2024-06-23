@@ -3,7 +3,7 @@
 #' This function imports hourly data from the GHCNh.
 #'
 #' @param code The specific station code(s) of interest, identified using
-#'   [import_ghcn_stations()].
+#'   [importGHCNstations()].
 #' @param year The specific year(s) to import.
 #' @param hourly Should hourly means be calculated? The default is `TRUE`. If
 #'   `FALSE` then the raw data are returned.
@@ -17,7 +17,7 @@
 #' @return a [tibble][tibble::tibble-package]
 #'
 #' @export
-import_ghcn_hourly <-
+importGHCNhourly <-
   function(code,
            year,
            hourly = TRUE,
@@ -90,14 +90,14 @@ import_ghcn_hourly <-
 #'
 #' This function imports daily data from the GHCNd.
 #'
-#' @inheritParams import_ghcn_hourly
+#' @inheritParams importGHCNhourly
 #'
 #' @author Jack Davison
 #'
 #' @return a [tibble][tibble::tibble-package]
 #'
 #' @export
-import_ghcn_daily <- function(code, year, all = FALSE) {
+importGHCNdaily <- function(code, year, all = FALSE) {
   # import data
   out <-
     purrr::map_vec(

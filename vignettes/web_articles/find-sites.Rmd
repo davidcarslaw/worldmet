@@ -20,18 +20,18 @@ library(worldmet)
 
 # Show all sites
 
-The function to use to find which stations are available is `import_ghcn_stations()`. While this function can be run using different options, it can be easiest to run it without any options. This produces a map of all the available sites, which can be quickly accessed.
+The function to use to find which stations are available is `importGHCNstations()`. While this function can be run using different options, it can be easiest to run it without any options. This produces a map of all the available sites, which can be quickly accessed.
 
 Click to expand the markers until you find the site of interest (shown by a blue marker). This reveals some site information including the site name, location and elevation. The most important information revealed in the marker is the code, which is used to access the data.
 
 ```{r getmeta}
-import_ghcn_stations()
+importGHCNstations()
 ```
 
 When using `getMeta()` it will probably be useful to read the information into a data frame. The `return` argument allows users to control this:
 
 ```{r getmeta-tbl}
-import_ghcn_stations(return = "table")
+importGHCNstations(return = "table")
 ```
 
 # Search based on latitude and longitude
@@ -39,9 +39,9 @@ import_ghcn_stations(return = "table")
 Often, one has an idea of the region in which a site is of interest. For example, if the interest was in sites close to London, the latitude and longitude can be supplied and a search is carried out of the 10 nearest sites to that location. There is also an option, `n`, that can be used in change the number of nearest sites shown.
 
 ```{r getmeta2}
-import_ghcn_stations(lat = 51.5, lng = 0)
+importGHCNstations(lat = 51.5, lng = 0)
 ```
 
 ```{r getmeta2-tbl}
-import_ghcn_stations(lat = 51.5, lng = 0, return = "table")
+importGHCNstations(lat = 51.5, lng = 0, return = "table")
 ```
