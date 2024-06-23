@@ -28,15 +28,20 @@ reference:
 - subtitle: View Metadata
   desc: Read and visualise meta data relating to meteorological measurement sites.
   contents:
-  - getMeta
-  - getMetaLive
-  - weatherCodes
+  - importGHCNstations
+  - importGHCNcodes
 - subtitle: Import Met Data
   desc: Directly import NOAA meteorological data.
   contents:
-  - importNOAA
+  - importGHCNhourly
+  - importGHCNdaily
 
 - title: ADMS
   desc: Functions relating to the Atmospheric Dispersion Modelling System.
   contents:
   - exportADMS
+
+- title: Deprecated
+  desc: Functions that are no longer recommended, for various reasons.
+  contents:
+  - has_concept("deprecated objects (ISD)")
