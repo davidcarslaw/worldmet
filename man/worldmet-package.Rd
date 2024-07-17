@@ -6,6 +6,8 @@
 \alias{worldmet-package}
 \title{worldmet: Import Surface Meteorological Data from NOAA Integrated Surface Database (ISD)}
 \description{
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+
 Functions to import data from more than 30,000 surface meteorological sites around the world managed by the National Oceanic and Atmospheric Administration (NOAA) Integrated Surface Database (ISD, see \url{https://www.ncei.noaa.gov/products/land-based-station/integrated-surface-database}).
 }
 \details{
@@ -30,7 +32,7 @@ See \url{https://github.com/davidcarslaw/openair} for information on the
 related \code{openair} package.
 }
 \author{
-\strong{Maintainer}: David Carslaw \email{david.carslaw@york.ac.uk}
+\strong{Maintainer}: David Carslaw \email{david.carslaw@york.ac.uk} (\href{https://orcid.org/0000-0003-0991-950X}{ORCID})
 
 }
 \keyword{internal}
