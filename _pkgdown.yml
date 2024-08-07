@@ -1,8 +1,9 @@
-url: http://davidcarslaw.github.io/worldmet/
+url: https://davidcarslaw.github.io/worldmet/
 template:
   bootstrap: 5
-  bootswatch: lumen
-  pkgdown-nav-height: 100px
+  bslib:
+    bootswatch: lumen
+    pkgdown-nav-height: 100px
   
 navbar:
   title: worldmet
@@ -16,14 +17,9 @@ navbar:
     news:
       text: News
       href: news/index.html
-    articles:
-      text: Articles
-      menu:
-      - text: Find Sites
-        href: articles/find-sites.html
     book:
       text: Book (External)
-      href: https://bookdown.org/david_carslaw/openair/access-met-data.html
+      href: https://bookdown.org/david_carslaw/openair/sections/data-access/access-met-data.html
 
 reference:
 - title: Obtain Met Data

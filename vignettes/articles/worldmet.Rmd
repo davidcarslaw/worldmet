@@ -1,10 +1,5 @@
 ---
-title: "Locating Met Sites"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{Locating Met Sites}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+title: "Using {worldmet} to Locate, Import & Visualise Meteorological Data"
 ---
 
 ```{r, include = FALSE}
@@ -48,4 +43,20 @@ getMeta(lat = 51.5, lon = 0)
 
 ```{r getmeta2i, echo=FALSE, out.width="100%"}
 worldmet::getMeta(lat = 51.5, lon = 0, returnMap = TRUE)
+```
+
+# Importing Data
+
+To obtain the data the user must supply a `code` (see above) and year(s) of interest. For example, to download data for Heathrow Airport in 2010 (code 037720-99999):
+
+```{r import}
+met_london <- importNOAA(code = "037720-99999", year = 2010)
+head(met_london)
+```
+
+A wind rose (for example) can easily be plotted using `openair`:
+
+```{r}
+# load openair
+openair::windRose(met_london)
 ```
