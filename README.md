@@ -7,12 +7,11 @@
 ### open source tools to access NOAA Integrated Surface Database (ISD) meteorological observations
 
 <!-- badges: start -->
-
 [![R-CMD-check](https://github.com/davidcarslaw/worldmet/workflows/R-CMD-check/badge.svg)](https://github.com/davidcarslaw/worldmet/actions)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/worldmet)](https://CRAN.R-project.org/package=worldmet)
 [![metacran downloads](https://cranlogs.r-pkg.org/badges/grand-total/worldmet)](https://cran.r-project.org/package=worldmet)
-
+<br>
 [![github](https://img.shields.io/badge/CODE-github-black?logo=github)](https://github.com/davidcarslaw/worldmet)
 [![website](https://img.shields.io/badge/DOCS-website-black)](https://davidcarslaw.github.io/worldmet)
 [![book](https://img.shields.io/badge/DOCS-book-black)](https://bookdown.org/david_carslaw/openair/)
