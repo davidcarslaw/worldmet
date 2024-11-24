@@ -48,7 +48,7 @@ is not of general use to most users.</p>
 
     <div class="section level2">
     <h2 id="format">Format<a class="anchor" aria-label="anchor" href="#format"></a></h2>
-    <p>An object of class <code>data.frame</code> with 100 rows and 2 columns.</p>
+    <p>An object of class <code>tbl_df</code> (inherits from <code>tbl</code>, <code>data.frame</code>) with 100 rows and 2 columns.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -65,208 +65,20 @@ is not of general use to most users.</p>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">weatherCodes</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     pwc</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1    00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2    01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3    02</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4    03</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5    04</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6    05</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7    06</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8    07</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9    08</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10   09</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11   10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12   11</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13   12</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14   13</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15   14</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16   15</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17   16</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18   17</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19   18</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20   19</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21   20</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22   21</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 23   22</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24   23</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 25   24</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 26   25</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 27   26</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 28   27</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 29   28</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 30   29</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 31   30</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 32   31</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 33   32</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 34   33</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 35   34</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 36   35</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 37   36</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 38   37</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 39   38</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 40   39</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 41   40</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 42   41</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 43   42</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 44   43</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 45   44</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 46   45</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 47   46</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 48   47</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 49   48</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 50   49</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 51   50</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 52   51</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 53   52</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 54   53</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 55   54</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 56   55</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 57   56</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 58   57</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 59   58</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 60   59</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 61   60</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 62   61</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 63   62</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 64   63</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 65   64</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 66   65</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 67   66</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 68   67</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 69   68</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 70   69</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 71   70</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 72   71</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 73   72</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 74   73</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 75   74</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 76   75</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 77   76</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 78   77</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 79   78</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 80   79</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 81   80</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 82   81</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 83   82</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 84   83</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 85   84</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 86   85</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 87   86</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 88   87</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 89   88</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 90   89</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 91   90</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 92   91</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 93   92</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 94   93</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 95   94</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 96   95</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 97   96</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 98   97</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 99   98</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 100  99</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                    description</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                                  clear skies</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                            clouds dissolving</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                                       state of sky unchanged</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                                            clouds developing</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                  visibility reduced by smoke</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6                                                                        smoke</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7                             widespread dust in suspension not raised by wind</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8                                                  dust or sand raised by wind</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9                                           well developed dust or sand whirls</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10                          dust or sand storm within sight but not at station</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11                                                                        mist</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12                                                                diamond dust</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13                                                           distant lightning</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14                                         lightning visible, no thunder heard</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15                           precipitation within sight but not hitting ground</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16                            distant precipitation but not falling at station</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17                             nearby precipitation but not falling at station</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18                        thunderstorm but no precipitation falling at station</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19                squalls within sight but no precipitation falling at station</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20                                                  funnel clouds within sight</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21                                                                         fog</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22                                                                        rain</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 23                                       drizzle (not freezing) or snow grains</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24                                                                        rain</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 25                                                                        snow</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 26                                           freezing drizzle or freezing rain</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 27                               thunderstorms (with or without precipitation)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 28                                            blowing or drifting snow or sand</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 29  blowing or drifting snow or sand, visibility equal to or greater than 1 km</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 30                 blowing or drifting snow or sand, visibility less than 1 km</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 31                                                                         fog</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 32                                                      fog or ice fog patches</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 33                     fog or ice fog, has become thinner during the past hour</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 34                  fog or ice fog, no appreciable change during the past hour</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 35                     fog or ice fog, has become thicker during the past hour</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 36                                                        fog, depositing rime</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 37                                                                        &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 38                                                                        &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 39                                                                        &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 40                                                                        &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 41                                                               precipitation</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 42                                           precipitation, slight or moderate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 43                                                        precipitation, heavy</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 44                                    liquid precipitation, slight or moderate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 45                                                 liquid precipitation, heavy</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 46                                     solid precipitation, slight or moderate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 47                                                  solid precipitation, heavy</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 48                                  freezing precipitation, slight or moderate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 49                                               freezing precipitation, heavy</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 50                                                                        &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 51                                                                     drizzle</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 52                                               drizzle, not freezing, slight</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 53                                             drizzle, not freezing, moderate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 54                                                drizzle, not freezing, heavy</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 55                                                   drizzle, freezing, slight</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 56                                                 drizzle, freezing, moderate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 57                                                    drizzle, freezing, heavy</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 58                                                    drizzle and rain, slight</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 59                                         drizzle and rain, moderate or heavy</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 60                                                                        &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 61                                                                        rain</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 62                                                  rain, not freezing, slight</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 63                                                rain, not freezing, moderate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 64                                                   rain, not freezing, heavy</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 65                                                      rain, freezing, slight</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 66                                                    rain, freezing, moderate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 67                                                       rain, freezing, heavy</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 68                                            rain or drizzle and snow, slight</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 69                                 rain or drizzle and snow, moderate or heavy</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 70                                                                        &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 71                                                                        snow</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 72                                                                snow, slight</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 73                                                              snow, moderate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 74                                                                 snow, heavy</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 75                                                         ice pellets, slight</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 76                                                       ice pellets, moderate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 77                                                          ice pellets, heavy</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 78                                                                 snow grains</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 79                                                                ice crystals</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 80                                                                        &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 81                                       showers or intermittent precipitation</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 82                                   rain showers or intermittent rain, slight</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 83                                 rain showers or intermittent rain, moderate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 84                                    rain showers or intermittent rain, heavy</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 85                                  rain showers or intermittent rain, violent</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 86                                   snow showers or intermittent snow, slight</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 87                                 snow showers or intermittent snow, moderate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 88                                    snow showers or intermittent snow, heavy</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 89                                                                        &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 90                                                                        hail</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 91                                                                thunderstorm</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 92                     thunderstorm, slight or moderate, with no precipitation</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 93     thunderstorm, slight or moderate, with rain showers and/or snow showers</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 94                                 thunderstorm, slight or moderate, with hail</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 95                                   thunderstorm, heavy with no precipitation</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 96                           thunderstorm, heavy with rain showers and/or snow</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 97                                               thunderstorm, heavy with hail</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 98                                                                        &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 99                                                                        &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 100                                                                    tornado</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 100 × 2</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    pwc   description                                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 00    clear skies                                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 01    clouds dissolving                                 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 02    state of sky unchanged                            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 03    clouds developing                                 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 04    visibility reduced by smoke                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 05    smoke                                             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 06    widespread dust in suspension not raised by wind  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 07    dust or sand raised by wind                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 08    well developed dust or sand whirls                </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 09    dust or sand storm within sight but not at station</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 90 more rows</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
