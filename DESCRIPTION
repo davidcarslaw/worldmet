@@ -2,7 +2,7 @@ Type: Package
 Package: worldmet
 Title: Import Surface Meteorological Data from NOAA Integrated Surface
     Database (ISD)
-Version: 0.9.7
+Version: 0.9.7.9000
 Date: 2023-02-01
 Authors@R: 
     person("David", "Carslaw", , "david.carslaw@york.ac.uk", role = c("aut", "cre"),
