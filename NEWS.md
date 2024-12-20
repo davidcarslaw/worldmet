@@ -11,6 +11,8 @@
     - `{leaflet}` has been moved from Imports to Suggests. Users will be prompted to install it if using `getMeta(return = "map")`.
     
     - `{foreach}`, `{doParallel}` and `{parallel}` have been moved from Imports to Suggests. Users will be prompted to install them if using `importNOAA(n.cores = )`.
+    
+    - `{readr}` has been replaced by its dependency `{vroom}`. There is no user-facing change associated with this.
 
 ## Bug Fixes
 

@@ -217,8 +217,9 @@ getDat <- function(code, year, hourly) {
   
   # suppress warnings because some fields might be missing in the list
   # Note that not all available data is returned - just what I think is most useful
-  met_data <- try(suppressWarnings(read_csv(
-    file.name,
+  met_data <- try(suppressWarnings(vroom::vroom(
+    file = file.name,
+    delim = ",",
     col_types = cols_only(
       STATION = col_character(),
       DATE = col_datetime(format = ""),

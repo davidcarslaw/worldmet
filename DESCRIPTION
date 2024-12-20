@@ -21,10 +21,9 @@ Depends:
     R (>= 3.2.0)
 Imports:
     dplyr,
-    magrittr,
     openair,
     purrr (>= 1.0.0),
-    readr,
+    vroom,
     tidyr
 Suggests: 
     knitr,

@@ -19,7 +19,7 @@
 #'   related `openair` package.
 "_PACKAGE"
 ## usethis namespace: start
-#' @importFrom magrittr %>%
-#' @importFrom tibble tibble
+#' @importFrom dplyr %>%
+#' @importFrom dplyr tibble
 ## usethis namespace: end
 NULL

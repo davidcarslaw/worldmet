@@ -223,8 +223,9 @@ getMetaLive <- function(...) {
   ## downloads the whole thing fresh
   
   url <- "https://www1.ncdc.noaa.gov/pub/data/noaa/isd-history.csv"
-  meta <- read_csv(
-    url,
+  meta <- vroom::vroom(
+    file = url,
+    delim = ",",
     skip = 21,
     col_names = FALSE,
     col_types = cols(
