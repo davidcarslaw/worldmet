@@ -505,6 +505,6 @@ getDat <- function(code, year, hourly) {
   })
   
   
-  return(as_tibble(met_data))
+  return(dplyr::as_tibble(met_data))
 }
 
