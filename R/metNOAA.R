@@ -133,8 +133,6 @@ importNOAA <- function(code = "037720-99999",
   if (n.cores > 1) {
     rlang::check_installed(c("foreach", "doParallel", "parallel"))
     
-    `%dopar%` <- foreach::`%dopar%`()
-    
     cl <- parallel::makeCluster(n.cores)
     doParallel::registerDoParallel(cl)
     
