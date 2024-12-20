@@ -15,34 +15,24 @@ library(worldmet)
 
 # Show all sites
 
-The function to use to find which sites are available is `getMeta()`. While this function can be run using different options, it can be easiest to run it without any options. This produces a map of all the available sites, which can be quickly accessed.
-
-Click to expand the markers until you find the site of interest (shown by a blue marker). This reveals some site information including the site name and the start and end date of available data. The most important information revealed in the marker is the code, which is used to access the data.
+The function to use to find which sites are available is `getMeta()`. By default, it returns a table of site metadata, which could be searched using R's `View()` function.
 
 ```{r getmeta}
 getMeta()
 ```
 
-```{r getmetai, echo=FALSE, out.width="100%"}
-worldmet::getMeta(returnMap = TRUE)
-```
+Perhaps more usefully, if you have the `{leaflet}` package installed you could instead recieve this as an interactive map. Click to expand the markers until you find the site of interest (shown by a blue marker). This reveals some site information including the site name and the start and end date of available data. The most important information revealed in the marker is the code, which is used to access the data.
 
-When using `getMeta()` it will probably be useful to read the information into a data frame. Note that `plot = FALSE` stops the function from providing the map.
-
-```r
-met_info <- getMeta(plot = FALSE)
+```{r getmeta_map, out.width="100%"}
+worldmet::getMeta(return = "map")
 ```
 
 # Search based on latitude and longitude
 
-Often, one has an idea of the region in which a site is of interest. For example, if the interest was in sites close to London, the latitude and longitude can be supplied and a search is carried out of the 10 nearest sites to that location. There is also an option n that can be used in change the number of nearest sites shown. If a lat/lon is provided, clicking on the blue marker will show the approximate distance between the site and the search coordinates.
+Often, one has an idea of the region in which a site is of interest. For example, if the interest was in sites close to London, the latitude and longitude can be supplied and a search is carried out of the 10 nearest sites to that location. There is also an option, `n`, that can be used in change the number of nearest sites shown. If a lat/lon is provided, clicking on the blue marker will show the approximate distance between the site and the search coordinates.
 
-```{r getmeta2}
-getMeta(lat = 51.5, lon = 0)
-```
-
-```{r getmeta2i, echo=FALSE, out.width="100%"}
-worldmet::getMeta(lat = 51.5, lon = 0, returnMap = TRUE)
+```{r getmeta2, out.width="100%"}
+getMeta(lat = 51.5, lon = 0, return = "map")
 ```
 
 # Importing Data
