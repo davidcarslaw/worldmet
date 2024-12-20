@@ -1,5 +1,9 @@
 # worldmet (development version)
 
+## New Features
+
+- `getMeta()` has gained the `crs` argument, which allows `getMeta(lat =, lon =)` to be defined using other coordinate systems.
+
 ## Bug Fixes
 
 - fix join problem due to `{dplyr}` updates.
