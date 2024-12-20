@@ -20,6 +20,5 @@
 "_PACKAGE"
 ## usethis namespace: start
 #' @importFrom dplyr %>%
-#' @importFrom dplyr tibble
 ## usethis namespace: end
 NULL
