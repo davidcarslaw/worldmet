@@ -8,6 +8,7 @@ getMeta(
   site = "heathrow",
   lat = NA,
   lon = NA,
+  crs = 4326,
   country = NA,
   state = NA,
   n = 10,
@@ -21,11 +22,16 @@ getMeta(
 \item{site}{A site name search string e.g. \code{site = "heathrow"}. The search
 strings and be partial and can be upper or lower case e.g. \code{site = "HEATHR"}.}
 
-\item{lat}{A latitude in decimal degrees to search. Takes the values -90 to
-90.}
+\item{lat, lon}{Decimal latitude and longitude (or other Y/X coordinate if
+using a different \code{crs}). If provided, the \code{n} closest ISD stations to this
+coordinate will be returned.}
 
-\item{lon}{A longitude in decimal degrees to search. Takes values -180 to
-180. Negative numbers are west of the Greenwich meridian.}
+\item{crs}{The coordinate reference system (CRS) of the data, passed to
+\code{\link[sf:st_crs]{sf::st_crs()}}. By default this is \href{https://epsg.io/4326}{EPSG:4326}, the
+CRS associated with the commonly used latitude and longitude coordinates.
+Different coordinate systems can be specified using \code{crs} (e.g., \code{crs = 27700} for the \href{https://epsg.io/27700}{British National Grid}). Note that
+non-lat/lng coordinate systems will be re-projected to EPSG:4326 for making
+comparisons with the NOAA metadata plotting on the map.}
 
 \item{country}{The country code. This is a two letter code. For a full
 listing see \url{https://www1.ncdc.noaa.gov/pub/data/noaa/isd-history.csv}.}
