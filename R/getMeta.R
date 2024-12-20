@@ -228,18 +228,18 @@ getMetaLive <- function(...) {
     delim = ",",
     skip = 21,
     col_names = FALSE,
-    col_types = cols(
-      X1 = col_character(),
-      X2 = col_character(),
-      X3 = col_character(),
-      X4 = col_character(),
-      X5 = col_character(),
-      X6 = col_character(),
-      X7 = col_double(),
-      X8 = col_double(),
-      X9 = col_double(),
-      X10 = col_date(format = "%Y%m%d"),
-      X11 = col_date(format = "%Y%m%d")
+    col_types = vroom::cols(
+      X1 = vroom::col_character(),
+      X2 = vroom::col_character(),
+      X3 = vroom::col_character(),
+      X4 = vroom::col_character(),
+      X5 = vroom::col_character(),
+      X6 = vroom::col_character(),
+      X7 = vroom::col_double(),
+      X8 = vroom::col_double(),
+      X9 = vroom::col_double(),
+      X10 = vroom::col_date(format = "%Y%m%d"),
+      X11 = vroom::col_date(format = "%Y%m%d")
     ),
     progress = FALSE
   )

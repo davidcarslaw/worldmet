@@ -87,7 +87,7 @@
 #'   the chosen location e.g.  `path = "C:/Users/David"`. Files are saved by
 #'   year and site.
 #' @export
-#' @import readr tidyr dplyr
+#' @import tidyr dplyr
 #' @return Returns a data frame of surface observations. The data frame is
 #'   consistent for use with the `openair` package. Note that the data are
 #'   returned in GMT (UTC) time zone format. Users may wish to express the data
@@ -220,28 +220,28 @@ getDat <- function(code, year, hourly) {
   met_data <- try(suppressWarnings(vroom::vroom(
     file = file.name,
     delim = ",",
-    col_types = cols_only(
-      STATION = col_character(),
-      DATE = col_datetime(format = ""),
-      SOURCE = col_double(),
-      LATITUDE = col_double(),
-      LONGITUDE = col_double(),
-      ELEVATION = col_double(),
-      NAME = col_character(),
-      REPORT_TYPE = col_character(),
-      CALL_SIGN = col_double(),
-      QUALITY_CONTROL = col_character(),
-      WND = col_character(),
-      CIG = col_character(),
-      VIS = col_character(),
-      TMP = col_character(),
-      DEW = col_character(),
-      SLP = col_character(),
-      AA1 = col_character(),
-      AW1 = col_character(),
-      GA1 = col_character(),
-      GA2 = col_character(),
-      GA3 = col_character()
+    col_types = vroom::cols_only(
+      STATION = vroom::col_character(),
+      DATE = vroom::col_datetime(format = ""),
+      SOURCE = vroom::col_double(),
+      LATITUDE = vroom::col_double(),
+      LONGITUDE = vroom::col_double(),
+      ELEVATION = vroom::col_double(),
+      NAME = vroom::col_character(),
+      REPORT_TYPE = vroom::col_character(),
+      CALL_SIGN = vroom::col_double(),
+      QUALITY_CONTROL = vroom::col_character(),
+      WND = vroom::col_character(),
+      CIG = vroom::col_character(),
+      VIS = vroom::col_character(),
+      TMP = vroom::col_character(),
+      DEW = vroom::col_character(),
+      SLP = vroom::col_character(),
+      AA1 = vroom::col_character(),
+      AW1 = vroom::col_character(),
+      GA1 = vroom::col_character(),
+      GA2 = vroom::col_character(),
+      GA3 = vroom::col_character()
     ),
     progress = FALSE
   )), silent = TRUE

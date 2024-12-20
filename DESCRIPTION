@@ -23,15 +23,16 @@ Imports:
     dplyr,
     openair,
     purrr (>= 1.0.0),
-    vroom,
-    tidyr
+    tidyr,
+    vroom
 Suggests: 
-    knitr,
-    rmarkdown,
-    leaflet,
     doParallel,
+    foreach,
+    knitr,
+    leaflet,
     parallel,
-    foreach
+    rlang,
+    rmarkdown
 VignetteBuilder: 
     knitr
 ByteCompile: true
