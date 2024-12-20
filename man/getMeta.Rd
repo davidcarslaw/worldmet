@@ -75,7 +75,6 @@ sites can be carried out based on the site name and based on the nearest
 locations based on user-supplied latitude and longitude.
 }
 \examples{
-
 \dontrun{
 ## search for sites with name beijing
 getMeta(site = "beijing")
