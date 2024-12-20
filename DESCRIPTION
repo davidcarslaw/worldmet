@@ -23,7 +23,6 @@ Imports:
     doParallel,
     dplyr,
     foreach,
-    leaflet,
     magrittr,
     openair,
     parallel,
@@ -33,7 +32,8 @@ Imports:
     tidyr
 Suggests: 
     knitr,
-    rmarkdown
+    rmarkdown,
+    leaflet
 VignetteBuilder: 
     knitr
 ByteCompile: true

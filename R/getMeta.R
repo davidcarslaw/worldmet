@@ -29,9 +29,9 @@
 #'   \url{http://leaflet-extras.github.io/leaflet-providers/preview/} for a list
 #'   of all base maps that can be used. If multiple base maps are provided, they
 #'   can be toggled between using a "layer control" interface.
-#' @param plot If `TRUE` will plot sites on an interactive leaflet map.
-#' @param returnMap Should the leaflet map be returned instead of the meta data?
-#'   Default is `FALSE`.
+#' @param return Defines the type of object to be returned by the function. One
+#'   of `"data"` (the default, which returns a tibble) or `"map"` (which returns
+#'   an interactive map, requiring [leaflet][leaflet::leaflet-package]).
 #' @return A data frame is returned with all available meta data, mostly
 #'   importantly including a `code` that can be supplied to [importNOAA()]. If
 #'   latitude and longitude searches are made an approximate distance, `dist` in
@@ -60,8 +60,8 @@ getMeta <- function(site = "heathrow",
                     n = 10,
                     end.year = "current",
                     provider = c("OpenStreetMap", "Esri.WorldImagery"),
-                    plot = TRUE,
-                    returnMap = FALSE) {
+                    return = c("data", "map")) {
+  return <- match.arg(return, several.ok = FALSE)
   ## read the meta data
   
   ## download the file, else use the package version
@@ -77,7 +77,7 @@ getMeta <- function(site = "heathrow",
   # we base the current year as the max available in the meta data
   if ("current" %in% end.year)
     end.year <-
-      max(as.numeric(format(meta$END, "%Y")), na.rm = TRUE)
+    max(as.numeric(format(meta$END, "%Y")), na.rm = TRUE)
   if ("all" %in% end.year)
     end.year <- 1900:2100
   
@@ -86,35 +86,35 @@ getMeta <- function(site = "heathrow",
   ## search based on name of site
   if (!missing(site)) {
     ## search for station
-    meta <- meta[grep(site, meta$STATION, ignore.case = TRUE),]
+    meta <- meta[grep(site, meta$STATION, ignore.case = TRUE), ]
   }
   
   ## search based on country codes
   if (!missing(country) && !is.na(country)) {
     ## search for country
     id <- which(meta$CTRY %in% toupper(country))
-    meta <- meta[id,]
+    meta <- meta[id, ]
   }
   
   ## search based on state codes
   if (!missing(state)) {
     ## search for state
     id <- which(meta$ST %in% toupper(state))
-    meta <- meta[id,]
+    meta <- meta[id, ]
   }
   
   # make sure no missing lat / lon
   id <- which(is.na(meta$LON))
   if (length(id) > 0)
-    meta <- meta[-id,]
+    meta <- meta[-id, ]
   
   id <- which(is.na(meta$LAT))
   if (length(id) > 0)
-    meta <- meta[-id,]
+    meta <- meta[-id, ]
   
   # filter by end year
   id <- which(format(meta$END, "%Y") %in% end.year)
-  meta <- meta[id,]
+  meta <- meta[id, ]
   
   ## approximate distance to site
   if (!missing(lat) && !missing(lon)) {
@@ -129,14 +129,17 @@ getMeta <- function(site = "heathrow",
                         cos(meta$latR) * cos(meta$longR - LON)) * r
     
     ## sort and retrun top n nearest
-    meta <- utils::head(openair:::sortDataFrame(meta, key = "dist"), n)
+    meta <-
+      utils::head(openair:::sortDataFrame(meta, key = "dist"), n)
   }
   
   dat <- rename(meta, latitude = LAT, longitude = LON)
   
   names(dat) <- tolower(names(dat))
   
-  if (plot) {
+  if (return == "map") {
+    rlang::check_installed("leaflet")
+    
     content <- paste(
       paste0("<b>", dat$station, "</b>"),
       paste("<hr><b>Code:</b>", dat$code),
@@ -146,17 +149,17 @@ getMeta <- function(site = "heathrow",
     )
     
     if ("dist" %in% names(dat)) {
-      content <- paste(
-        content,
-        paste("<b>Distance:</b>", round(dat$dist, 1), "km"),
-        sep = "<br/>"
-      )
+      content <- paste(content,
+                       paste("<b>Distance:</b>", round(dat$dist, 1), "km"),
+                       sep = "<br/>")
     }
     
     m <- leaflet::leaflet(dat)
     
     for (i in provider) {
-      m <- leaflet::addProviderTiles(map = m, provider = i, group = i)
+      m <- leaflet::addProviderTiles(map = m,
+                                     provider = i,
+                                     group = i)
     }
     
     m <-
@@ -187,22 +190,18 @@ getMeta <- function(site = "heathrow",
     }
     
     if (length(provider) > 1) {
-      m <- 
+      m <-
         leaflet::addLayersControl(
           map = m,
-          baseGroups = provider, 
+          baseGroups = provider,
           options = leaflet::layersControlOptions(collapsed = FALSE, autoZIndex = FALSE)
         )
     }
     
-    print(m)
-  }
-  
-  
-  if (returnMap)
     return(m)
-  else
+  } else {
     return(dat)
+  }
 }
 
 
@@ -240,7 +239,7 @@ getMetaLive <- function(...) {
       X9 = col_double(),
       X10 = col_date(format = "%Y%m%d"),
       X11 = col_date(format = "%Y%m%d")
-    ), 
+    ),
     progress = FALSE
   )
   
