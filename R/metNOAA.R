@@ -131,19 +131,26 @@ importNOAA <- function(code = "037720-99999",
   )
   
   if (n.cores > 1) {
+    rlang::check_installed(c("foreach", "doParallel", "parallel"))
+    
+    `%dopar%` <- foreach::`%dopar%`()
+    
     cl <- parallel::makeCluster(n.cores)
     doParallel::registerDoParallel(cl)
     
-    dat <- foreach::foreach(
-      i = 1:nrow(site_process),
-      .combine = "bind_rows",
-      .export = "getDat",
-      .errorhandling = "remove"
-    ) %dopar%
-      getDat(
-        year = site_process$year[i],
-        code = site_process$code[i],
-        hourly = hourly
+    dat <-
+      foreach::`%dopar%`(
+        foreach::foreach(
+          i = 1:nrow(site_process),
+          .combine = "bind_rows",
+          .export = "getDat",
+          .errorhandling = "remove"
+        ),
+        getDat(
+          year = site_process$year[i],
+          code = site_process$code[i],
+          hourly = hourly
+        )
       )
     
     parallel::stopCluster(cl)
