@@ -1,5 +1,19 @@
 # worldmet (development version)
 
+## Breaking Changes
+
+- Removed `getMeta(plot = , returnMap = )`. These have been superseded by the `return` argument. `return` allows users to define whether they'd like to view a tabular view (the default) or a map view, which requires `{leaflet}`.
+
+## New Features
+
+- Numerous packages have been moved from Imports to Suggests or have been replaced with alternatives. This allows `{worldmet}` to be more lightweight by default.
+
+    - `{leaflet}` has been moved from Imports to Suggests. Users will be prompted to install it if using `getMeta(return = "map")`.
+    
+    - `{foreach}`, `{doParallel}` and `{parallel}` have been moved from Imports to Suggests. Users will be prompted to install them if using `importNOAA(n.cores = )`.
+    
+    - `{readr}` has been replaced by its dependency `{vroom}`. There is no user-facing change associated with this.
+
 ## Bug Fixes
 
 - fix join problem due to `{dplyr}` updates.

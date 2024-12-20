@@ -13,8 +13,7 @@ getMeta(
   n = 10,
   end.year = "current",
   provider = c("OpenStreetMap", "Esri.WorldImagery"),
-  plot = TRUE,
-  returnMap = FALSE
+  return = c("data", "map")
 )
 }
 \arguments{
@@ -48,10 +47,9 @@ users to override this default; see
 of all base maps that can be used. If multiple base maps are provided, they
 can be toggled between using a "layer control" interface.}
 
-\item{plot}{If \code{TRUE} will plot sites on an interactive leaflet map.}
-
-\item{returnMap}{Should the leaflet map be returned instead of the meta data?
-Default is \code{FALSE}.}
+\item{return}{Defines the type of object to be returned by the function. One
+of \code{"data"} (the default, which returns a tibble) or \code{"map"} (which returns
+an interactive map, requiring \link[leaflet:leaflet-package]{leaflet}).}
 }
 \value{
 A data frame is returned with all available meta data, mostly
